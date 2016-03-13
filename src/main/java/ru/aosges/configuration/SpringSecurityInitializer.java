@@ -1,4 +1,4 @@
-package ru.aosges.config;
+package ru.aosges.configuration;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

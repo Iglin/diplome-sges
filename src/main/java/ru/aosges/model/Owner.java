@@ -12,28 +12,28 @@ public class Owner {
     @SequenceGenerator(name = "owner_seq", sequenceName = "owner_id_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "owner_seq")
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Column(name = "phone", nullable = false)
     private String phone;
     @Column(name = "e_mail", nullable = true)
     private String email;
-    @Column(name = "personal_acc", nullable = false)
-    private String personalAccount;
+    @Column(name = "personal_acc", nullable = false, unique = true)
+    private Long personalAccount;
 
     public Owner() {
     }
 
-    public Owner(String phone, String email, String personalAccount) {
+    public Owner(String phone, String email, long personalAccount) {
         this.phone = phone;
         this.email = email;
         this.personalAccount = personalAccount;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -53,11 +53,11 @@ public class Owner {
         this.email = email;
     }
 
-    public String getPersonalAccount() {
+    public Long getPersonalAccount() {
         return personalAccount;
     }
 
-    public void setPersonalAccount(String personalAccount) {
+    public void setPersonalAccount(long personalAccount) {
         this.personalAccount = personalAccount;
     }
 }

@@ -1,4 +1,4 @@
-package ru.aosges.config;
+package ru.aosges.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

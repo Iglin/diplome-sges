@@ -1,7 +1,10 @@
 package ru.aosges.configuration;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -10,6 +13,10 @@ import org.springframework.web.servlet.view.JstlView;
 /**
  * Created by user on 10.03.2016.
  */
+
+@EnableWebMvc
+@Configuration
+@ComponentScan(value = "ru.aosges.controller")
 public class SpringWebConfig  extends WebMvcConfigurerAdapter {
 
     @Override

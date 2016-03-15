@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  */
 
 @Configuration
-@ComponentScan(basePackages = { "ru.aosges.dao" })
+@ComponentScan(basePackages = { "ru.aosges.repository", "ru.aosges.impl" })
 public class SpringBeansConfig {
 
     //@Bean

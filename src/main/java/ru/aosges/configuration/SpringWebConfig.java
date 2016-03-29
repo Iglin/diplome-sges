@@ -11,13 +11,12 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 /**
- * Created by user on 10.03.2016.
+ * Created by user on 29.03.2016.
  */
-
 @EnableWebMvc
 @Configuration
 @ComponentScan(value = "ru.aosges.controller")
-public class SpringWebConfig  extends WebMvcConfigurerAdapter {
+public class SpringWebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

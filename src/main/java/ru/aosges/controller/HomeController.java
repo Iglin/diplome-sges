@@ -7,18 +7,19 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.aosges.service.OwnerService;
 
 /**
- * Created by root on 14.03.16.
+ * Created by user on 29.03.2016.
  */
 @Controller
 public class HomeController {
 
     @Autowired
-    OwnerService ownerService;
+    private OwnerService ownerService;
 
-    @RequestMapping({"/", "/welcome"})
+    @RequestMapping({"/", "/index", "/home"})
     public ModelAndView home(){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("welcome");
+        ownerService.listAll();
+        modelAndView.setViewName("index");
         return modelAndView;
     }
 }

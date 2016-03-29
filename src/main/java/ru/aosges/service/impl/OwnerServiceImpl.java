@@ -1,4 +1,4 @@
-package ru.aosges.impl;
+package ru.aosges.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.aosges.model.Owner;

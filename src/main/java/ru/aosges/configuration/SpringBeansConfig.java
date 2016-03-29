@@ -1,17 +1,17 @@
 package ru.aosges.configuration;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import ru.aosges.service.OwnerService;
+import ru.aosges.service.impl.OwnerServiceImpl;
 
 /**
- * Created by user on 10.03.2016.
+ * Created by user on 29.03.2016.
  */
-
 @Configuration
-@ComponentScan(basePackages = { "ru.aosges.repository", "ru.aosges.impl" })
 public class SpringBeansConfig {
-
-    //@Bean
-    //public ElectricMeterDAO typeValidator() { return new TypeValidator(); }
+    @Bean
+    public OwnerService ownerService() {
+        return new OwnerServiceImpl();
+    }
 }

@@ -18,6 +18,7 @@ public class SpringWebInitializer  extends AbstractAnnotationConfigDispatcherSer
     protected Class<?>[] getServletConfigClasses() {
         return new Class[] {
                 SpringWebConfig.class,
+                SpringBeansConfig.class,
                 DataConfig.class
         };
     }

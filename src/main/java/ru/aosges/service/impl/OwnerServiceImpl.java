@@ -1,6 +1,7 @@
 package ru.aosges.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import ru.aosges.model.Owner;
 import ru.aosges.repository.OwnerRepository;
 import ru.aosges.service.OwnerService;
@@ -16,7 +17,12 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     public Owner add(Owner owner) {
-        return ownerRepository.saveAndFlush(owner);
+        try {
+            return ownerRepository.saveAndFlush(owner);
+        } catch (DataIntegrityViolationException e) {
+            // check what constraint is violated
+            return null;
+        }
     }
 
     @Override

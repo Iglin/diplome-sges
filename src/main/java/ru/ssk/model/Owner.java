@@ -1,4 +1,4 @@
-package ru.aosges.model;
+package ru.ssk.model;
 
 import javax.persistence.*;
 

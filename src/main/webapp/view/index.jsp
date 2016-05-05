@@ -1,4 +1,4 @@
-<%@ page import="ru.aosges.model.Owner" %>
+<%@ page import="ru.ssk.model.Owner" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE HTML>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

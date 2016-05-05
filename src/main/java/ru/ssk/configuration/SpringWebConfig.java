@@ -1,4 +1,4 @@
-package ru.aosges.configuration;
+package ru.ssk.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,7 +15,7 @@ import org.springframework.web.servlet.view.JstlView;
  */
 @EnableWebMvc
 @Configuration
-@ComponentScan(value = "ru.aosges.controller")
+@ComponentScan(value = "ru.ssk.controller")
 public class SpringWebConfig extends WebMvcConfigurerAdapter {
 
     @Override

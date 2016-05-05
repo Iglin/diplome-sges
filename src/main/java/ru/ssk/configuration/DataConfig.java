@@ -1,4 +1,4 @@
-package ru.aosges.configuration;
+package ru.ssk.configuration;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
@@ -24,9 +24,9 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@ComponentScan("ru.aosges")
+@ComponentScan("ru.ssk")
 @PropertySource("classpath:app.properties")
-@EnableJpaRepositories("ru.aosges.repository")
+@EnableJpaRepositories("ru.ssk.repository")
 public class DataConfig {
 
     private static final String PROP_DATABASE_DRIVER = "db.driver";

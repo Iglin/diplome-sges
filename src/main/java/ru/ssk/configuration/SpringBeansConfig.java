@@ -1,9 +1,9 @@
-package ru.aosges.configuration;
+package ru.ssk.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.aosges.service.OwnerService;
-import ru.aosges.service.impl.OwnerServiceImpl;
+import ru.ssk.service.OwnerService;
+import ru.ssk.service.impl.OwnerServiceImpl;
 
 /**
  * Created by user on 29.03.2016.

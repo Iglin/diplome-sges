@@ -1,11 +1,11 @@
-package ru.aosges.controller;
+package ru.ssk.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import ru.aosges.model.Owner;
-import ru.aosges.service.OwnerService;
+import ru.ssk.model.Owner;
+import ru.ssk.service.OwnerService;
 
 import java.util.List;
 

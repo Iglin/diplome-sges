@@ -1,12 +1,13 @@
-package ru.aosges.service.impl;
+package ru.ssk.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import ru.aosges.model.Owner;
-import ru.aosges.repository.OwnerRepository;
-import ru.aosges.service.OwnerService;
+import ru.ssk.model.Owner;
+import ru.ssk.repository.OwnerRepository;
+import ru.ssk.service.OwnerService;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by root on 13.03.16.
@@ -26,6 +27,11 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
+    public Optional<Owner> findById(long id) {
+        return Optional.ofNullable(ownerRepository.getOne(id));
+    }
+
+    @Override
     public void delete(long id) {
         ownerRepository.delete(id);
     }
@@ -36,8 +42,18 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public Owner getByPersonalAccount(long personalAccount) {
-        return ownerRepository.findByPersonalAccount(personalAccount);
+    public Optional<Owner> findByPersonalAccount(long personalAccount) {
+        return Optional.ofNullable(ownerRepository.findByPersonalAccount(personalAccount));
+    }
+
+    @Override
+    public Optional<Owner> findByPhone(String phone) {
+        return Optional.ofNullable(ownerRepository.findByPhone(phone));
+    }
+
+    @Override
+    public Optional<Owner> findByEmail(String email) {
+        return Optional.ofNullable(ownerRepository.findByEmail(email));
     }
 
     @Override

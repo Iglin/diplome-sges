@@ -1,10 +1,7 @@
-# diplome-sges
-This is a web-service, used for accounting data and documents about connecting new power consumers in SGES. 
+# diploma-ssk
+This is a web-service, used for accounting data and documents about connecting new power consumers in SSK. 
 
-### Clone this repository
-```
-git clone https://github.com/Iglin/diplome-sges
-```
+### You need Maven to build and run this project. 
 ### Build
 ```
 mvn clean install
@@ -13,6 +10,6 @@ mvn clean install
 ```
 mvn jetty:run
 ```
-Diplome project, written on Java, using Spring Framework, Hibernate, PostgreSQL 9.5.
+Diploma project, written in Java, using Spring Framework, Hibernate, PostgreSQL.
 
 

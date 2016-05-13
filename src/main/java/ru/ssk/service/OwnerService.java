@@ -1,6 +1,7 @@
 package ru.ssk.service;
 
 import org.springframework.stereotype.Service;
+import ru.ssk.exception.UniqueViolationException;
 import ru.ssk.model.Owner;
 
 import java.util.List;
@@ -11,13 +12,13 @@ import java.util.Optional;
  */
 @Service
 public interface OwnerService {
-    Owner add(Owner owner);
+    Owner add(Owner owner) throws UniqueViolationException;
     void delete(long id);
     void delete(Owner owner);
     Optional<Owner> findById(long id);
     Optional<Owner> findByPersonalAccount(long personalAccount);
     Optional<Owner> findByPhone(String phone);
     Optional<Owner> findByEmail(String email);
-    Owner update(Owner bank);
+    Owner update(Owner bank) throws UniqueViolationException;
     List<Owner> listAll();
 }

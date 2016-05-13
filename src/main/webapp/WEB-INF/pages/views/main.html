@@ -1,0 +1,63 @@
+﻿<!--DOCTYPE html-->
+<head>
+    <!--meta charset="UTF-8"-->
+    <title>ССК</title>
+    <script src="resources/js/angular.min.js"></script>
+    <script src="resources/js/angular-route.js"></script>
+    <script src="resources/js/controllers/ownersController.js"></script>
+    <style>
+        #content {
+            height: 800px; /* Ширина слоя */
+            margin: 0 auto 50px; /* Выравнивание по центру */
+        }
+    </style>
+</head>
+<body ng-app="main" ng-controller="mainController" style="background-color:whitesmoke">
+<div class="container" id="content">
+    <div class="panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-12">
+                    <span style="font-family: 'Verdana';font-size: 50px; color: black">Вы вошли как {{username}}.</span>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <a href="#/owners">Owners</a>
+                    <a href="/logout">Logout</a>
+                </div>
+                <div class="col-md-9">
+                    <ng-view/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var app = angular.module('main',
+            ["ngRoute", "owners"])
+            .config(function($routeProvider){
+                $routeProvider
+                        .when("/owners", {
+                            templateUrl:'/partials/owners.html',
+                            controller:'ownersController'
+                        })
+                        .otherwise({
+                            redirectTo:"/owners"
+                        });
+            });
+    app.controller('mainController', function($scope, $http){
+        $http({
+            url:'/main/current_user',
+            method:'GET'
+        }).then(function(response){
+            $scope.username = response.data;
+        }, function(response){
+            alert(response.data);
+        });
+    });
+</script>
+</html>

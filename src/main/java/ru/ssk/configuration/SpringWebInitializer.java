@@ -10,7 +10,8 @@ public class SpringWebInitializer  extends AbstractAnnotationConfigDispatcherSer
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[]{
-                DataConfig.class
+                //DataConfig.class,
+                SpringSecurityConfig.class
         };
     }
 

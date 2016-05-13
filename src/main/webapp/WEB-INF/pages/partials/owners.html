@@ -1,0 +1,22 @@
+﻿<div class="container" style="width: 80%">
+    <!--Add-->
+    <button id="btn_add" ng-click="add()">Добавить</button><br>
+    <input ng-model="phone" id="phone" type="text" placeholder="Введите номер телефона"><br>
+    <input ng-model="email" id="email" type="text" placeholder="Введите e-mail"><br>
+    <input ng-model="personal_acc" id="personal_acc" type="text" placeholder="Введите номер счёта"><br>
+
+    <!--Update-->
+    <button id="btn_update" class="btn btn-info btn-lg btn-block" ng-click="update()">Изменить</button><br>
+    <input ng-model="id_up" id ="owner_update" type="number" placeholder="Введите ID"><br>
+    <input ng-model="phone_up" id="phone_hall_update" type="text" placeholder="Введите номер телефона"><br>
+    <input ng-model="email_up" id="email_hall_update" type="text" placeholder="Введите e-mail"><br>
+    <input ng-model="personal_acc_up" id="personal_acc_hall_update" type="text" placeholder="Введите номер счёта"><br>
+
+    <!--Delete-->
+    <button id="btn_delete" class="btn btn-info btn-lg btn-block" ng-click="delete()">Удалить</button><br>
+    <input ng-model="idDelete" id ="owner_delete" type="number" placeholder="Введите ID"><br>
+
+    <!--Get-->
+    <button id="btn_all" type="button" class="btn btn-info btn-lg btn-block" ng-click="all()">Все собственники</button><br>
+    {{owners}}
+</div>

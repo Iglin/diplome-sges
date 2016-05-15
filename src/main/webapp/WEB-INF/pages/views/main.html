@@ -1,10 +1,11 @@
-﻿<!--DOCTYPE html-->
+﻿<html>
 <head>
-    <!--meta charset="UTF-8"-->
+    <meta charset="UTF-8">
     <title>ССК</title>
     <script src="resources/js/angular.min.js"></script>
     <script src="resources/js/angular-route.js"></script>
     <script src="resources/js/controllers/ownersController.js"></script>
+    <script src="resources/js/controllers/addressesController.js"></script>
     <style>
         #content {
             height: 800px; /* Ширина слоя */
@@ -25,8 +26,9 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-3">
-                    <a href="#/owners">Owners</a>
-                    <a href="/logout">Logout</a>
+                    <a href="#/owners">Собственники</a>
+                    <a href="#/addresses">Адреса</a>
+                    <a href="/logout">Выйти</a>
                 </div>
                 <div class="col-md-9">
                     <ng-view/>
@@ -38,12 +40,16 @@
 </body>
 <script>
     var app = angular.module('main',
-            ["ngRoute", "owners"])
+            ["ngRoute", "owners", "addresses"])
             .config(function($routeProvider){
                 $routeProvider
                         .when("/owners", {
                             templateUrl:'/partials/owners.html',
                             controller:'ownersController'
+                        })
+                        .when("/addresses", {
+                            templateUrl:'/partials/addresses.html',
+                            controller:'addressesController'
                         })
                         .otherwise({
                             redirectTo:"/owners"

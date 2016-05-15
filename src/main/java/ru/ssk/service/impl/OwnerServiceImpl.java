@@ -17,7 +17,7 @@ public class OwnerServiceImpl implements OwnerService {
     @Autowired
     private OwnerRepository ownerRepository;
 
-    private void resolveConstraintViolation(DataIntegrityViolationException e, Owner owner) throws UniqueViolationException {
+    private void resolveConstraintViolation(DataIntegrityViolationException e, Owner owner) {
         if (ownerRepository.findByEmail(owner.getEmail()) != null) {
             throw new UniqueViolationException("В базе уже есть собственник с таким e-mail адресом.");
         } else if (ownerRepository.findByPersonalAccount(owner.getPersonalAccount()) != null) {
@@ -30,7 +30,7 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public Owner add(Owner owner) throws UniqueViolationException {
+    public Owner add(Owner owner) {
         try {
             return ownerRepository.saveAndFlush(owner);
         } catch (DataIntegrityViolationException e) {
@@ -70,7 +70,7 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public Owner update(Owner owner) throws UniqueViolationException {
+    public Owner update(Owner owner) {
         try {
             return ownerRepository.saveAndFlush(owner);
         } catch (DataIntegrityViolationException e) {
@@ -80,7 +80,7 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public List<Owner> listAll() {
+    public List<Owner> findAll() {
         return ownerRepository.findAll();
     }
 }

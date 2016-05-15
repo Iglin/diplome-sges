@@ -12,13 +12,13 @@ import java.util.Optional;
  */
 @Service
 public interface OwnerService {
-    Owner add(Owner owner) throws UniqueViolationException;
+    Owner add(Owner owner);
     void delete(long id);
     void delete(Owner owner);
     Optional<Owner> findById(long id);
     Optional<Owner> findByPersonalAccount(long personalAccount);
     Optional<Owner> findByPhone(String phone);
     Optional<Owner> findByEmail(String email);
-    Owner update(Owner bank) throws UniqueViolationException;
-    List<Owner> listAll();
+    Owner update(Owner owner);
+    List<Owner> findAll();
 }

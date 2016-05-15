@@ -1,9 +1,8 @@
 package ru.ssk.controller;
 
-import org.springframework.http.HttpStatus;
+import com.google.gson.Gson;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.ssk.exception.UniqueViolationException;
 
 /**
@@ -12,8 +11,13 @@ import ru.ssk.exception.UniqueViolationException;
 @Controller
 public abstract class BaseController {
     @ExceptionHandler(value = { UniqueViolationException.class })
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handle(Exception e){
-        return e.getMessage();
+        return new Gson().toJson(e.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public String handleAllException(Exception e) {
+        e.printStackTrace();
+        return new Gson().toJson("Произошла непредвиденная ошибка.");
     }
 }

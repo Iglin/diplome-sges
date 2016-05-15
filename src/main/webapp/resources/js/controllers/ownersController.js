@@ -8,7 +8,6 @@ halls.controller('ownersController', function($scope, $http){
             url:'/owners/',
             method:'GET'
         }).then(function(response){
-            $scope.owners = response.data;
         }, function(response){
             alert(JSON.stringify(response));
         });
@@ -20,11 +19,8 @@ halls.controller('ownersController', function($scope, $http){
             params:{phone: $scope.phone, email: $scope.email, personal_acc: $scope.personal_acc}
         }).then(function(response){
             alert(response.data);
-            $scope.phone = '';
-            $scope.email = '';
-            $scope.personal_acc = '' ;
         }, function(response){
-            alert(JSON.stringify(response));
+            alert(response);
         });
     };
     $scope.delete = function(){
@@ -33,7 +29,6 @@ halls.controller('ownersController', function($scope, $http){
             method:'DELETE'
         }).then(function(response){
             alert(response.data);
-            $scope.idDelete = '';
         }, function(response){
             alert(JSON.stringify(response));
         });
@@ -45,10 +40,6 @@ halls.controller('ownersController', function($scope, $http){
             params:{phone: $scope.phone_up, email: $scope.email_up, personal_acc: $scope.personal_acc_up}
         }).then(function(response){
             alert(response.data);
-            $scope.personal_acc_up = '';
-            $scope.phone_up = '';
-            $scope.email_up = '';
-            $scope.id_up = '' ;
         }, function(response){
             alert(JSON.stringify(response));
         });

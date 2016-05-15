@@ -24,7 +24,7 @@ public class OwnerController extends BaseController {
     public String add(
             @RequestParam(value = "phone") String phone,
             @RequestParam(value = "email") String email,
-            @RequestParam(value = "personal_acc") long personalAccount) throws UniqueViolationException {
+            @RequestParam(value = "personal_acc") long personalAccount) {
 
         Owner owner = new Owner();
         owner.setEmail(email);
@@ -37,7 +37,7 @@ public class OwnerController extends BaseController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<Owner> all(){
-        List<Owner> list = ownerService.listAll();
+        List<Owner> list = ownerService.findAll();
         return list;
     }
 
@@ -47,14 +47,18 @@ public class OwnerController extends BaseController {
             @RequestParam(value = "id") long id,
             @RequestParam(value = "phone") String phone,
             @RequestParam(value = "email") String email,
-            @RequestParam(value = "personal_acc") long personalAccount) throws UniqueViolationException {
+            @RequestParam(value = "personal_acc") long personalAccount) {
 
         Owner owner = new Owner();
         owner.setId(id);
         owner.setEmail(email);
         owner.setPhone(phone);
         owner.setPersonalAccount(personalAccount);
-        owner = ownerService.update(owner);
+        try {
+            owner = ownerService.update(owner);
+        } catch (UniqueViolationException e) {
+            return new Gson().toJson(e.getMessage());
+        }
         return new Gson().toJson("Информация обновлена.");
     }
 

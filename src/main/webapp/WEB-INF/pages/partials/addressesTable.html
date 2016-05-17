@@ -5,11 +5,11 @@
     <br>
     <table>
         <tr>
-            <th></th><th>Регион</th><th>Город</th><th>Улица</th><th>Дом</th><th>Квартира</th><th>Индекс</th>
+            <th></th><th>Регион</th><th>Город</th><th>Улица</th><th>Дом</th><th>Квартира</th><th>Индекс</th><th>Редактирование</th>
         </tr>
         <tr ng-repeat="x in addresses">
             <td>
-                <label><input class="checkbox_delete" type="checkbox" id="{{x.id}}"></label>
+                <label><input class="checkbox_delete" type="checkbox" id="{{ x.id }}"></label>
             </td>
             <td>{{ x.region }}</td>
             <td>{{ x.city }}</td>
@@ -17,6 +17,9 @@
             <td>{{ x.building }}</td>
             <td>{{ x.apartment }}</td>
             <td>{{ x.index }}</td>
+            <td>
+                <a href="#/addresses/editor/edit/?id={{ x.id }}">Изменить</a>
+            </td>
         </tr>
     </table>
 </div>

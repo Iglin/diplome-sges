@@ -24,7 +24,7 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@ComponentScan("ru.ssk")
+//@ComponentScan("ru.ssk")
 @PropertySource("classpath:app.properties")
 @EnableJpaRepositories("ru.ssk.repository")
 public class DataConfig {

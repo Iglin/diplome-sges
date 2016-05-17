@@ -1,13 +1,14 @@
 package ru.ssk.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by user on 15.05.2016.
  */
 @Entity
 @Table(name = "address")
-public class Address {
+public class Address implements Serializable {
     @Id
     @SequenceGenerator(name = "address_seq", sequenceName = "address_id_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_seq")

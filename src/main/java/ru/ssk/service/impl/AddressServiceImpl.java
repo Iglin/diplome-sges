@@ -59,8 +59,9 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Optional<Address> findById(long id) {
-        return Optional.ofNullable(addressRepository.getOne(id));
+   // @Transactional
+    public Address findById(long id) {
+        return addressRepository.findOne(id);
     }
 
     @Override

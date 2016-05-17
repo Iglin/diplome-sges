@@ -49,6 +49,8 @@
             </td>
         </tr>
     </table>
-    <button id="btn_add" type="button" ng-click="add()">Сохранить</button>
+    <button id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>
+    <button id="btn_upt" type="button" ng-show="isUpdate" ng-click="update()">Обновить</button>
     <a href="#/addresses_table">Отмена</a>
+    {{isUpdate}}
 </div>

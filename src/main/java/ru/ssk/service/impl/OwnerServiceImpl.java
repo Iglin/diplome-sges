@@ -41,7 +41,7 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     public Optional<Owner> findById(long id) {
-        return Optional.ofNullable(ownerRepository.getOne(id));
+        return Optional.ofNullable(ownerRepository.findOne(id));
     }
 
     @Override

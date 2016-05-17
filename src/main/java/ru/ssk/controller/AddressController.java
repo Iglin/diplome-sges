@@ -64,7 +64,7 @@ public class AddressController extends BaseController {
         address.setBuilding(building);
         address.setApartment(apartment);
         address.setIndex(index);
-        addressService.update(address);
+        addressService.save(address);
         return new Gson().toJson("Адрес успешно обновлён.");
     }
 
@@ -83,7 +83,7 @@ public class AddressController extends BaseController {
         address.setBuilding(building);
         address.setApartment(apartment);
         address.setIndex(index);
-        addressService.add(address);
+        addressService.save(address);
         return new Gson().toJson("Адрес успешно сохранён в базе.");
     }
 }

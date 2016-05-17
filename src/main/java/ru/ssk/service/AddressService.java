@@ -11,8 +11,7 @@ import java.util.Optional;
  */
 @Service
 public interface AddressService {
-    Address add(Address address);
-    Address update(Address address);
+    Address save(Address address);
     void delete(long id);
     void delete(Address address);
     void deleteAddressesWithIds(List<Long> ids);

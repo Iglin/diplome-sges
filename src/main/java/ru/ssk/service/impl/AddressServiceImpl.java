@@ -21,21 +21,10 @@ public class AddressServiceImpl implements AddressService {
     private AddressRepository addressRepository;
 
     @Override
-    public Address add(Address address) {
+    public Address save(Address address) {
         Address duplicate = addressRepository.findByRegionAndCityAndStreetAndBuildingAndApartmentAndIndex(address.getRegion(),
                 address.getCity(), address.getStreet(), address.getBuilding(), address.getApartment(), address.getIndex());
-        if (duplicate == null) {
-            return addressRepository.saveAndFlush(address);
-        } else {
-            throw new DuplicateDataException("В базе уже зарегестрирован такой адрес.");
-        }
-    }
-
-    @Override
-    public Address update(Address address) {
-        Address duplicate = addressRepository.findByRegionAndCityAndStreetAndBuildingAndApartmentAndIndex(address.getRegion(),
-                address.getCity(), address.getStreet(), address.getBuilding(), address.getApartment(), address.getIndex());
-        if (duplicate == null) {
+        if (duplicate == null || (address.getId() != null && duplicate.getId().equals(address.getId()))) {
             return addressRepository.saveAndFlush(address);
         } else {
             throw new DuplicateDataException("В базе уже зарегестрирован такой адрес.");

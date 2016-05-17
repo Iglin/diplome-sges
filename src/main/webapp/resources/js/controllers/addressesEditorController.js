@@ -11,12 +11,12 @@ addressesEditor.controller('addressesEditorController', function($scope, $http, 
                 params: { id: $routeParams['id'] }
             }).then(function(response){
                 $scope.address = response.data;
-                $scope.region = address.region;
-                $scope.city = address.city;
-                $scope.street = address.street;
-                $scope.building = address.building;
-                $scope.apartment = address.apartment;
-                $scope.index = address.index;
+                $scope.region = $scope.address.region;
+                $scope.city = $scope.address.city;
+                $scope.street = $scope.address.street;
+                $scope.building = $scope.address.building;
+                $scope.apartment = $scope.address.apartment;
+                $scope.index = $scope.address.index;
             }, function(response){
                 alert(JSON.stringify(response));
             });

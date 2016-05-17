@@ -1,11 +1,15 @@
 package ru.ssk.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ssk.exception.DuplicateDataException;
 import ru.ssk.model.Address;
 import ru.ssk.repository.AddressRepository;
 import ru.ssk.service.AddressService;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +50,12 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public void delete(Address address) {
         addressRepository.delete(address);
+    }
+
+    @Transactional
+    @Override
+    public void deleteAddressesWithIds(List<Long> ids) {
+        addressRepository.deleteAddressesWithIds(ids);
     }
 
     @Override

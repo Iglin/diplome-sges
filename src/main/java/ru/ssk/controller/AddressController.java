@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.ssk.model.Address;
 import ru.ssk.service.AddressService;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,8 +22,19 @@ public class AddressController extends BaseController {
     @RequestMapping(value = "/table/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<Address> all(){
-        System.out.println("Got into controller");
         return addressService.findAll();
+    }
+
+    @RequestMapping(value = "/table/", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public String delete(@RequestParam(value = "ids") Long[] idsToDelete) {
+
+        if (idsToDelete.length > 0) {
+            addressService.deleteAddressesWithIds(Arrays.asList(idsToDelete));
+            return new Gson().toJson("Адреса успешно удалены.");
+        } else {
+            return new Gson().toJson("Не выбраны адреса для удаления.");
+        }
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.POST)

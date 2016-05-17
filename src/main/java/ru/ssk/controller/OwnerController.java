@@ -30,7 +30,7 @@ public class OwnerController extends BaseController {
         owner.setEmail(email);
         owner.setPhone(phone);
         owner.setPersonalAccount(personalAccount);
-        owner = ownerService.add(owner);
+        owner = ownerService.save(owner);
         return new Gson().toJson("Собственник зарегестрирован.");
     }
 
@@ -55,7 +55,7 @@ public class OwnerController extends BaseController {
         owner.setPhone(phone);
         owner.setPersonalAccount(personalAccount);
         try {
-            owner = ownerService.update(owner);
+            owner = ownerService.save(owner);
         } catch (UniqueViolationException e) {
             return new Gson().toJson(e.getMessage());
         }

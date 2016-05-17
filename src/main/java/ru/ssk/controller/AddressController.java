@@ -1,18 +1,15 @@
 package ru.ssk.controller;
 
 import com.google.gson.Gson;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import ru.ssk.exception.DataSynchronizationException;
 import ru.ssk.model.Address;
 import ru.ssk.service.AddressService;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by user on 15.05.2016.

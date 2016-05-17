@@ -3,7 +3,6 @@ package ru.ssk.controller;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import ru.ssk.exception.DataSynchronizationException;
 import ru.ssk.exception.DuplicateDataException;
 import ru.ssk.exception.UniqueViolationException;
 
@@ -12,7 +11,7 @@ import ru.ssk.exception.UniqueViolationException;
  */
 @Controller
 public abstract class BaseController {
-    @ExceptionHandler(value = { UniqueViolationException.class, DuplicateDataException.class, DataSynchronizationException.class})
+    @ExceptionHandler(value = { UniqueViolationException.class, DuplicateDataException.class })
     public String handle(Exception e){
         return new Gson().toJson(e.getMessage());
     }

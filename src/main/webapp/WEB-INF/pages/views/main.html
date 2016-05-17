@@ -6,6 +6,7 @@
     <script src="resources/js/angular-route.js"></script>
     <script src="resources/js/controllers/ownersController.js"></script>
     <script src="resources/js/controllers/addressesController.js"></script>
+    <script src="resources/js/controllers/addressesEditorController.js"></script>
     <style>
         #content {
             height: 800px; /* Ширина слоя */
@@ -27,7 +28,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <a href="#/owners">Собственники</a>
-                    <a href="#/addresses">Адреса</a>
+                    <a href="#/addresses/table">Адреса</a>
                     <a href="/logout">Выйти</a>
                 </div>
                 <div class="col-md-9">
@@ -40,15 +41,19 @@
 </body>
 <script>
     var app = angular.module('main',
-            ["ngRoute", "owners", "addresses"])
+            ["ngRoute", "owners", "addressesTable", "addressesEditor"])
             .config(function($routeProvider){
                 $routeProvider
                         .when("/owners", {
                             templateUrl:'/partials/owners.html',
                             controller:'ownersController'
                         })
-                        .when("/addresses", {
-                            templateUrl:'/partials/addresses.html',
+                        .when("/addresses/editor", {
+                            templateUrl:'/partials/addressesEditor.html',
+                            controller:'addressesEditorController'
+                        })
+                        .when("/addresses/table", {
+                            templateUrl:'/partials/addressesTable.html',
                             controller:'addressesController'
                         })
                         .otherwise({

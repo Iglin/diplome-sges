@@ -1,7 +1,6 @@
 package ru.ssk.service;
 
 import org.springframework.stereotype.Service;
-import ru.ssk.exception.UniqueViolationException;
 import ru.ssk.model.Owner;
 
 import java.util.List;

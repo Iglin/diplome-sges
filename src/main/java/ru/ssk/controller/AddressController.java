@@ -18,13 +18,14 @@ public class AddressController extends BaseController {
     @Autowired
     AddressService addressService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/table/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<Address> all(){
+        System.out.println("Got into controller");
         return addressService.findAll();
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/editor/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public String add(@RequestParam(value = "region") String region,
                       @RequestParam(value = "city") String city,

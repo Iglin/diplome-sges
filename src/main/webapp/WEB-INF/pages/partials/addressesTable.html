@@ -1,0 +1,16 @@
+﻿<div class="container" style="width: 80%">
+    <a href="#/addresses/editor">Добавить новый адрес</a>
+    <table>
+        <tr>
+            <th>Регион</th><th>Город</th><th>Улица</th><th>Дом</th><th>Квартира</th><th>Индекс</th>
+        </tr>
+        <tr ng-repeat="x in addresses">
+            <td>{{ x.region }}</td>
+            <td>{{ x.city }}</td>
+            <td>{{ x.street }}</td>
+            <td>{{ x.building }}</td>
+            <td>{{ x.apartment }}</td>
+            <td>{{ x.index }}</td>
+        </tr>
+    </table>
+</div>

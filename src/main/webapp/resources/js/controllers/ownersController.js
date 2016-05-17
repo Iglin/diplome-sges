@@ -1,13 +1,14 @@
 /**
  * Created by user on 13.05.2016.
  */
-var halls = angular.module("owners", []);
-halls.controller('ownersController', function($scope, $http){
+var owners = angular.module("owners", []);
+owners.controller('ownersController', function($scope, $http){
     $scope.all = function(){
         $http({
             url:'/owners/',
             method:'GET'
         }).then(function(response){
+            $scope.owners = response.data;
         }, function(response){
             alert(JSON.stringify(response));
         });

@@ -17,31 +17,26 @@ public class OwnerServiceImpl implements OwnerService {
     @Autowired
     private OwnerRepository ownerRepository;
 
-    private void resolveConstraintViolation(DataIntegrityViolationException e, Owner owner) {
-        if (ownerRepository.findByEmail(owner.getEmail()) != null) {
-            throw new UniqueViolationException("В базе уже есть собственник с таким e-mail адресом.");
-        } else if (ownerRepository.findByPersonalAccount(owner.getPersonalAccount()) != null) {
-            throw new UniqueViolationException("В базе уже есть собственник с таким номером счёта.");
-        } else if (ownerRepository.findByPhone(owner.getPhone()) != null) {
-            throw new UniqueViolationException("В базе уже есть собственник с таким номером телефона.");
-        } else {
-            throw new UniqueViolationException("Нарушено ограничение при добавлении записи в базу.");
-        }
-    }
-
     @Override
-    public Owner add(Owner owner) {
+    public Owner save(Owner owner) {
         try {
             return ownerRepository.saveAndFlush(owner);
         } catch (DataIntegrityViolationException e) {
-            resolveConstraintViolation(e, owner);
-            return null;
+            if (ownerRepository.findByEmail(owner.getEmail()) != null) {
+                throw new UniqueViolationException("В базе уже есть собственник с таким e-mail адресом.");
+            } else if (ownerRepository.findByPersonalAccount(owner.getPersonalAccount()) != null) {
+                throw new UniqueViolationException("В базе уже есть собственник с таким номером счёта.");
+            } else if (ownerRepository.findByPhone(owner.getPhone()) != null) {
+                throw new UniqueViolationException("В базе уже есть собственник с таким номером телефона.");
+            } else {
+                throw new UniqueViolationException("Нарушено ограничение при добавлении записи в базу.");
+            }
         }
     }
 
     @Override
-    public Optional<Owner> findById(long id) {
-        return Optional.ofNullable(ownerRepository.findOne(id));
+    public Owner findById(long id) {
+        return ownerRepository.findOne(id);
     }
 
     @Override
@@ -55,28 +50,18 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public Optional<Owner> findByPersonalAccount(long personalAccount) {
-        return Optional.ofNullable(ownerRepository.findByPersonalAccount(personalAccount));
+    public Owner findByPersonalAccount(long personalAccount) {
+        return ownerRepository.findByPersonalAccount(personalAccount);
     }
 
     @Override
-    public Optional<Owner> findByPhone(String phone) {
-        return Optional.ofNullable(ownerRepository.findByPhone(phone));
+    public Owner findByPhone(String phone) {
+        return ownerRepository.findByPhone(phone);
     }
 
     @Override
-    public Optional<Owner> findByEmail(String email) {
-        return Optional.ofNullable(ownerRepository.findByEmail(email));
-    }
-
-    @Override
-    public Owner update(Owner owner) {
-        try {
-            return ownerRepository.saveAndFlush(owner);
-        } catch (DataIntegrityViolationException e) {
-            resolveConstraintViolation(e, owner);
-            return null;
-        }
+    public Owner findByEmail(String email) {
+        return ownerRepository.findByEmail(email);
     }
 
     @Override

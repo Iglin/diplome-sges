@@ -11,13 +11,12 @@ import java.util.Optional;
  */
 @Service
 public interface OwnerService {
-    Owner add(Owner owner);
+    Owner save(Owner owner);
     void delete(long id);
     void delete(Owner owner);
-    Optional<Owner> findById(long id);
-    Optional<Owner> findByPersonalAccount(long personalAccount);
-    Optional<Owner> findByPhone(String phone);
-    Optional<Owner> findByEmail(String email);
-    Owner update(Owner owner);
+    Owner findById(long id);
+    Owner findByPersonalAccount(long personalAccount);
+    Owner findByPhone(String phone);
+    Owner findByEmail(String email);
     List<Owner> findAll();
 }

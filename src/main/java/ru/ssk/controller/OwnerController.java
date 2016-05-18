@@ -37,8 +37,7 @@ public class OwnerController extends BaseController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<Owner> all(){
-        List<Owner> list = ownerService.findAll();
-        return list;
+        return ownerService.findAll();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
@@ -54,11 +53,7 @@ public class OwnerController extends BaseController {
         owner.setEmail(email);
         owner.setPhone(phone);
         owner.setPersonalAccount(personalAccount);
-        try {
-            owner = ownerService.save(owner);
-        } catch (UniqueViolationException e) {
-            return new Gson().toJson(e.getMessage());
-        }
+        ownerService.save(owner);
         return new Gson().toJson("Информация обновлена.");
     }
 

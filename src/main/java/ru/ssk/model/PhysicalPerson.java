@@ -8,11 +8,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "person")
 public class PhysicalPerson extends Owner {
-    @Id
-    @SequenceGenerator(name = "person_seq", sequenceName = "person_id_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_seq")
-    @Column(name = "id")
-    private Long id;
     @Column(name = "lastname", nullable = false)
     private String lastName;
     @Column(name = "firstname", nullable = false)
@@ -27,14 +22,6 @@ public class PhysicalPerson extends Owner {
     private Passport passport;
 
     public PhysicalPerson() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getLastName() {

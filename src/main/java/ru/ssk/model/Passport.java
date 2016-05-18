@@ -19,7 +19,7 @@ public class Passport {
     @ManyToOne
     @JoinColumn(name = "registration", nullable = false)
     private Address registrationAddress;
-    @OneToOne(mappedBy = "person")
+    @OneToOne(mappedBy = "passport")
     private PhysicalPerson person;
 
     public Passport() {

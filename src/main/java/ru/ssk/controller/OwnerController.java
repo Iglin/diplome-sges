@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.ssk.exception.UniqueViolationException;
 import ru.ssk.model.Owner;
 import ru.ssk.service.OwnerService;
 

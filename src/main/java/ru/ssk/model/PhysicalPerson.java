@@ -12,12 +12,12 @@ public class PhysicalPerson extends Owner {
     private String lastName;
     @Column(name = "firstname", nullable = false)
     private String firstName;
-    @Column(name = "middlename", nullable = false)
+    @Column(name = "middlename", nullable = true)
     private String middleName;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)//, fetch = FetchType.EAGER)
     @JoinColumn(name = "living_addr", nullable = false)
     private Address livingAddress;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "passport_num", nullable = false, unique = true)
     private Passport passport;
 

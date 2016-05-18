@@ -8,7 +8,6 @@ import ru.ssk.repository.OwnerRepository;
 import ru.ssk.service.OwnerService;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by root on 13.03.16.
@@ -47,6 +46,11 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public void delete(Owner owner) {
         ownerRepository.delete(owner);
+    }
+
+    @Override
+    public void deleteOwnersWithIds(List<Long> ids) {
+        ownerRepository.deleteOwnersWithIds(ids);
     }
 
     @Override

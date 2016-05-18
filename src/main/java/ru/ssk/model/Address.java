@@ -85,4 +85,9 @@ public class Address implements Serializable {
     public void setIndex(int index) {
         this.index = index;
     }
+
+    @Override
+    public String toString() {
+        return region + ", " + city + ", " + street + ", " + building + ", " + apartment + "; Индекс: " + index;
+    }
 }

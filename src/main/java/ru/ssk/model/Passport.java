@@ -16,11 +16,9 @@ public class Passport {
     private String placeOfIssue;
     @Column(name = "issued_date", nullable = false)
     private Date dateOfIssue;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "registration", nullable = false)
     private Address registrationAddress;
-    @OneToOne(mappedBy = "passport")
-    private PhysicalPerson person;
 
     public Passport() {
 
@@ -63,13 +61,5 @@ public class Passport {
 
     public void setRegistrationAddress(Address registrationAddress) {
         this.registrationAddress = registrationAddress;
-    }
-
-    public PhysicalPerson getPerson() {
-        return person;
-    }
-
-    public void setPerson(PhysicalPerson person) {
-        this.person = person;
     }
 }

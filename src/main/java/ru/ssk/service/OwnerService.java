@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import ru.ssk.model.Owner;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by root on 13.03.16.
@@ -14,6 +13,7 @@ public interface OwnerService {
     Owner save(Owner owner);
     void delete(long id);
     void delete(Owner owner);
+    void deleteOwnersWithIds(List<Long> ids);
     Owner findById(long id);
     Owner findByPersonalAccount(long personalAccount);
     Owner findByPhone(String phone);

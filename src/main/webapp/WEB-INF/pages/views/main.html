@@ -7,6 +7,8 @@
     <script src="resources/js/controllers/ownersController.js"></script>
     <script src="resources/js/controllers/addressesController.js"></script>
     <script src="resources/js/controllers/addressesEditorController.js"></script>
+    <script src="resources/js/controllers/personsController.js"></script>
+    <script src="resources/js/controllers/personsEditorController.js"></script>
     <style>
         #content {
             height: 800px; /* Ширина слоя */
@@ -20,7 +22,7 @@
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
-                    <span style="font-family: 'Verdana';font-size: 50px; color: black">Вы вошли как {{username}}.</span>
+                    <span style="font-family: 'Verdana';font-size: 25px; color: black">Вы вошли как {{username}}.</span>
                 </div>
             </div>
         </div>
@@ -28,6 +30,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <a href="#/owners">Собственники</a>
+                    <a href="#/persons/table">Физические лица</a>
                     <a href="#/addresses/table">Адреса</a>
                     <a href="/logout">Выйти</a>
                 </div>
@@ -41,7 +44,7 @@
 </body>
 <script>
     var app = angular.module('main',
-            ["ngRoute", "owners", "addressesTable", "addressesEditor"])
+            ["ngRoute", "owners", "addressesTable", "addressesEditor", "personsTable", "personsEditor"])
             .config(function($routeProvider){
                 $routeProvider
                         .when("/owners", {
@@ -60,8 +63,20 @@
                             templateUrl:'/partials/addressesTable.html',
                             controller:'addressesController'
                         })
+                        .when("/persons/editor", {
+                            templateUrl:'/partials/personsEditor.html',
+                            controller:'personsEditorController'
+                        })
+                        .when("/persons/editor/edit", {
+                            templateUrl:'/partials/personsEditor.html',
+                            controller:'personsEditorController'
+                        })
+                        .when("/persons/table", {
+                            templateUrl:'/partials/personsTable.html',
+                            controller:'personsController'
+                        })
                         .otherwise({
-                            redirectTo:"/owners"
+                            redirectTo:"/persons/table"
                         });
             });
     app.controller('mainController', function($scope, $http){

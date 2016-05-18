@@ -75,6 +75,8 @@
     </table>
 
     <h2>Адрес прописки: </h2>
+    <button type="button" ng-show="needRegistrationAddress" ng-click="changeNeedRegistrationAddressFlag()">Выбрать адрес из базы</button>
+    <button type="button" ng-hide="needRegistrationAddress" ng-click="changeNeedRegistrationAddressFlag()">Зарегестрировать новый адрес</button>
     <table ng-show="needRegistrationAddress">
         <tr>
             <td>
@@ -125,8 +127,17 @@
             </td>
         </tr>
     </table>
+    <select ng-model="registrationAddress" ng-hide="needRegistrationAddress">
+        <option ng-repeat="a in addresses" value="{{ a }}">
+            {{ a.region + ', ' + a.city + ', ' +
+            a.street + ', ' + a.building + ', ' +
+            a.apartment + '; Индекс: ' + a.index }}
+        </option>
+    </select>
 
     <h2>Адрес фактического проживания: </h2>
+    <button type="button" ng-show="needLivingAddress" ng-click="changeNeedLivingAddressFlag()">Выбрать адрес из базы</button>
+    <button type="button" ng-hide="needLivingAddress" ng-click="changeNeedLivingAddressFlag()">Зарегестрировать новый адрес</button>
     <table ng-show="needLivingAddress">
         <tr>
             <td>
@@ -177,6 +188,13 @@
             </td>
         </tr>
     </table>
+    <select ng-model="livingAddress" ng-hide="needLivingAddress">
+        <option ng-repeat="x in addresses" value="{{ x }}">
+            {{ x.region + ', ' + x.city + ', ' +
+            x.street + ', ' + x.building + ', ' +
+            x.apartment + '; Индекс: ' + x.index }}
+        </option>
+    </select>
     <button id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>
     <button id="btn_upt" type="button" ng-show="isUpdate" ng-click="update()">Сохранить</button>
     <a href="#/persons/table">Отмена</a>

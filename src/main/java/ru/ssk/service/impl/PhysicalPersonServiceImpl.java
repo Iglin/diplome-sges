@@ -26,9 +26,15 @@ public class PhysicalPersonServiceImpl implements PhysicalPersonService {
     @Override
     public PhysicalPerson save(PhysicalPerson owner) {
         try {
-            return personRepository.saveAndFlush(owner);
+            return personRepository.save(owner);
         } catch (DataIntegrityViolationException e) {
-            personRepository.flush();
+            throw new UniqueViolationException("Нарушено ограничение при добавлении записи в базу.");
+          /*
+            Выкидывается ещё одно исключение!
+         *
+         *
+         *
+          personRepository.flush();
             if (ownerRepository.findByEmail(owner.getEmail()) != null) {
                 throw new UniqueViolationException("В базе уже есть собственник с таким e-mail адресом.");
             } else if (ownerRepository.findByPersonalAccount(owner.getPersonalAccount()) != null) {
@@ -39,7 +45,7 @@ public class PhysicalPersonServiceImpl implements PhysicalPersonService {
                 throw new UniqueViolationException("В базе уже есть собственник с таким номером паспорта.");
             } else {
                 throw new UniqueViolationException("Нарушено ограничение при добавлении записи в базу.");
-            }
+            }*/
         }
     }
 

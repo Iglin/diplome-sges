@@ -47,25 +47,41 @@ personsEditor.controller('personsEditorController', function($scope, $http, $rou
     });
 
     function buildPerson() {
-        var livingAddr = {
-            region: $scope.regionLiv,
-            city: $scope.cityLiv,
-            street: $scope.streetLiv,
-            building: $scope.buildingLiv,
-            apartment: $scope.apartmentLiv,
-            index: $scope.indexLiv
-        };
-        var registrationAddr = {
-            region: $scope.regionReg,
-            city: $scope.cityReg,
-            street: $scope.streetReg,
-            building: $scope.buildingReg,
-            apartment: $scope.apartmentReg,
-            index: $scope.indexReg
-        };
+        var livingAddr = {};
+        if ($scope.needLivingAddress) {
+            livingAddr = {
+                region: $scope.regionLiv,
+                city: $scope.cityLiv,
+                street: $scope.streetLiv,
+                building: $scope.buildingLiv,
+                apartment: $scope.apartmentLiv,
+                index: $scope.indexLiv
+            };
+        } else {
+            livingAddr = JSON.parse($scope.livingAddress);
+        }
+
+        var registrationAddr = {};
+        if ($scope.needRegistrationAddress) {
+            registrationAddr = {
+                region: $scope.regionReg,
+                city: $scope.cityReg,
+                street: $scope.streetReg,
+                building: $scope.buildingReg,
+                apartment: $scope.apartmentReg,
+                index: $scope.indexReg
+            };
+        } else {
+            registrationAddr = JSON.parse($scope.registrationAddress);
+        }
+
         if ($scope.isUpdate) {
-            registrationAddr.id = $scope.person.passport.registrationAddress.id;
-            livingAddr.id = $scope.person.livingAddress.id;
+            if ($scope.needRegistrationAddress) {
+                registrationAddr.id = $scope.person.passport.registrationAddress.id;
+            }
+            if ($scope.needLivingAddress) {
+                livingAddr.id = $scope.person.livingAddress.id;
+            }
         }
         var passportData = {
             passportNumber: $scope.passportNumber,
@@ -85,6 +101,29 @@ personsEditor.controller('personsEditorController', function($scope, $http, $rou
         };
     }
 
+    function loadAddresses() {
+        if ($scope.addresses == null) {
+            $http({
+                url:'/addresses/table/',
+                method:'GET'
+            }).then(function(response){
+                $scope.addresses = response.data;
+            }, function(response){
+                alert(JSON.stringify(response));
+            });
+        }
+    }
+    
+    $scope.changeNeedRegistrationAddressFlag = function () {
+        loadAddresses();
+        $scope.needRegistrationAddress = !$scope.needRegistrationAddress;
+    };
+    
+    $scope.changeNeedLivingAddressFlag = function () {
+        loadAddresses();
+        $scope.needLivingAddress = !$scope.needLivingAddress;
+    };
+
     $scope.add = function () {
         var person = buildPerson();
         $http({
@@ -102,6 +141,7 @@ personsEditor.controller('personsEditorController', function($scope, $http, $rou
 
     $scope.update = function () {
         var personToUpdate = buildPerson();
+        alert(JSON.stringify(personToUpdate));
         $http({
             url: '/persons/editor/',
             method: 'PUT',

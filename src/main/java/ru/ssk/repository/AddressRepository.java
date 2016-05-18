@@ -20,7 +20,7 @@ public interface AddressRepository extends JpaRepository<Address, Long>, JpaSpec
     List<Address> findByBuilding(String building);
     List<Address> findByApartment(String apartment);
     List<Address> findByIndex(int index);
-    Address findByRegionAndCityAndStreetAndBuildingAndApartmentAndIndex(
+    List<Address> findByRegionAndCityAndStreetAndBuildingAndApartmentAndIndex(
             String region,
             String city,
             String street,

@@ -1,5 +1,7 @@
 package ru.ssk.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -19,6 +21,10 @@ public class Passport {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "registration", nullable = false)
     private Address registrationAddress;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "passport", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private PhysicalPerson physicalPerson;
+
 
     public Passport() {
 
@@ -61,5 +67,13 @@ public class Passport {
 
     public void setRegistrationAddress(Address registrationAddress) {
         this.registrationAddress = registrationAddress;
+    }
+
+    public PhysicalPerson getPhysicalPerson() {
+        return physicalPerson;
+    }
+
+    public void setPhysicalPerson(PhysicalPerson physicalPerson) {
+        this.physicalPerson = physicalPerson;
     }
 }

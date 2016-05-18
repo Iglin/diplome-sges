@@ -1,13 +1,14 @@
 package ru.ssk.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by user on 17.05.2016.
  */
 @Entity
 @Table(name = "person")
-public class PhysicalPerson extends Owner {
+public class PhysicalPerson extends Owner implements Serializable {
     @Column(name = "lastname", nullable = false)
     private String lastName;
     @Column(name = "firstname", nullable = false)
@@ -17,7 +18,7 @@ public class PhysicalPerson extends Owner {
     @ManyToOne(cascade = CascadeType.ALL)//, fetch = FetchType.EAGER)
     @JoinColumn(name = "living_addr", nullable = false)
     private Address livingAddress;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "passport_num", nullable = false, unique = true)
     private Passport passport;
 

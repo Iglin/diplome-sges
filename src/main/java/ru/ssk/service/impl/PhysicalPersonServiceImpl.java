@@ -1,9 +1,13 @@
 package ru.ssk.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.transaction.annotation.Transactional;
+import ru.ssk.exception.UniqueViolationException;
 import ru.ssk.model.Address;
 import ru.ssk.model.Passport;
 import ru.ssk.model.PhysicalPerson;
+import ru.ssk.repository.OwnerRepository;
 import ru.ssk.repository.PhysicalPersonRepository;
 import ru.ssk.service.PhysicalPersonService;
 
@@ -12,13 +16,31 @@ import java.util.List;
 /**
  * Created by root on 18.05.16.
  */
+@Transactional
 public class PhysicalPersonServiceImpl implements PhysicalPersonService {
     @Autowired
     private PhysicalPersonRepository personRepository;
+    @Autowired
+    private OwnerRepository ownerRepository;
 
     @Override
     public PhysicalPerson save(PhysicalPerson owner) {
-        return personRepository.saveAndFlush(owner);
+        try {
+            return personRepository.saveAndFlush(owner);
+        } catch (DataIntegrityViolationException e) {
+            personRepository.flush();
+            if (ownerRepository.findByEmail(owner.getEmail()) != null) {
+                throw new UniqueViolationException("В базе уже есть собственник с таким e-mail адресом.");
+            } else if (ownerRepository.findByPersonalAccount(owner.getPersonalAccount()) != null) {
+                throw new UniqueViolationException("В базе уже есть собственник с таким номером счёта.");
+            } else if (ownerRepository.findByPhone(owner.getPhone()) != null) {
+                throw new UniqueViolationException("В базе уже есть собственник с таким номером телефона.");
+            } else if (personRepository.findByPassportNumber(owner.getPassport().getPassportNumber()) != null) {
+                throw new UniqueViolationException("В базе уже есть собственник с таким номером паспорта.");
+            } else {
+                throw new UniqueViolationException("Нарушено ограничение при добавлении записи в базу.");
+            }
+        }
     }
 
     @Override

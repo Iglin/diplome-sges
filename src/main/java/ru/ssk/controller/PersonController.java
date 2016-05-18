@@ -34,7 +34,10 @@ public class PersonController extends BaseController {
     @RequestMapping(value = "/editor/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public PhysicalPerson getOne(@RequestParam(value = "id") long id){
-        return personService.findById(id);
+        PhysicalPerson result = personService.findById(id);
+        result.getLivingAddress();
+        result.getPassport().getRegistrationAddress();
+        return result;
     }
 
     @RequestMapping(value = "/table/", method = RequestMethod.DELETE)
@@ -51,7 +54,7 @@ public class PersonController extends BaseController {
 
     @RequestMapping(value = "/editor/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String update(@RequestParam(value = "id") long id,
+    public String updatePerson(@RequestParam(value = "id") long id,
                          @RequestParam(value = "person") String person) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         PhysicalPerson physicalPerson = gson.fromJson(person, PhysicalPerson.class);

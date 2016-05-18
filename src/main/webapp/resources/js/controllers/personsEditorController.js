@@ -63,10 +63,14 @@ personsEditor.controller('personsEditorController', function($scope, $http, $rou
             apartment: $scope.apartmentReg,
             index: $scope.indexReg
         };
+        if ($scope.isUpdate) {
+            registrationAddr.id = $scope.person.passport.registrationAddress.id;
+            livingAddr.id = $scope.person.livingAddress.id;
+        }
         var passportData = {
             passportNumber: $scope.passportNumber,
             placeOfIssue: $scope.placeOfIssue,
-            dateOfIssue: $scope.dateOfIssue.substring(0, 10),
+            dateOfIssue: $scope.dateOfIssue,
             registrationAddress: registrationAddr
         };
         return {
@@ -97,13 +101,13 @@ personsEditor.controller('personsEditorController', function($scope, $http, $rou
     };
 
     $scope.update = function () {
-        var person = buildPerson();
+        var personToUpdate = buildPerson();
         $http({
-            url: '/addresses/editor/',
+            url: '/persons/editor/',
             method: 'PUT',
             params: {
                 id: $scope.person.id,
-                person: person
+                person: personToUpdate
             }
         }).then(function (response) {
             alert(response.data);

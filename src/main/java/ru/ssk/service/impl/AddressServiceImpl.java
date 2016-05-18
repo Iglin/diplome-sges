@@ -18,9 +18,10 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address save(Address address) {
-        Address duplicate = addressRepository.findByRegionAndCityAndStreetAndBuildingAndApartmentAndIndex(address.getRegion(),
+        List<Address> duplicates = addressRepository.findByRegionAndCityAndStreetAndBuildingAndApartmentAndIndex(address.getRegion(),
                 address.getCity(), address.getStreet(), address.getBuilding(), address.getApartment(), address.getIndex());
-        if (duplicate == null || (address.getId() != null && duplicate.getId().equals(address.getId()))) {
+        if (duplicates == null || duplicates.isEmpty() ||
+                (duplicates.size() == 1 && address.getId() != null && duplicates.get(0).getId().equals(address.getId()))) {
             return addressRepository.saveAndFlush(address);
         } else {
             throw new DuplicateDataException("В базе уже зарегестрирован такой адрес.");

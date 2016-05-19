@@ -1,8 +1,6 @@
 package ru.ssk.service.impl;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ssk.model.Address;
 import ru.ssk.model.Passport;
@@ -10,7 +8,6 @@ import ru.ssk.repository.PassportRepository;
 import ru.ssk.service.AddressService;
 import ru.ssk.service.PassportService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,11 +34,7 @@ public class PassportServiceImpl implements PassportService {
     public void delete(Passport passport) {
         Address address = passport.getRegistrationAddress();
         passportRepository.delete(passport);
-       /* try {
-            addressService.delete(address);
-        } catch (Exception e) {
-
-        }*/
+        addressService.deleteIfOrphan(address);
     }
 
     @Override

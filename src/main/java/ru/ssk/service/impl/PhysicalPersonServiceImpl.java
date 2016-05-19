@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by root on 18.05.16.
  */
-@Transactional
+//@Transactional
 public class PhysicalPersonServiceImpl implements PhysicalPersonService {
     @Autowired
     private PhysicalPersonRepository personRepository;
@@ -74,15 +74,14 @@ public class PhysicalPersonServiceImpl implements PhysicalPersonService {
     public void deleteWithIds(List<Long> ids) {
         ids.forEach(id -> {
             PhysicalPerson person = personRepository.findById(id);
-            Address address = person.getLivingAddress();
-            Passport passport = person.getPassport();
+            Address livingAddress = person.getLivingAddress();
+        //    Passport passport = person.getPassport();
+            Address registrationAddress = person.getPassport().getRegistrationAddress();
             personRepository.delete(id);
-            /*try {
-                addressService.delete(address);
-            } catch (Exception e) {
-
-            }*/
-            passportService.delete(passport);
+            personRepository.flush();
+            addressService.deleteIfOrphan(livingAddress);
+            addressService.deleteIfOrphan(registrationAddress);
+           // passportService.delete(passport);
         });
        // passportService.deleteWithOwnersIds(ids);
        // personRepository.deleteWithIds(ids);

@@ -14,6 +14,7 @@ public interface AddressService {
     void delete(long id);
     void delete(Address address);
     void deleteAddressesWithIds(List<Long> ids);
+    void deleteIfOrphan(Address address);
     Address findById(long id);
     List<Address> findAll();
     List<Address> findByRegion(String region);

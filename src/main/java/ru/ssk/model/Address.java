@@ -1,7 +1,10 @@
 package ru.ssk.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Created by user on 15.05.2016.
@@ -26,6 +29,13 @@ public class Address implements Serializable {
     private String apartment;
     @Column(name = "index", nullable = false, unique = false)
     private int index;
+
+    @OneToMany(mappedBy = "registrationAddress", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Passport> passports;
+    @OneToMany(mappedBy = "livingAddress", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<PhysicalPerson> persons;
 
     public Address() {
     }
@@ -84,6 +94,22 @@ public class Address implements Serializable {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public Set<Passport> getPassports() {
+        return passports;
+    }
+
+    public void setPassports(Set<Passport> passports) {
+        this.passports = passports;
+    }
+
+    public Set<PhysicalPerson> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(Set<PhysicalPerson> persons) {
+        this.persons = persons;
     }
 
     @Override

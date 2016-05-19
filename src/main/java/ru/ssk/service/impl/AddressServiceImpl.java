@@ -45,6 +45,16 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    public void deleteIfOrphan(Address address) {
+        address = addressRepository.findOne(address.getId());
+        System.out.println("Persons : " + address.getPersons().size());
+        System.out.println("Passports : " + address.getPassports().size());
+        if (address.getPersons().isEmpty() && address.getPassports().isEmpty()) {
+            addressRepository.delete(address);
+        }
+    }
+
+    @Override
    // @Transactional
     public Address findById(long id) {
         return addressRepository.findOne(id);

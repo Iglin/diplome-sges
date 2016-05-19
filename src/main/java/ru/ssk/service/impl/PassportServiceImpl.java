@@ -41,5 +41,6 @@ public class PassportServiceImpl implements PassportService {
     public void deleteWithOwnersIds(List<Long> ids) {
         List<Passport> passports = passportRepository.findByPersonsIds(ids);
         passports.forEach(passport -> passportRepository.delete(passport));
+        passportRepository.flush();
     }
 }

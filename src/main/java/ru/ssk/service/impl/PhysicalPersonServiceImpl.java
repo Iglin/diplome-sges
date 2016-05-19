@@ -32,7 +32,9 @@ public class PhysicalPersonServiceImpl implements PhysicalPersonService {
     @Override
     public PhysicalPerson save(PhysicalPerson owner) {
         try {
-            return personRepository.save(owner);
+            addressService.save(owner.getPassport().getRegistrationAddress());
+            addressService.save(owner.getLivingAddress());
+            return personRepository.saveAndFlush(owner);
         } catch (DataIntegrityViolationException e) {
             throw new UniqueViolationException("Нарушено ограничение при добавлении записи в базу.");
           /*
@@ -58,11 +60,13 @@ public class PhysicalPersonServiceImpl implements PhysicalPersonService {
     @Override
     public void delete(long id) {
         personRepository.delete(id);
+        personRepository.flush();
     }
 
     @Override
     public void delete(PhysicalPerson owner) {
         personRepository.delete(owner);
+        personRepository.flush();
     }
 
     /*

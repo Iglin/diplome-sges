@@ -15,7 +15,7 @@ public class PhysicalPerson extends Owner implements Serializable {
     private String firstName;
     @Column(name = "middlename", nullable = true)
     private String middleName;
-    @ManyToOne(cascade = { CascadeType.MERGE })//, fetch = FetchType.EAGER)
+    @ManyToOne//(cascade = { CascadeType.MERGE, CascadeType.PERSIST })//, fetch = FetchType.EAGER)
     @JoinColumn(name = "living_addr", nullable = false)
     private Address livingAddress;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

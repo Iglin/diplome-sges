@@ -31,17 +31,20 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public void delete(long id) {
         addressRepository.delete(id);
+        addressRepository.flush();
     }
 
     @Override
     public void delete(Address address) {
         addressRepository.delete(address);
+        addressRepository.flush();
     }
 
     @Transactional
     @Override
     public void deleteAddressesWithIds(List<Long> ids) {
         addressRepository.deleteAddressesWithIds(ids);
+        addressRepository.flush();
     }
 
     @Override
@@ -51,6 +54,7 @@ public class AddressServiceImpl implements AddressService {
         System.out.println("Passports : " + address.getPassports().size());
         if (address.getPersons().isEmpty() && address.getPassports().isEmpty()) {
             addressRepository.delete(address);
+            addressRepository.flush();
         }
     }
 

@@ -13,4 +13,15 @@ test.controller('testController', function($scope, $http){
             alert(JSON.stringify(response));
         });
     };
+
+    $scope.fillDataBase = function(){
+        $http({
+            url:'/test/',
+            method:'PUT'
+        }).then(function(response){
+            alert(response.data);
+        }, function(response){
+            alert(JSON.stringify(response));
+        });
+    };
 });

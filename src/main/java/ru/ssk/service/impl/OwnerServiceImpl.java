@@ -41,11 +41,13 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public void delete(long id) {
         ownerRepository.delete(id);
+        ownerRepository.flush();
     }
 
     @Override
     public void delete(Owner owner) {
         ownerRepository.delete(owner);
+        ownerRepository.flush();
     }
 
     @Override

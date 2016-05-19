@@ -15,6 +15,7 @@ public interface PhysicalPersonService {
     PhysicalPerson save(PhysicalPerson owner);
     void delete(long id);
     void delete(PhysicalPerson owner);
+    void deleteWithIds(List<Long> ids);
     PhysicalPerson findById(long id);
     PhysicalPerson findByPersonalAccount(long personalAccount);
     PhysicalPerson findByPhone(String phone);

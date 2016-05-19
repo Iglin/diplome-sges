@@ -5,9 +5,11 @@ import org.springframework.context.annotation.Configuration;
 import ru.ssk.model.PhysicalPerson;
 import ru.ssk.service.AddressService;
 import ru.ssk.service.OwnerService;
+import ru.ssk.service.PassportService;
 import ru.ssk.service.PhysicalPersonService;
 import ru.ssk.service.impl.AddressServiceImpl;
 import ru.ssk.service.impl.OwnerServiceImpl;
+import ru.ssk.service.impl.PassportServiceImpl;
 import ru.ssk.service.impl.PhysicalPersonServiceImpl;
 
 /**
@@ -28,5 +30,10 @@ public class SpringBeansConfig {
     @Bean
     public PhysicalPersonService personService() {
         return new PhysicalPersonServiceImpl();
+    }
+
+    @Bean
+    public PassportService passportService() {
+        return new PassportServiceImpl();
     }
 }

@@ -1,5 +1,6 @@
 package ru.ssk.service.impl;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,7 +9,10 @@ import ru.ssk.model.Address;
 import ru.ssk.model.Passport;
 import ru.ssk.model.PhysicalPerson;
 import ru.ssk.repository.OwnerRepository;
+import ru.ssk.repository.PassportRepository;
 import ru.ssk.repository.PhysicalPersonRepository;
+import ru.ssk.service.AddressService;
+import ru.ssk.service.PassportService;
 import ru.ssk.service.PhysicalPersonService;
 
 import java.util.List;
@@ -21,7 +25,9 @@ public class PhysicalPersonServiceImpl implements PhysicalPersonService {
     @Autowired
     private PhysicalPersonRepository personRepository;
     @Autowired
-    private OwnerRepository ownerRepository;
+    private AddressService addressService;
+    @Autowired
+    private PassportService passportService;
 
     @Override
     public PhysicalPerson save(PhysicalPerson owner) {
@@ -57,6 +63,29 @@ public class PhysicalPersonServiceImpl implements PhysicalPersonService {
     @Override
     public void delete(PhysicalPerson owner) {
         personRepository.delete(owner);
+    }
+
+    /*
+    *
+    *   Needs to be batch!
+    *
+    * */
+    @Override
+    public void deleteWithIds(List<Long> ids) {
+        ids.forEach(id -> {
+            PhysicalPerson person = personRepository.findById(id);
+            Address address = person.getLivingAddress();
+            Passport passport = person.getPassport();
+            personRepository.delete(id);
+            /*try {
+                addressService.delete(address);
+            } catch (Exception e) {
+
+            }*/
+            passportService.delete(passport);
+        });
+       // passportService.deleteWithOwnersIds(ids);
+       // personRepository.deleteWithIds(ids);
     }
 
     @Override

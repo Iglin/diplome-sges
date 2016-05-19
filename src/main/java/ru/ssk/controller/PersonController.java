@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import ru.ssk.model.Passport;
 import ru.ssk.model.PhysicalPerson;
 import ru.ssk.service.OwnerService;
+import ru.ssk.service.PassportService;
 import ru.ssk.service.PhysicalPersonService;
 
 import java.util.Arrays;
@@ -21,9 +23,9 @@ import java.util.List;
 @Transactional
 public class PersonController extends BaseController {
     @Autowired
-    PhysicalPersonService personService;
+    private PhysicalPersonService personService;
     @Autowired
-    OwnerService ownerService;
+    private PassportService passportService;
 
     @RequestMapping(value = "/table/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
@@ -45,11 +47,17 @@ public class PersonController extends BaseController {
     public String delete(@RequestParam(value = "ids") Long[] idsToDelete) {
 
         if (idsToDelete.length > 0) {
-            ownerService.deleteOwnersWithIds(Arrays.asList(idsToDelete));
+            personService.deleteWithIds(Arrays.asList(idsToDelete));
             return new Gson().toJson("Записи успешно удалены.");
         } else {
             return new Gson().toJson("Не выбраны записи для удаления.");
         }
+    }
+
+    @RequestMapping(value = "/passport/", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Passport getPassport(@RequestParam(value = "id") Long personId) {
+        return passportService.findByPersonId(personId);
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.PUT)

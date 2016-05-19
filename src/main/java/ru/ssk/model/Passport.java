@@ -18,7 +18,7 @@ public class Passport {
     private String placeOfIssue;
     @Column(name = "issued_date", nullable = false)
     private Date dateOfIssue;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = { CascadeType.MERGE }, fetch = FetchType.EAGER)
     @JoinColumn(name = "registration", nullable = false)
     private Address registrationAddress;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "passport", fetch = FetchType.LAZY)

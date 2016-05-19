@@ -141,7 +141,6 @@ personsEditor.controller('personsEditorController', function($scope, $http, $rou
 
     $scope.update = function () {
         var personToUpdate = buildPerson();
-        alert(JSON.stringify(personToUpdate));
         $http({
             url: '/persons/editor/',
             method: 'PUT',

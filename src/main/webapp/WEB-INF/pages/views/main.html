@@ -9,6 +9,7 @@
     <script src="resources/js/controllers/addressesEditorController.js"></script>
     <script src="resources/js/controllers/personsController.js"></script>
     <script src="resources/js/controllers/personsEditorController.js"></script>
+    <script src="resources/js/controllers/personsPassportController.js"></script>
 
     <script src="resources/js/controllers/testController.js"></script>
     <style>
@@ -47,7 +48,9 @@
 </body>
 <script>
     var app = angular.module('main',
-            ["ngRoute", "owners", "addressesTable", "addressesEditor", "personsTable", "personsEditor", "test"])
+            ["ngRoute",
+                "owners", "addressesTable", "addressesEditor", "personsTable", "personsEditor", "personsPassport",
+                "test"])
             .config(function($routeProvider){
                 $routeProvider
                         .when("/owners", {
@@ -77,6 +80,10 @@
                         .when("/persons/table", {
                             templateUrl:'/partials/personsTable.html',
                             controller:'personsController'
+                        })
+                        .when("/persons/passport", {
+                            templateUrl:'/partials/personsPassport.html',
+                            controller:'personsPassportController'
                         })
                         .when("/test", {
                             templateUrl:'/partials/test.html',

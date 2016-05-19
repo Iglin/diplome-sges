@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.ssk.model.Address;
+import ru.ssk.model.Passport;
 import ru.ssk.model.PhysicalPerson;
 import ru.ssk.repository.AddressRepository;
+import ru.ssk.repository.PassportRepository;
 import ru.ssk.service.PhysicalPersonService;
 
 import java.util.List;
@@ -20,12 +22,11 @@ import java.util.List;
 @RequestMapping("/test")
 public class TestController extends BaseController {
     @Autowired
-    private AddressRepository addressRepository;
+    private PassportRepository passportRepository;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public Address test(){
-        return null;//addressRepository.findByRegionAndCityAndStreetAndBuildingAndApartmentAndIndex(
-             //   "North", "Winterfell", "none", "castle", "1", 12);
+    public Passport test(){
+        return passportRepository.findByPersonId(153);
     }
 }

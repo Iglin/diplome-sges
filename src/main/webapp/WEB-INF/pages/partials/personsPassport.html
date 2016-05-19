@@ -1,0 +1,25 @@
+<div class="container" style="width: 80%">
+    <br>
+    <table>
+        <tr>
+            <th>Номер: </th>
+            <td>{{ passport.passportNumber }}</td>
+        </tr>
+        <tr>
+            <th>Место выдачи: </th>
+            <td>{{ passport.placeOfIssue }}</td>
+        </tr>
+        <tr>
+            <th>Дата выдачи: </th>
+            <td>{{ passport.dateOfIssue }}</td>
+        </tr>
+        <tr>
+            <th>Адрес прописки: </th>
+            <td>{{ passport.registrationAddress.region + ', ' + passport.registrationAddress.city + ', ' +
+                passport.registrationAddress.street + ', ' + passport.registrationAddress.building + ', ' +
+                passport.registrationAddress.apartment + '; Индекс: ' + passport.registrationAddress.index }}</td>
+        </tr>
+    </table>
+    <br>
+    <a href="#/persons/table">Назад</a>
+</div>

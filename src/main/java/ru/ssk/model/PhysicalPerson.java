@@ -64,4 +64,29 @@ public class PhysicalPerson extends Owner implements Serializable {
     public void setPassport(Passport passport) {
         this.passport = passport;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PhysicalPerson person = (PhysicalPerson) o;
+
+        if (!lastName.equals(person.lastName)) return false;
+        if (!firstName.equals(person.firstName)) return false;
+        if (middleName != null ? !middleName.equals(person.middleName) : person.middleName != null) return false;
+        if (!livingAddress.equals(person.livingAddress)) return false;
+        return passport.equals(person.passport);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = lastName.hashCode();
+        result = 31 * result + firstName.hashCode();
+        result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
+        result = 31 * result + livingAddress.hashCode();
+        result = 31 * result + passport.hashCode();
+        return result;
+    }
 }

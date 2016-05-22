@@ -116,4 +116,37 @@ public class Address implements Serializable {
     public String toString() {
         return region + ", " + city + ", " + street + ", " + building + ", " + apartment + "; Индекс: " + index;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Address address = (Address) o;
+
+        if (index != address.index) return false;
+        if (id != null ? !id.equals(address.id) : address.id != null) return false;
+        if (!region.equals(address.region)) return false;
+        if (!city.equals(address.city)) return false;
+        if (!street.equals(address.street)) return false;
+        if (!building.equals(address.building)) return false;
+        if (apartment != null ? !apartment.equals(address.apartment) : address.apartment != null) return false;
+        if (passports != null ? !passports.equals(address.passports) : address.passports != null) return false;
+        return persons != null ? persons.equals(address.persons) : address.persons == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + region.hashCode();
+        result = 31 * result + city.hashCode();
+        result = 31 * result + street.hashCode();
+        result = 31 * result + building.hashCode();
+        result = 31 * result + (apartment != null ? apartment.hashCode() : 0);
+        result = 31 * result + index;
+        result = 31 * result + (passports != null ? passports.hashCode() : 0);
+        result = 31 * result + (persons != null ? persons.hashCode() : 0);
+        return result;
+    }
 }

@@ -77,4 +77,29 @@ public class Passport {
     public void setPhysicalPerson(PhysicalPerson physicalPerson) {
         this.physicalPerson = physicalPerson;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Passport passport = (Passport) o;
+
+        if (!passportNumber.equals(passport.passportNumber)) return false;
+        if (!placeOfIssue.equals(passport.placeOfIssue)) return false;
+        if (!dateOfIssue.equals(passport.dateOfIssue)) return false;
+        if (!registrationAddress.equals(passport.registrationAddress)) return false;
+        return physicalPerson != null ? physicalPerson.equals(passport.physicalPerson) : passport.physicalPerson == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = passportNumber.hashCode();
+        result = 31 * result + placeOfIssue.hashCode();
+        result = 31 * result + dateOfIssue.hashCode();
+        result = 31 * result + registrationAddress.hashCode();
+        result = 31 * result + (physicalPerson != null ? physicalPerson.hashCode() : 0);
+        return result;
+    }
 }

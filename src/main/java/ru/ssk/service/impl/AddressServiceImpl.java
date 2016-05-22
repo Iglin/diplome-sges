@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * Created by user on 15.05.2016.
  */
+@Transactional
 public class AddressServiceImpl implements AddressService {
     @Autowired
     private AddressRepository addressRepository;

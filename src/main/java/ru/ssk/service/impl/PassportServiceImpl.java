@@ -32,9 +32,9 @@ public class PassportServiceImpl implements PassportService {
 
     @Override
     public void delete(Passport passport) {
-        Address address = passport.getRegistrationAddress();
+        //Address address = passport.getRegistrationAddress();
         passportRepository.delete(passport);
-        addressService.deleteIfOrphan(address);
+        //addressService.deleteIfOrphan(address);
     }
 
     @Override

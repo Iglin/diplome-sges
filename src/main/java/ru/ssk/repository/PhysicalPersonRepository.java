@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ssk.model.Address;
 import ru.ssk.model.Passport;
 import ru.ssk.model.PhysicalPerson;
@@ -14,6 +15,7 @@ import java.util.List;
  * Created by root on 18.05.16.
  */
 @Repository
+@Transactional
 public interface PhysicalPersonRepository extends JpaRepository<PhysicalPerson, Long> {
     PhysicalPerson findById(Long id);
     PhysicalPerson findByPersonalAccount(Long personalAccount);

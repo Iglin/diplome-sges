@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public interface PhysicalPersonService {
     PhysicalPerson save(PhysicalPerson owner);
-    void delete(long id);
+    boolean delete(long id);
     void delete(PhysicalPerson owner);
     void deleteWithIds(List<Long> ids);
     PhysicalPerson findById(long id);

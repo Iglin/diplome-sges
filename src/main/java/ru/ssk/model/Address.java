@@ -30,10 +30,10 @@ public class Address implements Serializable {
     @Column(name = "index", nullable = false, unique = false)
     private int index;
 
-    @OneToMany(mappedBy = "registrationAddress", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "registrationAddress", fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })
     @JsonIgnore
     private Set<Passport> passports;
-    @OneToMany(mappedBy = "livingAddress", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "livingAddress", fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })
     @JsonIgnore
     private Set<PhysicalPerson> persons;
 

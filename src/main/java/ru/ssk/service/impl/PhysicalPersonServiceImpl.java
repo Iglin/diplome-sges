@@ -20,10 +20,12 @@ import java.util.List;
 /**
  * Created by root on 18.05.16.
  */
-//@Transactional
+@Transactional
 public class PhysicalPersonServiceImpl implements PhysicalPersonService {
     @Autowired
     private PhysicalPersonRepository personRepository;
+    @Autowired
+    private PassportRepository passportRepository;
     @Autowired
     private AddressService addressService;
     @Autowired
@@ -32,8 +34,8 @@ public class PhysicalPersonServiceImpl implements PhysicalPersonService {
     @Override
     public PhysicalPerson save(PhysicalPerson owner) {
         try {
-            addressService.save(owner.getPassport().getRegistrationAddress());
-            addressService.save(owner.getLivingAddress());
+         //   addressService.save(owner.getPassport().getRegistrationAddress());
+           // addressService.save(owner.getLivingAddress());
             return personRepository.saveAndFlush(owner);
         } catch (DataIntegrityViolationException e) {
             throw new UniqueViolationException("Нарушено ограничение при добавлении записи в базу.");
@@ -58,9 +60,10 @@ public class PhysicalPersonServiceImpl implements PhysicalPersonService {
     }
 
     @Override
-    public void delete(long id) {
+    public boolean delete(long id) {
         personRepository.delete(id);
         personRepository.flush();
+        return true;
     }
 
     @Override
@@ -77,18 +80,16 @@ public class PhysicalPersonServiceImpl implements PhysicalPersonService {
     @Override
     public void deleteWithIds(List<Long> ids) {
         ids.forEach(id -> {
-            PhysicalPerson person = personRepository.findById(id);
+            delete(id);
+           /* PhysicalPerson person = personRepository.findById(id);
             Address livingAddress = person.getLivingAddress();
-        //    Passport passport = person.getPassport();
             Address registrationAddress = person.getPassport().getRegistrationAddress();
-            personRepository.delete(id);
-            personRepository.flush();
-            addressService.deleteIfOrphan(livingAddress);
-            addressService.deleteIfOrphan(registrationAddress);
-           // passportService.delete(passport);
+            if (delete(id)) {
+                passportRepository.flush();
+                addressService.deleteIfOrphan(livingAddress);
+                addressService.deleteIfOrphan(registrationAddress);
+            }*/
         });
-       // passportService.deleteWithOwnersIds(ids);
-       // personRepository.deleteWithIds(ids);
     }
 
     @Override

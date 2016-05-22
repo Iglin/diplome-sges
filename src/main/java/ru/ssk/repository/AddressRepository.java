@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ssk.model.Address;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * Created by user on 15.05.2016.
  */
 @Repository
+@Transactional
 public interface AddressRepository extends JpaRepository<Address, Long>, JpaSpecificationExecutor {
     List<Address> findByRegion(String region);
     List<Address> findByCity(String city);

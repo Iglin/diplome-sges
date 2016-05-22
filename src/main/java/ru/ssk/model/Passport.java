@@ -18,7 +18,7 @@ public class Passport {
     private String placeOfIssue;
     @Column(name = "issued_date", nullable = false)
     private Date dateOfIssue;
-    @ManyToOne(//cascade = { CascadeType.MERGE, CascadeType.PERSIST },
+    @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST },
             fetch = FetchType.EAGER)
     @JoinColumn(name = "registration", nullable = false)
     private Address registrationAddress;

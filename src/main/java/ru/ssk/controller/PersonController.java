@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import ru.ssk.exception.MultipleRepresentationsException;
+import ru.ssk.model.Address;
 import ru.ssk.model.Passport;
 import ru.ssk.model.PhysicalPerson;
+import ru.ssk.service.AddressService;
 import ru.ssk.service.OwnerService;
 import ru.ssk.service.PassportService;
 import ru.ssk.service.PhysicalPersonService;
@@ -26,6 +29,8 @@ public class PersonController extends BaseController {
     private PhysicalPersonService personService;
     @Autowired
     private PassportService passportService;
+    @Autowired
+    private AddressService addressService;
 
     @RequestMapping(value = "/table/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
@@ -67,6 +72,12 @@ public class PersonController extends BaseController {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         PhysicalPerson physicalPerson = gson.fromJson(person, PhysicalPerson.class);
         physicalPerson.setId(id);
+      //  synchronizeAddressesSession(physicalPerson);
+        Address livingAddress = physicalPerson.getLivingAddress();
+        Address registrationAddress = physicalPerson.getPassport().getRegistrationAddress();
+        if (livingAddress.getId().equals(registrationAddress.getId()) && !livingAddress.equals(registrationAddress)) {
+            throw new MultipleRepresentationsException("Невозможно одновременно использовать модифицированную запись об адресе и её старую версию.");
+        }
         personService.save(physicalPerson);
         return new Gson().toJson("Запись успешно обновлена.");
     }
@@ -76,7 +87,19 @@ public class PersonController extends BaseController {
     public String add(@RequestParam(value = "person") String person) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         PhysicalPerson physicalPerson = gson.fromJson(person, PhysicalPerson.class);
+        synchronizeAddressesSession(physicalPerson);
         personService.save(physicalPerson);
         return new Gson().toJson("Данные о физ. лице успешно сохранены в базе.");
+    }
+
+    private void synchronizeAddressesSession(PhysicalPerson physicalPerson) {
+        Long addressId = physicalPerson.getLivingAddress().getId();
+        if (addressId != null) {
+            physicalPerson.setLivingAddress(addressService.findById(addressId));
+        }
+        addressId = physicalPerson.getPassport().getRegistrationAddress().getId();
+        if (addressId != null) {
+            physicalPerson.getPassport().setRegistrationAddress(addressService.findById(addressId));
+        }
     }
 }

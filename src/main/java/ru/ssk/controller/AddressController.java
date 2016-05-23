@@ -19,7 +19,7 @@ import java.util.List;
 @Transactional
 public class AddressController extends BaseController {
     @Autowired
-    AddressService addressService;
+    private AddressService addressService;
 
     @RequestMapping(value = "/table/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
@@ -52,7 +52,7 @@ public class AddressController extends BaseController {
                          @RequestParam(value = "city") String city,
                          @RequestParam(value = "street") String street,
                          @RequestParam(value = "building") String building,
-                         @RequestParam(value = "apartment") String apartment,
+                         @RequestParam(value = "apartment", required = false) String apartment,
                          @RequestParam(value = "index") int index){
         Address address = addressService.findById(id);
         address.setRegion(region);
@@ -71,7 +71,7 @@ public class AddressController extends BaseController {
                       @RequestParam(value = "city") String city,
                       @RequestParam(value = "street") String street,
                       @RequestParam(value = "building") String building,
-                      @RequestParam(value = "apartment") String apartment,
+                      @RequestParam(value = "apartment", required = false) String apartment,
                       @RequestParam(value = "index") int index){
         Address address = new Address();
         address.setRegion(region);

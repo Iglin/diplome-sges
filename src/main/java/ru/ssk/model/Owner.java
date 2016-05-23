@@ -7,6 +7,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "owner")//, uniqueConstraints = @UniqueConstraint(columnNames = { "phone", "e_mail", "personal_acc"}))
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class Owner {
     @Id
     @SequenceGenerator(name = "owner_seq", sequenceName = "owner_id_seq")

@@ -66,7 +66,6 @@ public class PhysicalPersonServiceImpl implements PhysicalPersonService {
         personRepository.delete(id);
         personRepository.flush();
         passportRepository.flush();
-       // transactionManager.getTransaction(new DefaultTransactionDefinition()).flush();
     }
 
     @Override

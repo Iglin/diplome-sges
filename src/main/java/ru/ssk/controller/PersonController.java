@@ -72,14 +72,24 @@ public class PersonController extends BaseController {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         PhysicalPerson physicalPerson = gson.fromJson(person, PhysicalPerson.class);
         physicalPerson.setId(id);
-      //  synchronizeAddressesSession(physicalPerson);
         Address livingAddress = physicalPerson.getLivingAddress();
         Address registrationAddress = physicalPerson.getPassport().getRegistrationAddress();
-        System.out.println(physicalPerson.toString());
-        System.out.println(physicalPerson.getPassport().toString());
-        if (livingAddress.getId() != null && registrationAddress.getId() != null &&
-                livingAddress.getId().equals(registrationAddress.getId()) && !livingAddress.equals(registrationAddress)) {
-            throw new MultipleRepresentationsException("Невозможно одновременно использовать модифицированную запись об адресе и её старую версию.");
+        if (livingAddress.getId() != null && registrationAddress.getId() != null && livingAddress.getId().equals(registrationAddress.getId())) {
+            if (!livingAddress.equals(registrationAddress)) {
+                throw new MultipleRepresentationsException("Невозможно одновременно использовать модифицированную запись об адресе и её старую версию.");
+            } else {
+                Address newSessionAddress = addressService.findById(livingAddress.getId());
+          //      if (!newSessionAddress.equals(livingAddress)) {
+                    newSessionAddress.setIndex(livingAddress.getIndex());
+                    newSessionAddress.setRegion(livingAddress.getRegion());
+                    newSessionAddress.setCity(livingAddress.getCity());
+                    newSessionAddress.setStreet(livingAddress.getStreet());
+                    newSessionAddress.setBuilding(livingAddress.getBuilding());
+                    newSessionAddress.setApartment(livingAddress.getApartment());
+                    physicalPerson.setLivingAddress(newSessionAddress);
+                    physicalPerson.getPassport().setRegistrationAddress(newSessionAddress);
+               // }
+            }
         }
         personService.save(physicalPerson);
         return new Gson().toJson("Запись успешно обновлена.");

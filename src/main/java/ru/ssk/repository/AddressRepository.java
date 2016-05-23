@@ -34,6 +34,8 @@ public interface AddressRepository extends JpaRepository<Address, Long>, JpaSpec
     void deleteAddressesWithIds(List<Long> ids);
 
     @Modifying
-    @Query("DELETE FROM Address a WHERE NOT a.id IN (SELECT p.registrationAddress FROM Passport p) AND NOT a.id IN (SELECT o.livingAddress FROM Owner o)")
+    @Query("DELETE FROM Address a WHERE NOT a.id IN (SELECT p.registrationAddress FROM Passport p) " +
+            "AND NOT a.id IN (SELECT o.livingAddress FROM PhysicalPerson o)" +
+            "AND NOT a.id IN (SELECT l.address FROM LegalEntity l)")
     void deleteOrphans();
 }

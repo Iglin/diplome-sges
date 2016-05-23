@@ -36,6 +36,9 @@ public class Address implements Serializable {
     @OneToMany(mappedBy = "livingAddress", fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })
     @JsonIgnore
     private Set<PhysicalPerson> persons;
+    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })
+    @JsonIgnore
+    private Set<LegalEntity> legalEntities;
 
     public Address() {
     }
@@ -110,6 +113,14 @@ public class Address implements Serializable {
 
     public void setPersons(Set<PhysicalPerson> persons) {
         this.persons = persons;
+    }
+
+    public Set<LegalEntity> getLegalEntities() {
+        return legalEntities;
+    }
+
+    public void setLegalEntities(Set<LegalEntity> legalEntities) {
+        this.legalEntities = legalEntities;
     }
 
     @Override

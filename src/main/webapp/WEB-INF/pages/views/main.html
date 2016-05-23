@@ -10,6 +10,8 @@
     <script src="resources/js/controllers/personsController.js"></script>
     <script src="resources/js/controllers/personsEditorController.js"></script>
     <script src="resources/js/controllers/personsPassportController.js"></script>
+    <script src="resources/js/controllers/entitiesController.js"></script>
+    <script src="resources/js/controllers/entitiesEditorController.js"></script>
 
     <script src="resources/js/controllers/testController.js"></script>
     <style>
@@ -34,6 +36,7 @@
                 <div class="col-md-3">
                     <a href="#/owners">Собственники</a>
                     <a href="#/persons/table">Физические лица</a>
+                    <a href="#/entities/table">Юридические лица</a>
                     <a href="#/addresses/table">Адреса</a>
                     <a href="#/test">Test</a>
                     <a href="/logout">Выйти</a>
@@ -50,6 +53,7 @@
     var app = angular.module('main',
             ["ngRoute",
                 "owners", "addressesTable", "addressesEditor", "personsTable", "personsEditor", "personsPassport",
+                "entitiesTable", "entitiesEditor",
                 "test"])
             .config(function($routeProvider){
                 $routeProvider
@@ -84,6 +88,18 @@
                         .when("/persons/passport", {
                             templateUrl:'/partials/personsPassport.html',
                             controller:'personsPassportController'
+                        })
+                        .when("/entities/editor", {
+                            templateUrl:'/partials/entitiesEditor.html',
+                            controller:'entitiesEditorController'
+                        })
+                        .when("/entities/editor/edit", {
+                            templateUrl:'/partials/entitiesEditor.html',
+                            controller:'entitiesEditorController'
+                        })
+                        .when("/entities/table", {
+                            templateUrl:'/partials/entitiesTable.html',
+                            controller:'entitiesController'
                         })
                         .when("/test", {
                             templateUrl:'/partials/test.html',

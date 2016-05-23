@@ -1,0 +1,31 @@
+<div class="container" style="width: 80%">
+    <br>
+    <a href="#/entities/editor">Добавить новое юр. лицо</a>
+    <button type="button" ng-click="delete()">Удалить отмеченные записи</button>
+    <br>
+    <table>
+        <tr>
+            <th></th><th>Название</th><th>ОГРН</th><th>ИНН</th><th>КПП</th><th>Адрес</th><th>Телефон</th><th>E-mail</th>
+            <th>Номер счёта</th><th>Дата регистрации</th><th>Редактирование</th>
+        </tr>
+        <tr ng-repeat="x in entities">
+            <td>
+                <label><input class="checkbox_delete" type="checkbox" id="{{ x.id }}"></label>
+            </td>
+            <td>{{ x.name }}</td>
+            <td>{{ x.ogrn }}</td>
+            <td>{{ x.inn }}</td>
+            <td>{{ x.kpp }}</td>
+            <td>{{ x.address.region + ', ' + x.address.city + ', ' +
+                x.address.street + ', ' + x.address.building + ', ' +
+                x.address.apartment + '; Индекс: ' + x.address.index }}</td>
+            <td>{{ x.phone }}</td>
+            <td>{{ x.email }}</td>
+            <td>{{ x.personalAccount }}</td>
+            <td>{{ x.registrationDate }}</td>
+            <td>
+                <a href="#/entities/editor/edit/?id={{ x.id }}">Изменить</a>
+            </td>
+        </tr>
+    </table>
+</div>

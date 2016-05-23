@@ -26,9 +26,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery(
-                        "SELECT login, password, true FROM \"user\" WHERE login=?")
+                        "SELECT login, password, true FROM \"sys_user\" WHERE login=?")
                 .authoritiesByUsernameQuery(
-                        "SELECT login, role FROM \"user\" WHERE login=?");
+                        "SELECT login, role FROM \"sys_user\" WHERE login=?");
     }
 
     @Override

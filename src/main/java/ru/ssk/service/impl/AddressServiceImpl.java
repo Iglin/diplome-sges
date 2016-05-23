@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by user on 15.05.2016.
  */
-@Transactional
+//@Transactional
 public class AddressServiceImpl implements AddressService {
     @Autowired
     private AddressRepository addressRepository;
@@ -51,7 +51,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public void deleteIfOrphan(Address address) {
         address = addressRepository.findOne(address.getId());
-        if (address != null && address.getPersons().isEmpty() && address.getPassports().isEmpty()) {
+        if (address != null && address.getPersons().isEmpty() && address.getPassports().isEmpty() && address.getLegalEntities().isEmpty()) {
             addressRepository.delete(address);
             addressRepository.flush();
         }

@@ -14,4 +14,5 @@ public interface PassportService {
     List<Passport> findByPersonsIds(List<Long> ids);
     void delete(Passport passport);
     void deleteWithOwnersIds(List<Long> ids);
+    void deleteOrphans();
 }

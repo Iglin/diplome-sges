@@ -3,7 +3,10 @@ package ru.ssk.service.impl;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import ru.ssk.exception.UniqueViolationException;
 import ru.ssk.model.Address;
 import ru.ssk.model.Passport;
@@ -20,7 +23,7 @@ import java.util.List;
 /**
  * Created by root on 18.05.16.
  */
-@Transactional
+
 public class PhysicalPersonServiceImpl implements PhysicalPersonService {
     @Autowired
     private PhysicalPersonRepository personRepository;
@@ -32,10 +35,9 @@ public class PhysicalPersonServiceImpl implements PhysicalPersonService {
     private PassportService passportService;
 
     @Override
+    @Transactional
     public PhysicalPerson save(PhysicalPerson owner) {
         try {
-         //   addressService.save(owner.getPassport().getRegistrationAddress());
-           // addressService.save(owner.getLivingAddress());
             return personRepository.saveAndFlush(owner);
         } catch (DataIntegrityViolationException e) {
             throw new UniqueViolationException("Нарушено ограничение при добавлении записи в базу.");
@@ -60,36 +62,36 @@ public class PhysicalPersonServiceImpl implements PhysicalPersonService {
     }
 
     @Override
-    public boolean delete(long id) {
+    public void delete(long id) {
         personRepository.delete(id);
         personRepository.flush();
-        return true;
+        passportRepository.flush();
+       // transactionManager.getTransaction(new DefaultTransactionDefinition()).flush();
     }
 
     @Override
     public void delete(PhysicalPerson owner) {
         personRepository.delete(owner);
         personRepository.flush();
+        passportRepository.flush();
     }
 
-    /*
-    *
-    *   Needs to be batch!
-    *
-    * */
     @Override
     public void deleteWithIds(List<Long> ids) {
-        ids.forEach(id -> {
-            delete(id);
-           /* PhysicalPerson person = personRepository.findById(id);
+        personRepository.deleteWithIds(ids);
+        personRepository.flush();
+        passportService.deleteOrphans();
+        addressService.deleteOrphans();
+      /*  ids.forEach(id -> {
+            System.out.println("ID : " + id);
+            PhysicalPerson person = personRepository.findById(id);
             Address livingAddress = person.getLivingAddress();
             Address registrationAddress = person.getPassport().getRegistrationAddress();
-            if (delete(id)) {
-                passportRepository.flush();
-                addressService.deleteIfOrphan(livingAddress);
-                addressService.deleteIfOrphan(registrationAddress);
-            }*/
-        });
+            delete(person);
+            addressService.deleteIfOrphan(livingAddress);
+            addressService.deleteIfOrphan(registrationAddress);
+            System.out.println("FINISHED : " + id);
+        });*/
     }
 
     @Override

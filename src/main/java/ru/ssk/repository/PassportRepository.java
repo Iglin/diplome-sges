@@ -26,4 +26,8 @@ public interface PassportRepository extends JpaRepository<Passport, Long>, JpaSp
     @Modifying
     @Query("DELETE FROM Passport p WHERE p.physicalPerson.id in ?1")
     void deleteWithOwnersIds(@Param("ids") List<Long> ids);
+
+    @Modifying
+    @Query("DELETE FROM Passport p WHERE NOT p.passportNumber IN (SELECT o.passport FROM Owner o)")
+    void deleteOrphans();
 }

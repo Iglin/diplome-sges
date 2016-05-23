@@ -66,6 +66,7 @@ public class LegalEntityController extends BaseController {
     public String add(@RequestParam(value = "entity") String entity) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         LegalEntity legalEntity = gson.fromJson(entity, LegalEntity.class);
+        System.out.println(legalEntity.toString());
         synchronizeAddressSession(legalEntity);
         legalEntityService.save(legalEntity);
         return new Gson().toJson("Данные о юр. лице успешно сохранены в базе.");

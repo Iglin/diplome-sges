@@ -26,57 +26,6 @@ entitiesEditor.controller('entitiesEditorController', function($scope, $http, $r
     }        
   //  });
 
-    function buildEntity() {
-        var livingAddr = {};
-        if ($scope.newLivingAddress || $scope.editLivingAddress) {
-            livingAddr = {
-                region: $scope.regionLiv,
-                city: $scope.cityLiv,
-                street: $scope.streetLiv,
-                building: $scope.buildingLiv,
-                apartment: $scope.apartmentLiv,
-                index: $scope.indexLiv
-            };
-        } else {
-            livingAddr = JSON.parse($scope.livingAddress);
-        }
-
-        var registrationAddr = {};
-        if ($scope.newRegistrationAddress || $scope.editRegistrationAddress) {
-            registrationAddr = {
-                region: $scope.regionReg,
-                city: $scope.cityReg,
-                street: $scope.streetReg,
-                building: $scope.buildingReg,
-                apartment: $scope.apartmentReg,
-                index: $scope.indexReg
-            };
-        } else {
-            registrationAddr = JSON.parse($scope.registrationAddress);
-        }
-
-        if ($scope.isUpdate) {
-            if ($scope.editLivingAddress) {
-                livingAddr.id = $scope.addressIdFromReq;
-            }
-        }
-        var passportData = {
-            passportNumber: $scope.passportNumber,
-            placeOfIssue: $scope.placeOfIssue,
-            dateOfIssue: $scope.dateOfIssue,
-            registrationAddress: registrationAddr
-        };
-        return {
-            lastName: $scope.lastName,
-            firstName: $scope.firstName,
-            middleName: $scope.middleName,
-            phone: $scope.phone,
-            email: $scope.email,
-            personalAccount: $scope.personalAccount,
-            livingAddress: livingAddr,
-            passport: passportData
-        };
-    }
 
     function loadAddresses() {
         if ($scope.addresses == null) {
@@ -106,9 +55,18 @@ entitiesEditor.controller('entitiesEditorController', function($scope, $http, $r
         $scope.newAddress = false;
         $scope.editAddress = true;
     };
+    
+    function prepareToSend() {
+        $scope.needToReadAddress = false;
+        if ($scope.newAddress) {
+            $scope.entity.address.id = null;
+        } else if (!$scope.editAddress) {
+            $scope.entity.address = $scope.addresses[$scope.addressId];
+        }
+    }
 
     $scope.add = function () {
-        if ($scope.newAddress) { $scope.entity.address.id = null; }
+        prepareToSend();
         $http({
             url: '/entities/editor/',
             method: 'POST',
@@ -123,14 +81,11 @@ entitiesEditor.controller('entitiesEditorController', function($scope, $http, $r
     };
 
     $scope.update = function () {
-        if ($scope.newAddress) {
-            $scope.entity.address.id = null;
-        }
+        prepareToSend();
         $http({
             url: '/entities/editor/',
             method: 'PUT',
             params: {
-              //  id: $scope.entity.id,
                 entity: $scope.entity
             }
         }).then(function (response) {

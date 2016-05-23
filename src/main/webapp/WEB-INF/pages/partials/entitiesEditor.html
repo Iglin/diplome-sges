@@ -120,8 +120,8 @@
             </td>
         </tr>
     </table>
-    <select ng-model="entity.address" ng-hide="newAddress || editAddress">
-        <option ng-repeat="x in addresses" value="{{ x }}">
+    <select ng-model="addressId" ng-hide="newAddress || editAddress">
+        <option ng-repeat="x in addresses track by $index" value="{{ $index }}">
             {{ x.region + ', ' + x.city + ', ' +
             x.street + ', ' + x.building + ', ' +
             x.apartment + '; Индекс: ' + x.index }}

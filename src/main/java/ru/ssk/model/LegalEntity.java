@@ -1,7 +1,7 @@
 package ru.ssk.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Created by user on 23.05.2016.
@@ -74,6 +74,18 @@ public class LegalEntity extends Owner {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "LegalEntity{" +
+                "ogrn='" + ogrn + '\'' +
+                ", name='" + name + '\'' +
+                ", inn='" + inn + '\'' +
+                ", kpp='" + kpp + '\'' +
+                ", registrationDate=" + registrationDate +
+                ", address=" + address +
+                '}';
     }
 
     @Override

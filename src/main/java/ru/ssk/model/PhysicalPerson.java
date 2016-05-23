@@ -82,11 +82,11 @@ public class PhysicalPerson extends Owner implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = lastName.hashCode();
-        result = 31 * result + firstName.hashCode();
+        int result = lastName != null ? lastName.hashCode() : 0;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
-        result = 31 * result + livingAddress.hashCode();
-        result = 31 * result + passport.hashCode();
+        result = 31 * result + (livingAddress != null ? livingAddress.hashCode() : 0);
+        result = 31 * result + (passport != null ? passport.hashCode() : 0);
         return result;
     }
 }

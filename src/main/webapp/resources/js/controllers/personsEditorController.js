@@ -4,8 +4,6 @@
 var personsEditor = angular.module("personsEditor", []);
 personsEditor.controller('personsEditorController', function($scope, $http, $routeParams) {
     angular.element(document).ready(function () {
-        $scope.needRegistrationAddress = true;
-        $scope.needLivingAddress = true;
 
         if ($routeParams['id'] != null && $routeParams['id'].trim() != '') {
             $http({
@@ -41,14 +39,23 @@ personsEditor.controller('personsEditorController', function($scope, $http, $rou
                 alert(JSON.stringify(response));
             });
             $scope.isUpdate = true;
+            $scope.newRegistrationAddress = false;
+            $scope.editRegistrationAddress = true;
+            $scope.newLivingAddress = false;
+            $scope.editLivingAddress = true;
         } else {
             $scope.isUpdate = false;
+            $scope.newRegistrationAddress = false;
+            $scope.editRegistrationAddress = false;
+            $scope.newLivingAddress = false;
+            $scope.editLivingAddress = false;
+            loadAddresses();
         }
     });
 
     function buildPerson() {
         var livingAddr = {};
-        if ($scope.needLivingAddress) {
+        if ($scope.newLivingAddress || $scope.editLivingAddress) {
             livingAddr = {
                 region: $scope.regionLiv,
                 city: $scope.cityLiv,
@@ -62,7 +69,7 @@ personsEditor.controller('personsEditorController', function($scope, $http, $rou
         }
 
         var registrationAddr = {};
-        if ($scope.needRegistrationAddress) {
+        if ($scope.newRegistrationAddress || $scope.editRegistrationAddress) {
             registrationAddr = {
                 region: $scope.regionReg,
                 city: $scope.cityReg,
@@ -76,10 +83,10 @@ personsEditor.controller('personsEditorController', function($scope, $http, $rou
         }
 
         if ($scope.isUpdate) {
-            if ($scope.needRegistrationAddress) {
+            if ($scope.editRegistrationAddress) {
                 registrationAddr.id = $scope.person.passport.registrationAddress.id;
             }
-            if ($scope.needLivingAddress) {
+            if ($scope.editLivingAddress) {
                 livingAddr.id = $scope.person.livingAddress.id;
             }
         }
@@ -113,15 +120,37 @@ personsEditor.controller('personsEditorController', function($scope, $http, $rou
             });
         }
     }
-    
-    $scope.changeNeedRegistrationAddressFlag = function () {
+
+    $scope.pickLivingAddressFromDB = function () {
         loadAddresses();
-        $scope.needRegistrationAddress = !$scope.needRegistrationAddress;
+        $scope.newLivingAddress = false;
+        $scope.editLivingAddress = false;
+    };
+
+    $scope.setNewLivingAddress = function () {
+        $scope.newLivingAddress = true;
+        $scope.editLivingAddress = false;
+    };
+
+    $scope.setEditLivingAddress = function () {
+        $scope.newLivingAddress = false;
+        $scope.editLivingAddress = true;
+    };
+
+    $scope.pickRegistrationAddressFromDB = function () {
+        loadAddresses();
+        $scope.newRegistrationAddress = false;
+        $scope.editRegistrationAddress = false;
     };
     
-    $scope.changeNeedLivingAddressFlag = function () {
-        loadAddresses();
-        $scope.needLivingAddress = !$scope.needLivingAddress;
+    $scope.setNewRegistrationAddress = function () {
+        $scope.newRegistrationAddress = true;
+        $scope.editRegistrationAddress = false;
+    };
+
+    $scope.setEditRegistrationAddress = function () {
+        $scope.newRegistrationAddress = false;
+        $scope.editRegistrationAddress = true;
     };
 
     $scope.add = function () {

@@ -75,7 +75,10 @@ public class PersonController extends BaseController {
       //  synchronizeAddressesSession(physicalPerson);
         Address livingAddress = physicalPerson.getLivingAddress();
         Address registrationAddress = physicalPerson.getPassport().getRegistrationAddress();
-        if (livingAddress.getId().equals(registrationAddress.getId()) && !livingAddress.equals(registrationAddress)) {
+        System.out.println(physicalPerson.toString());
+        System.out.println(physicalPerson.getPassport().toString());
+        if (livingAddress.getId() != null && registrationAddress.getId() != null &&
+                livingAddress.getId().equals(registrationAddress.getId()) && !livingAddress.equals(registrationAddress)) {
             throw new MultipleRepresentationsException("Невозможно одновременно использовать модифицированную запись об адресе и её старую версию.");
         }
         personService.save(physicalPerson);

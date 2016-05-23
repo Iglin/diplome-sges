@@ -85,21 +85,22 @@ public class Passport {
 
         Passport passport = (Passport) o;
 
-        if (!passportNumber.equals(passport.passportNumber)) return false;
-        if (!placeOfIssue.equals(passport.placeOfIssue)) return false;
-        if (!dateOfIssue.equals(passport.dateOfIssue)) return false;
-        if (!registrationAddress.equals(passport.registrationAddress)) return false;
-        return physicalPerson != null ? physicalPerson.equals(passport.physicalPerson) : passport.physicalPerson == null;
+        if (passportNumber != null ? !passportNumber.equals(passport.passportNumber) : passport.passportNumber != null)
+            return false;
+        if (placeOfIssue != null ? !placeOfIssue.equals(passport.placeOfIssue) : passport.placeOfIssue != null)
+            return false;
+        if (dateOfIssue != null ? !dateOfIssue.equals(passport.dateOfIssue) : passport.dateOfIssue != null)
+            return false;
+        return registrationAddress != null ? registrationAddress.equals(passport.registrationAddress) : passport.registrationAddress == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = passportNumber.hashCode();
-        result = 31 * result + placeOfIssue.hashCode();
-        result = 31 * result + dateOfIssue.hashCode();
-        result = 31 * result + registrationAddress.hashCode();
-        result = 31 * result + (physicalPerson != null ? physicalPerson.hashCode() : 0);
+        int result = passportNumber != null ? passportNumber.hashCode() : 0;
+        result = 31 * result + (placeOfIssue != null ? placeOfIssue.hashCode() : 0);
+        result = 31 * result + (dateOfIssue != null ? dateOfIssue.hashCode() : 0);
+        result = 31 * result + (registrationAddress != null ? registrationAddress.hashCode() : 0);
         return result;
     }
 }

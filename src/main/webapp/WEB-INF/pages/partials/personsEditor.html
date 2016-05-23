@@ -75,9 +75,10 @@
     </table>
 
     <h2>Адрес прописки: </h2>
-    <button type="button" ng-show="needRegistrationAddress" ng-click="changeNeedRegistrationAddressFlag()">Выбрать адрес из базы</button>
-    <button type="button" ng-hide="needRegistrationAddress" ng-click="changeNeedRegistrationAddressFlag()">Зарегестрировать новый адрес</button>
-    <table ng-show="needRegistrationAddress">
+    <button type="button" ng-show="newRegistrationAddress || editRegistrationAddress" ng-click="pickRegistrationAddressFromDB()">Выбрать адрес из базы</button>
+    <button type="button" ng-show="!editRegistrationAddress && isUpdate" ng-click="setEditRegistrationAddress()">Редактировать привязанный адрес</button>
+    <button type="button" ng-hide="newRegistrationAddress" ng-click="setNewRegistrationAddress()">Зарегестрировать новый адрес</button>
+    <table ng-show="newRegistrationAddress || editRegistrationAddress">
         <tr>
             <td>
                 <span>Регион: </span>
@@ -127,7 +128,7 @@
             </td>
         </tr>
     </table>
-    <select ng-model="registrationAddress" ng-hide="needRegistrationAddress">
+    <select ng-model="registrationAddress" ng-hide="newRegistrationAddress || editRegistrationAddress">
         <option ng-repeat="a in addresses" value="{{ a }}">
             {{ a.region + ', ' + a.city + ', ' +
             a.street + ', ' + a.building + ', ' +
@@ -136,9 +137,10 @@
     </select>
 
     <h2>Адрес фактического проживания: </h2>
-    <button type="button" ng-show="needLivingAddress" ng-click="changeNeedLivingAddressFlag()">Выбрать адрес из базы</button>
-    <button type="button" ng-hide="needLivingAddress" ng-click="changeNeedLivingAddressFlag()">Зарегестрировать новый адрес</button>
-    <table ng-show="needLivingAddress">
+    <button type="button" ng-show="newLivingAddress || editLivingAddress" ng-click="pickLivingAddressFromDB()">Выбрать адрес из базы</button>
+    <button type="button" ng-show="!editLivingAddress && isUpdate" ng-click="setEditLivingAddress()">Редактировать привязанный адрес</button>
+    <button type="button" ng-hide="newLivingAddress" ng-click="setNewLivingAddress()">Зарегестрировать новый адрес</button>
+    <table ng-show="newLivingAddress || editLivingAddress">
         <tr>
             <td>
                 <span>Регион: </span>
@@ -188,7 +190,7 @@
             </td>
         </tr>
     </table>
-    <select ng-model="livingAddress" ng-hide="needLivingAddress">
+    <select ng-model="livingAddress" ng-hide="newLivingAddress || editLivingAddress">
         <option ng-repeat="x in addresses" value="{{ x }}">
             {{ x.region + ', ' + x.city + ', ' +
             x.street + ', ' + x.building + ', ' +

@@ -1,14 +1,17 @@
-<div class="container" style="width: 80%">
+<div class="container">
     <br>
-    <a href="#/persons/editor">Добавить новое физ. лицо</a>
-    <button type="button" ng-click="delete()">Удалить отмеченные записи</button>
+    <a class="btn-primary btn" href="#/persons/editor">Добавить новое физ. лицо</a>
+    <button class="btn-danger btn" type="button" ng-click="delete()">Удалить отмеченные записи</button>
     <br>
-    <table>
+    <table class="table table-hover">
+        <thead>
         <tr>
             <th></th><th>Фамилия</th><th>Имя</th><th>Отчество</th><th>Телефон</th><th>E-mail</th><th>Номер счёта</th>
             <th>Адрес</th><th>Паспортные данные</th>
             <th>Редактирование</th>
         </tr>
+        </thead>
+        <tbody>
         <tr ng-repeat="x in persons">
             <td>
                 <label><input class="checkbox_delete" type="checkbox" id="{{ x.id }}"></label>
@@ -27,5 +30,6 @@
                 <a href="#/persons/editor/edit/?id={{ x.id }}">Изменить</a>
             </td>
         </tr>
+        </tbody>
     </table>
 </div>

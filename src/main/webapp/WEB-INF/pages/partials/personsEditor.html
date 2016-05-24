@@ -1,204 +1,212 @@
-<div class="container" style="width: 80%">
-    <table>
-        <tr>
-            <td>
-                <span>Фамилия: </span>
-            </td>
-            <td>
-                <input class="form-control" type="text" required ng-model="lastName" placeholder="Введите фамилию">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Имя: </span>
-            </td>
-            <td>
-                <input class="form-control" type="text" required ng-model="firstName" placeholder="Введите имя">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Отчество: </span>
-            </td>
-            <td>
-                <input class="form-control" type="text" ng-model="middleName" placeholder="Введите отчество">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Телефон: </span>
-            </td>
-            <td>
-                <input class="form-control" type="tel" required ng-model="phone" placeholder="Введите номер телефона">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>E-mail: </span>
-            </td>
-            <td>
-                <input class="form-control" type="email" required ng-model="email" placeholder="Введите e-mail адрес">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Персональный счёт: </span>
-            </td>
-            <td>
-                <input class="form-control" type="text" required ng-model="personalAccount" placeholder="Введите номер счёта">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Номер паспорта: </span>
-            </td>
-            <td>
-                <input class="form-control" type="text" required ng-model="passportNumber" placeholder="Введите номер паспорта">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Место выдачи паспорта: </span>
-            </td>
-            <td>
-                <input class="form-control" type="text" required ng-model="placeOfIssue" placeholder="например, УФМС России...">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Дата выдачи паспорта: </span>
-            </td>
-            <td>
-                <label><input class="form-control" type="date" required ng-model="dateOfIssue"></label>
-            </td>
-        </tr>
-    </table>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <table>
+                <tr>
+                    <td>
+                        <span>Фамилия: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="lastName" placeholder="Введите фамилию">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Имя: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="firstName" placeholder="Введите имя">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Отчество: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" ng-model="middleName" placeholder="Введите отчество">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Телефон: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="tel" required ng-model="phone" placeholder="Введите номер телефона">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>E-mail: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="email" required ng-model="email" placeholder="Введите e-mail адрес">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Персональный счёт: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="personalAccount" placeholder="Введите номер счёта">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Номер паспорта: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="passportNumber" placeholder="Введите номер паспорта">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Место выдачи паспорта: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="placeOfIssue" placeholder="например, УФМС России...">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Дата выдачи паспорта: </span>
+                    </td>
+                    <td>
+                        <label><input class="form-control" type="date" required ng-model="dateOfIssue"></label>
+                    </td>
+                </tr>
+            </table>
 
-    <h2>Адрес прописки: </h2>
-    <button type="button" ng-show="newRegistrationAddress || editRegistrationAddress" ng-click="pickRegistrationAddressFromDB()">Выбрать адрес из базы</button>
-    <button type="button" ng-show="!editRegistrationAddress && isUpdate" ng-click="setEditRegistrationAddress()">Редактировать привязанный адрес</button>
-    <button type="button" ng-hide="newRegistrationAddress" ng-click="setNewRegistrationAddress()">Зарегистрировать новый адрес</button>
-    <table ng-show="newRegistrationAddress || editRegistrationAddress">
-        <tr>
-            <td>
-                <span>Регион: </span>
-            </td>
-            <td>
-                <input class="form-control" type="text" required ng-model="regionReg" placeholder="Введите регион">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Город: </span>
-            </td>
-            <td>
-                <input class="form-control" type="text" required ng-model="cityReg" placeholder="Введите город">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Улица: </span>
-            </td>
-            <td>
-                <input class="form-control" type="text" required ng-model="streetReg" placeholder="Введите улицу">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Дом: </span>
-            </td>
-            <td>
-                <input class="form-control" type="text" required ng-model="buildingReg" placeholder="Введите номер дома">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Квартира: </span>
-            </td>
-            <td>
-                <input class="form-control" type="text" required ng-model="apartmentReg" placeholder="Введите номер квартиры">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Индекс: </span>
-            </td>
-            <td>
-                <input class="form-control" type="number" min="000000" max="999999" required ng-model="indexReg" placeholder="Введите индекс">
-            </td>
-        </tr>
-    </table>
-    <select ng-model="registrationAddress" ng-hide="newRegistrationAddress || editRegistrationAddress">
-        <option ng-repeat="a in addresses" value="{{ a }}">
-            {{ a.region + ', ' + a.city + ', ' +
-            a.street + ', ' + a.building + ', ' +
-            a.apartment + '; Индекс: ' + a.index }}
-        </option>
-    </select>
+            <h3>Адрес прописки: </h3>
+            <button class="btn btn-primary" type="button" ng-show="newRegistrationAddress || editRegistrationAddress" ng-click="pickRegistrationAddressFromDB()">Выбрать адрес из базы</button>
+            <button class="btn btn-primary" type="button" ng-show="!editRegistrationAddress && isUpdate" ng-click="setEditRegistrationAddress()">Редактировать привязанный адрес</button>
+            <button class="btn btn-primary" type="button" ng-hide="newRegistrationAddress" ng-click="setNewRegistrationAddress()">Зарегистрировать новый адрес</button>
+            <br><br>
+            <table ng-show="newRegistrationAddress || editRegistrationAddress">
+                <tr>
+                    <td>
+                        <span>Регион: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="regionReg" placeholder="Введите регион">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Город: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="cityReg" placeholder="Введите город">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Улица: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="streetReg" placeholder="Введите улицу">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Дом: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="buildingReg" placeholder="Введите номер дома">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Квартира: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="apartmentReg" placeholder="Введите номер квартиры">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Индекс: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" min="000000" max="999999" required ng-model="indexReg" placeholder="Введите индекс">
+                    </td>
+                </tr>
+            </table>
+            <select class="form-control" ng-model="registrationAddress" ng-hide="newRegistrationAddress || editRegistrationAddress">
+                <option ng-repeat="a in addresses" value="{{ a }}">
+                    {{ a.region + ', ' + a.city + ', ' +
+                    a.street + ', ' + a.building + ', ' +
+                    a.apartment + '; Индекс: ' + a.index }}
+                </option>
+            </select>
 
-    <h2>Адрес фактического проживания: </h2>
-    <button type="button" ng-show="newLivingAddress || editLivingAddress" ng-click="pickLivingAddressFromDB()">Выбрать адрес из базы</button>
-    <button type="button" ng-show="!editLivingAddress && isUpdate" ng-click="setEditLivingAddress()">Редактировать привязанный адрес</button>
-    <button type="button" ng-hide="newLivingAddress" ng-click="setNewLivingAddress()">Зарегистрировать новый адрес</button>
-    <table ng-show="newLivingAddress || editLivingAddress">
-        <tr>
-            <td>
-                <span>Регион: </span>
-            </td>
-            <td>
-                <input class="form-control" type="text" required ng-model="regionLiv" placeholder="Введите регион">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Город: </span>
-            </td>
-            <td>
-                <input class="form-control" type="text" required ng-model="cityLiv" placeholder="Введите город">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Улица: </span>
-            </td>
-            <td>
-                <input class="form-control" type="text" required ng-model="streetLiv" placeholder="Введите улицу">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Дом: </span>
-            </td>
-            <td>
-                <input class="form-control" type="text" required ng-model="buildingLiv" placeholder="Введите номер дома">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Квартира: </span>
-            </td>
-            <td>
-                <input class="form-control" type="text" required ng-model="apartmentLiv" placeholder="Введите номер квартиры">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>Индекс: </span>
-            </td>
-            <td>
-                <input class="form-control" type="number" min="000000" max="999999" required ng-model="indexLiv" placeholder="Введите индекс">
-            </td>
-        </tr>
-    </table>
-    <select ng-model="livingAddress" ng-hide="newLivingAddress || editLivingAddress">
-        <option ng-repeat="x in addresses" value="{{ x }}">
-            {{ x.region + ', ' + x.city + ', ' +
-            x.street + ', ' + x.building + ', ' +
-            x.apartment + '; Индекс: ' + x.index }}
-        </option>
-    </select>
-    <br>
-    <button id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>
-    <button id="btn_upt" type="button" ng-show="isUpdate" ng-click="update()">Сохранить</button>
-    <a href="#/persons/table">Отмена</a>
+            <h3>Адрес фактического проживания: </h3>
+            <button class="btn btn-primary" type="button" ng-show="newLivingAddress || editLivingAddress" ng-click="pickLivingAddressFromDB()">Выбрать адрес из базы</button>
+            <button class="btn btn-primary" type="button" ng-show="!editLivingAddress && isUpdate" ng-click="setEditLivingAddress()">Редактировать привязанный адрес</button>
+            <button class="btn btn-primary" type="button" ng-hide="newLivingAddress" ng-click="setNewLivingAddress()">Зарегистрировать новый адрес</button>
+            <br><br>
+            <table ng-show="newLivingAddress || editLivingAddress">
+                <tr>
+                    <td>
+                        <span>Регион: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="regionLiv" placeholder="Введите регион">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Город: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="cityLiv" placeholder="Введите город">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Улица: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="streetLiv" placeholder="Введите улицу">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Дом: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="buildingLiv" placeholder="Введите номер дома">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Квартира: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="apartmentLiv" placeholder="Введите номер квартиры">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Индекс: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" min="000000" max="999999" required ng-model="indexLiv" placeholder="Введите индекс">
+                    </td>
+                </tr>
+            </table>
+            <select class="form-control" ng-model="livingAddress" ng-hide="newLivingAddress || editLivingAddress">
+                <option ng-repeat="x in addresses" value="{{ x }}">
+                    {{ x.region + ', ' + x.city + ', ' +
+                    x.street + ', ' + x.building + ', ' +
+                    x.apartment + '; Индекс: ' + x.index }}
+                </option>
+            </select>
+            <br><br>
+            <button class="btn btn-success" id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>
+            <button class="btn btn-success" id="btn_upt" type="button" ng-show="isUpdate" ng-click="update()">Сохранить</button>
+            <a class="btn btn-default" href="#/persons/table">Отмена</a>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
 </div>

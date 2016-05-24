@@ -24,13 +24,13 @@ public class EnterpriseController extends BaseController {
     @Autowired
     private AddressService addressService;
 
-    @RequestMapping(value = "/table/", method = RequestMethod.PUT)
+    @RequestMapping(value = "/table/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<Enterprise> all(){
         return enterpriseService.findAll();
     }
 
-    @RequestMapping(value = "/table/", method = RequestMethod.GET)
+    @RequestMapping(value = "/table/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public List<Enterprise> setActual(@RequestParam(value = "id") long id){
         enterpriseService.setActual(id);
@@ -57,7 +57,7 @@ public class EnterpriseController extends BaseController {
 
     @RequestMapping(value = "/editor/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String updatePerson(@RequestParam(value = "entity") String person) {
+    public String updatePerson(@RequestParam(value = "enterprise") String person) {
         Enterprise enterprise = new Gson().fromJson(person, Enterprise.class);
         enterpriseService.save(enterprise);
         return new Gson().toJson("Запись успешно обновлена.");
@@ -65,11 +65,17 @@ public class EnterpriseController extends BaseController {
 
     @RequestMapping(value = "/editor/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public String add(@RequestParam(value = "entity") String entity) {
+    public String add(@RequestParam(value = "enterprise") String entity) {
         Enterprise enterprise = new Gson().fromJson(entity, Enterprise.class);
         synchronizeAddressSession(enterprise);
         enterpriseService.save(enterprise);
         return new Gson().toJson("Данные о предприятии успешно сохранены в базе.");
+    }
+
+    @RequestMapping(value = "/info/", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Enterprise getPassport(@RequestParam(value = "id") Long id) {
+        return enterpriseService.findById(id);
     }
 
     private void synchronizeAddressSession(Enterprise enterprise) {

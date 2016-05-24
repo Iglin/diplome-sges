@@ -1,0 +1,135 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <table class="table">
+                <thead></thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <span>Название: </span>
+                    </td>
+                    <td>
+                        {{enterprise.name}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Директор: </span>
+                    </td>
+                    <td>
+                        {{enterprise.director}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Начальник Службы Учёта: </span>
+                    </td>
+                    <td>
+                        {{enterprise.registryChief}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>к/с: </span>
+                    </td>
+                    <td>
+                        {{enterprise.correspondentAccount}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>р/с: </span>
+                    </td>
+                    <td>
+                        {{enterprise.checkingAccount}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Банк: </span>
+                    </td>
+                    <td>
+                        {{enterprise.bank}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>БИК банка: </span>
+                    </td>
+                    <td>
+                        {{enterprise.bankBik}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>ИНН банка: </span>
+                    </td>
+                    <td>
+                        {{enterprise.bankInn}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>КПП банка: </span>
+                    </td>
+                    <td>
+                        {{enterprise.bankKpp}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3>Адрес банка: </h3>
+            <br><br>
+            <table class="table">
+                <thead></thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <span>Регион: </span>
+                    </td>
+                    <td>
+                        {{enterprise.bankAddress.region}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Город: </span>
+                    </td>
+                    <td>
+                        {{enterprise.bankAddress.city}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Улица: </span>
+                    </td>
+                    <td>
+                       {{enterprise.bankAddress.street}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Дом: </span>
+                    </td>
+                    <td>
+                        {{enterprise.bankAddress.building}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Индекс: </span>
+                    </td>
+                    <td>
+                       {{enterprise.bankAddress.index}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <br><br>
+            <a href="#/enterprise/table">Назад</a>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>

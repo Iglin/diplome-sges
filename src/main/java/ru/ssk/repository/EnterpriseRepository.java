@@ -16,6 +16,7 @@ import java.util.List;
 @Transactional
 public interface EnterpriseRepository extends JpaRepository<Enterprise, Long> {
     List<Enterprise> findByDirector(String director);
+    List<Enterprise> findByName(String name);
     List<Enterprise> findByRegistryChief(String registryChief);
     @Query("SELECT e FROM Enterprise e WHERE e.actual = true")
     Enterprise findActual();

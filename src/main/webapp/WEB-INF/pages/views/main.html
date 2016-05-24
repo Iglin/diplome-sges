@@ -21,6 +21,9 @@
     <script src="resources/js/controllers/modelsController.js"></script>
     <script src="resources/js/controllers/modelsEditorController.js"></script>
     <script src="resources/js/controllers/modelsInfoController.js"></script>
+    <script src="resources/js/controllers/enterpriseController.js"></script>
+    <script src="resources/js/controllers/enterpriseEditorController.js"></script>
+    <script src="resources/js/controllers/enterpriseInfoController.js"></script>
 
     <script src="resources/js/controllers/testController.js"></script>
 </head>
@@ -47,6 +50,7 @@
                                 <li ng-click="pickMenuItem('persons')" ng-class="{active: menu.persons}"><a href="#/persons/table">Физические лица</a></li>
                                 <li ng-click="pickMenuItem('entities')" ng-class="{active: menu.entities}"><a href="#/entities/table">Юридические лица</a></li>
                                 <li ng-click="pickMenuItem('addresses')" ng-class="{active: menu.addresses}"><a href="#/addresses/table">Адреса</a></li>
+                                <li ng-click="pickMenuItem('enterprise')" ng-class="{active: menu.enterprise}"><a href="#/enterprise/table">Данные предприятия</a></li>
                                 <li ng-click="pickMenuItem('test')" ng-class="{active: menu.test}"><a href="#/test">Test</a></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
@@ -70,6 +74,7 @@
             ["ngRoute",
                 "owners", "addressesTable", "addressesEditor", "personsTable", "personsEditor", "personsPassport",
                 "entitiesTable", "entitiesEditor", "modelsTable", "modelsEditor", "modelsInfo",
+                "enterpriseTable", "enterpriseEditor", "enterpriseInfo",
                 "test"])
             .config(function($routeProvider){
                 $routeProvider
@@ -133,6 +138,22 @@
                             templateUrl:'/partials/modelsInfo.html',
                             controller:'modelsInfoController'
                         })
+                        .when("/enterprise/editor", {
+                            templateUrl:'/partials/enterpriseEditor.html',
+                            controller:'enterpriseEditorController'
+                        })
+                        .when("/enterprise/editor/edit", {
+                            templateUrl:'/partials/enterpriseEditor.html',
+                            controller:'enterpriseEditorController'
+                        })
+                        .when("/enterprise/table", {
+                            templateUrl:'/partials/enterpriseTable.html',
+                            controller:'enterpriseController'
+                        })
+                        .when("/enterprise/info", {
+                            templateUrl:'/partials/enterpriseInfo.html',
+                            controller:'enterpriseInfoController'
+                        })
                         .when("/test", {
                             templateUrl:'/partials/test.html',
                             controller:'testController'
@@ -165,7 +186,8 @@
             addresses: false,
             test: false,
             profile: false,
-            models: false
+            models: false,
+            enterprise: false
         };
     });
 </script>

@@ -68,6 +68,11 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     }
 
     @Override
+    public List<Enterprise> findByName(String name) {
+        return enterpriseRepository.findByName(name);
+    }
+
+    @Override
     public List<Enterprise> findByDirector(String director) {
         return enterpriseRepository.findByDirector(director);
     }

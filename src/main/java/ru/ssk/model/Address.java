@@ -39,7 +39,7 @@ public class Address implements Serializable {
     @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })
     @JsonIgnore
     private Set<LegalEntity> legalEntities;
-    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })
+    @OneToMany(mappedBy = "bankAddress", fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })
     @JsonIgnore
     private Set<Enterprise> enterpriseEntries;
 

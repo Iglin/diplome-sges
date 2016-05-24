@@ -1,0 +1,35 @@
+<div class="container">
+    <br>
+    <a class="btn-primary btn" href="#/enterprise/editor">Добавить новое юр. лицо</a>
+    <button class="btn-danger btn" type="button" ng-click="delete()">Удалить отмеченные записи</button>
+    <br><br>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th></th><th>Название</th><th>Директор</th><th>Начальник СУ</th><th>Банк</th>
+            <th>Подробнее</th>
+            <th>Актуальность</th><th>Редактирование</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="x in enterpriseEntries | orderBy : '-actual'">
+            <td>
+                <label><input class="checkbox_delete" type="checkbox" id="{{ x.id }}"></label>
+            </td>
+            <td>{{ x.name }} <span ng-if="x.actual"><span class="label label-success">актуальная</span></span></td>
+            <td>{{ x.director }}</td>
+            <td>{{ x.registryChief }}</td>
+            <td>{{ x.bank }}</td>
+            <td>
+                <a href="#/enterprise/info/?id={{ x.id }}">Посмотреть подробную информацию</a>
+            </td>
+            <td>
+                <a href ng-click="setActual(x.id);">Пометить запись как актуальную</a>
+            </td>
+            <td>
+                <a href="#/enterprise/editor/edit/?id={{ x.id }}">Изменить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

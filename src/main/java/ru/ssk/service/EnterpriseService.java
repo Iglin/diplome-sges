@@ -20,6 +20,7 @@ public interface EnterpriseService {
 
     Enterprise findById(Long id);
     Enterprise findActual();
+    List<Enterprise> findByName(String name);
     List<Enterprise> findByDirector(String director);
     List<Enterprise> findByRegistryChief(String registryChief);
     List<Enterprise> findAll();

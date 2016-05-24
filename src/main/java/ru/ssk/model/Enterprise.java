@@ -14,6 +14,8 @@ public class Enterprise {
     private Long id;
     @Column(name = "actual", nullable = false)
     private boolean actual;
+    @Column(name = "name", nullable = false)
+    private String name;
     @Column(name = "director", nullable = false)
     private String director;
     @Column(name = "registry_chief", nullable = false)
@@ -52,6 +54,14 @@ public class Enterprise {
 
     public void setActual(boolean actual) {
         this.actual = actual;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDirector() {

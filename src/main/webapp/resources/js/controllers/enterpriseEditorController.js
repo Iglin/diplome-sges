@@ -1,16 +1,17 @@
 /**
- * Created by user on 23.05.2016.
+ * Created by user on 25.05.2016.
  */
-var entitiesEditor = angular.module("entitiesEditor", []);
-entitiesEditor.controller('entitiesEditorController', function($scope, $http, $routeParams) {
+var enterpriseEditor = angular.module("enterpriseEditor", []);
+enterpriseEditor.controller('enterpriseEditorController', function($scope, $http, $routeParams) {
     if ($routeParams['id'] != null && $routeParams['id'].trim() != '') {
         $http({
-            url:'/entities/editor/',
+            url:'/enterprise/editor/',
             method:'GET',
             params: { id: $routeParams['id'] }
         }).then(function(response){
-            $scope.entity = response.data;
-            $scope.addressIdFromReq = $scope.entity.address.id;
+            $scope.enterprise = response.data;
+            $scope.addressIdFromReq = $scope.enterprise.bankAddress.id;
+          //  alert(JSON.stringify($scope.enterprise.bankInn));
         }, function(response){
             alert(JSON.stringify(response));
         });
@@ -22,7 +23,7 @@ entitiesEditor.controller('entitiesEditorController', function($scope, $http, $r
         $scope.newAddress = false;
         $scope.editAddress = false;
         loadAddresses();
-    }        
+    }
 
 
     function loadAddresses() {
@@ -53,23 +54,23 @@ entitiesEditor.controller('entitiesEditorController', function($scope, $http, $r
         $scope.newAddress = false;
         $scope.editAddress = true;
     };
-    
+
     function prepareToSend() {
-        $scope.needToReadAddress = false;
+     //   $scope.needToReadAddress = false;
         if ($scope.newAddress) {
-            $scope.entity.address.id = null;
+            $scope.enterprise.bankAddress.id = null;
         } else if (!$scope.editAddress) {
-            $scope.entity.address = $scope.addresses[$scope.addressId];
+            $scope.enterprise.bankAddress = $scope.addresses[$scope.addressId];
         }
     }
 
     $scope.add = function () {
         prepareToSend();
         $http({
-            url: '/entities/editor/',
+            url: '/enterprise/editor/',
             method: 'POST',
             params: {
-                entity: $scope.entity
+                enterprise: $scope.enterprise
             }
         }).then(function (response) {
             alert(response.data);
@@ -81,10 +82,10 @@ entitiesEditor.controller('entitiesEditorController', function($scope, $http, $r
     $scope.update = function () {
         prepareToSend();
         $http({
-            url: '/entities/editor/',
+            url: '/enterprise/editor/',
             method: 'PUT',
             params: {
-                entity: $scope.entity
+                enterprise: $scope.enterprise
             }
         }).then(function (response) {
             alert(response.data);

@@ -1,15 +1,29 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
     <meta charset="UTF-8">
     <title>Вход в систему</title>
 </head>
 <body>
-<form action="/index" method="post">
-    <input type="text" name="username"><br>
-    <input type="password" name="password"><br>
-    <button type="submit">Войти</button>
-</form>
-<h2>INSERT INTO sys_user VALUES ((SELECT nextval('user_id_seq')), 'admin', 'admin', 'ADMIN');</h2>
+<div class="row">
+    <div class="col-sm-5"></div>
+    <div class="col-sm-2">
+        <form action="/index" method="post">
+            <br>
+            <input class="form-control"  type="text" name="username"><br>
+            <input class="form-control"  type="password" name="password"><br>
+            <button class="btn btn-default" type="submit">Войти</button>
+            <br>
+            <br>
+            <br>
+            <h3><code>INSERT INTO sys_user VALUES ((SELECT nextval('user_id_seq')), 'admin', 'admin', 'ADMIN');</code></h3>
+        </form>
+    </div>
+    <div class="col-sm-5"></div>
+</div>
 </body>
 </html>

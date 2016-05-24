@@ -2,6 +2,12 @@
 <head>
     <meta charset="UTF-8">
     <title>ССК</title>
+    <!-- BOOTSTRAP-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
     <script src="resources/js/angular.min.js"></script>
     <script src="resources/js/angular-route.js"></script>
     <script src="resources/js/controllers/ownersController.js"></script>
@@ -14,34 +20,42 @@
     <script src="resources/js/controllers/entitiesEditorController.js"></script>
 
     <script src="resources/js/controllers/testController.js"></script>
-    <style>
-        #content {
-            height: 800px; /* Ширина слоя */
-            margin: 0 auto 50px; /* Выравнивание по центру */
-        }
-    </style>
 </head>
-<body ng-app="main" ng-controller="mainController" style="background-color:whitesmoke">
-<div class="container" id="content">
+<body ng-app="main" ng-controller="mainController">
+<div class="container">
     <div class="panel-default">
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
-                    <span style="font-family: 'Verdana';font-size: 25px; color: black">Вы вошли как {{username}}.</span>
+                    <span>Вы вошли как {{username}}.</span>
                 </div>
             </div>
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-3">
-                    <a href="#/owners">Собственники</a>
-                    <a href="#/persons/table">Физические лица</a>
-                    <a href="#/entities/table">Юридические лица</a>
-                    <a href="#/addresses/table">Адреса</a>
-                    <a href="#/test">Test</a>
-                    <a href="/logout">Выйти</a>
+                <div class="col-md-12">
+                    <nav class="navbar navbar-default">
+                        <div class="container-fluid">
+                            <!--div class="navbar-header">
+                                <a class="navbar-brand" href="#">WebSiteName</a>
+                            </div-->
+                            <ul class="nav navbar-nav">
+                                <li ng-click="pickMenuItem('owners')" ng-class="{active: menu.owners}"><a href="#/owners">Собственники</a></li>
+                                <li ng-click="pickMenuItem('persons')" ng-class="{active: menu.persons}"><a href="#/persons/table">Физические лица</a></li>
+                                <li ng-click="pickMenuItem('entities')" ng-class="{active: menu.entities}"><a href="#/entities/table">Юридические лица</a></li>
+                                <li ng-click="pickMenuItem('addresses')" ng-class="{active: menu.addresses}"><a href="#/addresses/table">Адреса</a></li>
+                                <li ng-click="pickMenuItem('test')" ng-class="{active: menu.test}"><a href="#/test">Test</a></li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li ng-click="pickMenuItem('profile')" ng-class="{active: menu.profile}"><a href="#"><span class="glyphicon glyphicon-user"></span> Профиль</a></li>
+                                <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Выйти</a></li>
+                            </ul>
+                        </div>
+                    </nav>
                 </div>
-                <div class="col-md-9">
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <ng-view/>
                 </div>
             </div>
@@ -118,6 +132,22 @@
         }, function(response){
             alert(response.data);
         });
+
+        $scope.pickMenuItem = function (menuItem) {
+            $.each($scope.menu, function(index, value) {
+                $scope.menu[index] = false;
+            });
+            $scope.menu[menuItem] = true;
+        };
+
+        $scope.menu = {
+            persons: true,
+            entities: false,
+            owners: false,
+            addresses: false,
+            test: false,
+            profile: false
+        };
     });
 </script>
 </html>

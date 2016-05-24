@@ -1,0 +1,127 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <table class="table">
+                <thead></thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <span>Название: </span>
+                    </td>
+                    <td>
+                        {{model.name}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Производитель: </span>
+                    </td>
+                    <td>
+                        {{model.manufacturer}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Цена: </span>
+                    </td>
+                    <td>
+                        {{model.price}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Прямого включения: </span>
+                    </td>
+                    <td>
+                        {{model.directPower}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Трёхфазный: </span>
+                    </td>
+                    <td>
+                        {{model.threePhase}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Межпроверочный интервал: </span>
+                    </td>
+                    <td>
+                        {{model.calibrationPeriod}} лет
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Электронный: </span>
+                    </td>
+                    <td>
+                        {{model.electronic}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Количество тарифов: </span>
+                    </td>
+                    <td>
+                       {{model.ratesCount}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Интерфейс: </span>
+                    </td>
+                    <td>
+                        {{model.meterInterface}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Значность: </span>
+                    </td>
+                    <td>
+                        {{model.atomicity}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Точность: </span>
+                    </td>
+                    <td>
+                        {{model.accuracy}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>I номинальная (А): </span>
+                    </td>
+                    <td>
+                        {{model.nominalCurrent}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>I максимальная (А): </span>
+                    </td>
+                    <td>
+                        {{model.maximalCurrent}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>U номинальное (В): </span>
+                    </td>
+                    <td>
+                        {{model.nominalVoltage}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <br>
+            <a href="#/models/table">Назад</a>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>

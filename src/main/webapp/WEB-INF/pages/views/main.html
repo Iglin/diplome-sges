@@ -18,6 +18,9 @@
     <script src="resources/js/controllers/personsPassportController.js"></script>
     <script src="resources/js/controllers/entitiesController.js"></script>
     <script src="resources/js/controllers/entitiesEditorController.js"></script>
+    <script src="resources/js/controllers/modelsController.js"></script>
+    <script src="resources/js/controllers/modelsEditorController.js"></script>
+    <script src="resources/js/controllers/modelsInfoController.js"></script>
 
     <script src="resources/js/controllers/testController.js"></script>
 </head>
@@ -40,6 +43,7 @@
                             </div-->
                             <ul class="nav navbar-nav">
                                 <li ng-click="pickMenuItem('owners')" ng-class="{active: menu.owners}"><a href="#/owners">Собственники</a></li>
+                                <li ng-click="pickMenuItem('models')" ng-class="{active: menu.models}"><a href="#/models/table">Модели счётчиков</a></li>
                                 <li ng-click="pickMenuItem('persons')" ng-class="{active: menu.persons}"><a href="#/persons/table">Физические лица</a></li>
                                 <li ng-click="pickMenuItem('entities')" ng-class="{active: menu.entities}"><a href="#/entities/table">Юридические лица</a></li>
                                 <li ng-click="pickMenuItem('addresses')" ng-class="{active: menu.addresses}"><a href="#/addresses/table">Адреса</a></li>
@@ -65,7 +69,7 @@
     var app = angular.module('main',
             ["ngRoute",
                 "owners", "addressesTable", "addressesEditor", "personsTable", "personsEditor", "personsPassport",
-                "entitiesTable", "entitiesEditor",
+                "entitiesTable", "entitiesEditor", "modelsTable", "modelsEditor", "modelsInfo",
                 "test"])
             .config(function($routeProvider){
                 $routeProvider
@@ -113,6 +117,22 @@
                             templateUrl:'/partials/entitiesTable.html',
                             controller:'entitiesController'
                         })
+                        .when("/models/editor", {
+                            templateUrl:'/partials/modelsEditor.html',
+                            controller:'modelsEditorController'
+                        })
+                        .when("/models/editor/edit", {
+                            templateUrl:'/partials/modelsEditor.html',
+                            controller:'modelsEditorController'
+                        })
+                        .when("/models/table", {
+                            templateUrl:'/partials/modelsTable.html',
+                            controller:'modelsController'
+                        })
+                        .when("/models/info", {
+                            templateUrl:'/partials/modelsInfo.html',
+                            controller:'modelsInfoController'
+                        })
                         .when("/test", {
                             templateUrl:'/partials/test.html',
                             controller:'testController'
@@ -144,7 +164,8 @@
             owners: false,
             addresses: false,
             test: false,
-            profile: false
+            profile: false,
+            models: false
         };
     });
 </script>

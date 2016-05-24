@@ -1,0 +1,31 @@
+<div class="container">
+    <br>
+    <a class="btn-primary btn" href="#/models/editor">Добавить новую модель прибора учёта</a>
+    <button class="btn-danger btn" type="button" ng-click="delete()">Удалить отмеченные модели</button>
+    <br><br>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th></th><th>Название</th><th>Производитель</th><th>Цена</th><th>Фазность</th><th>Кол-во тарифов</th><th>Подробная информация</th><th>Редактирование</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="x in models">
+            <td>
+                <label><input class="checkbox_delete" type="checkbox" id="{{ x.id }}"></label>
+            </td>
+            <td>{{ x.name }}</td>
+            <td>{{ x.manufacturer }}</td>
+            <td>{{ x.price }}</td>
+            <td>{{ outputPhase(x.threePhase); }}</td>
+            <td>{{ x.ratesCount }}</td>
+            <td>
+                <a href="#/models/info/?id={{ x.id }}">Все характеристики</a>
+            </td>
+            <td>
+                <a href="#/models/editor/edit/?id={{ x.id }}">Изменить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

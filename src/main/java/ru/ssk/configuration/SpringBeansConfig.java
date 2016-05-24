@@ -41,4 +41,9 @@ public class SpringBeansConfig {
     public LegalEntityService legalEntityService() {
         return new LegalEntityServiceImpl();
     }
+
+    @Bean
+    public MeterModelService meterModelService() {
+        return new MeterModelServiceImpl();
+    }
 }

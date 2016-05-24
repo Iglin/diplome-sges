@@ -1,17 +1,12 @@
 package ru.ssk.service.impl;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 import ru.ssk.exception.UniqueViolationException;
 import ru.ssk.model.Address;
 import ru.ssk.model.Passport;
 import ru.ssk.model.PhysicalPerson;
-import ru.ssk.repository.OwnerRepository;
 import ru.ssk.repository.PassportRepository;
 import ru.ssk.repository.PhysicalPersonRepository;
 import ru.ssk.service.AddressService;

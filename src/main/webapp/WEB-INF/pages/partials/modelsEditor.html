@@ -1,0 +1,129 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <table class="table">
+                <thead></thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <span>Название: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="model.name" placeholder="Введите название">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Производитель: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="model.manufacturer" placeholder="Введите производителя">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Цена: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" required ng-model="model.price" placeholder="Введите цену">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Прямого включения: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="checkbox" required ng-model="model.directPower">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Трёхфазный: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="checkbox" required ng-model="model.threePhase">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Межпроверочный интервал: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" required ng-model="model.calibrationPeriod" placeholder="Введите кол-во лет">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Электронный: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="checkbox" required ng-model="model.electronic">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Количество тарифов: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" required ng-model="model.ratesCount" placeholder="Введите кол-во тарифов">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Интерфейс: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="model.meterInterface" placeholder="Например, USB">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Значность: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" required ng-model="model.atomicity" placeholder="Введите значность">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Точность: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="model.accuracy" placeholder="Введите класс точности">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>I номинальная: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" required ng-model="model.nominalCurrent" placeholder="Введите номинальную силу тока">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>I максимальная: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" required ng-model="model.maximalCurrent" placeholder="Введите максимальную силу тока">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>U номинальное: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" required ng-model="model.nominalVoltage" placeholder="Введите номинальное напряжение">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <br>
+            <button class="btn btn-success" id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>
+            <button class="btn btn-success" id="btn_upt" type="button" ng-show="isUpdate" ng-click="update()">Сохранить</button>
+            <a class="btn btn-default" href="#/models/table">Отмена</a>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>

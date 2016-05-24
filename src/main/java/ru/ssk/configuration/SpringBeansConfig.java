@@ -46,4 +46,14 @@ public class SpringBeansConfig {
     public MeterModelService meterModelService() {
         return new MeterModelServiceImpl();
     }
+
+    @Bean
+    public MeterService meterService() {
+        return new MeterServiceImpl();
+    }
+
+    @Bean
+    public EnterpriseService enterpriseService() {
+        return new EnterpriseServiceImpl();
+    }
 }

@@ -1,7 +1,10 @@
 package ru.ssk.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Set;
 
 /**
  * Created by user on 24.05.2016.
@@ -42,6 +45,9 @@ public class MeterModel {
     private int maximalCurrent;
     @Column(name = "u_nominal", nullable = false)
     private int nominalVoltage;
+    @OneToMany(mappedBy = "model", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Meter> meters;
 
     public MeterModel() {
     }
@@ -164,5 +170,13 @@ public class MeterModel {
 
     public void setNominalVoltage(int nominalVoltage) {
         this.nominalVoltage = nominalVoltage;
+    }
+
+    public Set<Meter> getMeters() {
+        return meters;
+    }
+
+    public void setMeters(Set<Meter> meters) {
+        this.meters = meters;
     }
 }

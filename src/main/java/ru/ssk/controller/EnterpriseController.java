@@ -1,40 +1,46 @@
 package ru.ssk.controller;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import ru.ssk.model.LegalEntity;
+import ru.ssk.model.Enterprise;
 import ru.ssk.service.AddressService;
-import ru.ssk.service.LegalEntityService;
+import ru.ssk.service.EnterpriseService;
 
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by user on 23.05.2016.
+ * Created by user on 24.05.2016.
  */
 @RestController
-@RequestMapping("/entities")
+@RequestMapping("/enterprise")
 @Transactional
-public class LegalEntityController extends BaseController {
+public class EnterpriseController extends BaseController {
     @Autowired
-    private LegalEntityService legalEntityService;
+    private EnterpriseService enterpriseService;
     @Autowired
     private AddressService addressService;
 
+    @RequestMapping(value = "/table/", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public List<Enterprise> all(){
+        return enterpriseService.findAll();
+    }
+
     @RequestMapping(value = "/table/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List<LegalEntity> allEntities(){
-        return legalEntityService.findAll();
+    public List<Enterprise> setActual(@RequestParam(value = "id") long id){
+        enterpriseService.setActual(id);
+        return enterpriseService.findAll();
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public LegalEntity getOne(@RequestParam(value = "id") long id){
-        return legalEntityService.findById(id);
+    public Enterprise getOne(@RequestParam(value = "id") long id){
+        return enterpriseService.findById(id);
     }
 
     @RequestMapping(value = "/table/", method = RequestMethod.DELETE)
@@ -42,7 +48,7 @@ public class LegalEntityController extends BaseController {
     public String delete(@RequestParam(value = "ids") Long[] idsToDelete) {
 
         if (idsToDelete.length > 0) {
-            legalEntityService.deleteWithIds(Arrays.asList(idsToDelete));
+            enterpriseService.deleteWithIds(Arrays.asList(idsToDelete));
             return new Gson().toJson("Записи успешно удалены.");
         } else {
             return new Gson().toJson("Не выбраны записи для удаления.");
@@ -51,28 +57,25 @@ public class LegalEntityController extends BaseController {
 
     @RequestMapping(value = "/editor/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String updatePerson(//@RequestParam(value = "id") long id,
-                               @RequestParam(value = "entity") String person) {
-        Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
-        LegalEntity legalEntity = gson.fromJson(person, LegalEntity.class);
-        legalEntityService.save(legalEntity);
+    public String updatePerson(@RequestParam(value = "entity") String person) {
+        Enterprise enterprise = new Gson().fromJson(person, Enterprise.class);
+        enterpriseService.save(enterprise);
         return new Gson().toJson("Запись успешно обновлена.");
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public String add(@RequestParam(value = "entity") String entity) {
-        Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
-        LegalEntity legalEntity = gson.fromJson(entity, LegalEntity.class);
-        synchronizeAddressSession(legalEntity);
-        legalEntityService.save(legalEntity);
-        return new Gson().toJson("Данные о юр. лице успешно сохранены в базе.");
+        Enterprise enterprise = new Gson().fromJson(entity, Enterprise.class);
+        synchronizeAddressSession(enterprise);
+        enterpriseService.save(enterprise);
+        return new Gson().toJson("Данные о предприятии успешно сохранены в базе.");
     }
 
-    private void synchronizeAddressSession(LegalEntity legalEntity) {
-        Long addressId = legalEntity.getAddress().getId();
+    private void synchronizeAddressSession(Enterprise enterprise) {
+        Long addressId = enterprise.getBankAddress().getId();
         if (addressId != null) {
-            legalEntity.setAddress(addressService.findById(addressId));
+            enterprise.setBankAddress(addressService.findById(addressId));
         }
     }
 }

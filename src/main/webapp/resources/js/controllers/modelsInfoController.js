@@ -15,4 +15,20 @@ modelsInfo.controller('modelsInfoController', function($scope, $http, $routePara
         });
     }
     refreshTable();
+    
+    $scope.outputLogical = function (flag) {
+        if (flag) {
+            return "Да";
+        } else {
+            return "Нет";
+        }
+    }
+
+    $scope.outputPhase = function (threePhase) {
+        if (threePhase) {
+            return "трёхфазный";
+        } else {
+            return "однофазный"
+        }
+    };
 });

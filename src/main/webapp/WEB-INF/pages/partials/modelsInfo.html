@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
-            <table class="table">
+            <table class="table table-bordered">
                 <thead></thead>
                 <tbody>
                 <tr>
@@ -34,15 +34,15 @@
                         <span>Прямого включения: </span>
                     </td>
                     <td>
-                        {{model.directPower}}
+                        {{outputLogical(model.directPower);}}
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <span>Трёхфазный: </span>
+                        <span>Фазность: </span>
                     </td>
                     <td>
-                        {{model.threePhase}}
+                        {{outputPhase(model.threePhase);}}
                     </td>
                 </tr>
                 <tr>
@@ -58,7 +58,7 @@
                         <span>Электронный: </span>
                     </td>
                     <td>
-                        {{model.electronic}}
+                        {{outputLogical(model.electronic);}}
                     </td>
                 </tr>
                 <tr>

@@ -1,6 +1,8 @@
-<div class="container" style="width: 80%">
+<div class="container">
     <br>
-    <table>
+    <table class="table">
+        <thead></thead>
+        <tbody>
         <tr>
             <th>Номер: </th>
             <td>{{ passport.passportNumber }}</td>
@@ -19,6 +21,7 @@
                 passport.registrationAddress.street + ', ' + passport.registrationAddress.building + ', ' +
                 passport.registrationAddress.apartment + '; Индекс: ' + passport.registrationAddress.index }}</td>
         </tr>
+        </tbody>
     </table>
     <br>
     <a href="#/persons/table">Назад</a>

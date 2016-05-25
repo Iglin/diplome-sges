@@ -1,0 +1,99 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <table class="table">
+                <thead></thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <span>Адрес точки учёта: </span>
+                    </td>
+                    <td>
+                        {{ point.address.region + ', ' + point.address.city + ', ' +
+                        point.address.street + ', ' + point.address.building + ', ' +
+                        point.address.apartment + '; Индекс: ' + point.address.index }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Cобственник: </span>
+                    </td>
+                    <td>
+                        <span ng-if="isPerson">
+                            {{point.owner.lastName + ' ' + point.owner.middleName + ' ' + point.owner.firstName}}<br>
+                            <a href="#/persons/passport/?id={{ point.owner.id }}">Паспортные данные</a>
+                        </span>
+                        <span ng-if="!isPerson">{{point.owner.name + '; ОГРН: ' + point.owner.ogrn + '; ИНН: ' + point.owner.inn+ '; КПП: ' + point.owner.kpp}}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Лицевой счёт: </span>
+                    </td>
+                    <td>
+                        {{point.owner.personalAccount}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Контактная информация: </span>
+                    </td>
+                    <td>
+                        Телефон: {{point.owner.phone}}<br>
+                        E-mail: {{point.owner.email}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Адрес собственника: </span>
+                    </td>
+                    <td>
+                        <span ng-if="isPerson">
+                            {{ point.owner.livingAddress.region + ', ' + point.owner.livingAddress.city + ', ' +
+                        point.owner.livingAddress.street + ', ' + point.owner.livingAddress.building + ', ' +
+                        point.owner.livingAddress.apartment + '; Индекс: ' + point.owner.livingAddress.index }}
+                        </span>
+                        <span ng-if="!isPerson">
+                            {{ point.owner.address.region + ', ' + point.owner.address.city + ', ' +
+                        point.owner.address.street + ', ' + point.owner.address.building + ', ' +
+                        point.owner.address.apartment + '; Индекс: ' + point.owner.address.index }}
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Cчётчик: </span>
+                    </td>
+                    <td>
+                        {{ point.meter.model.manufacturer + ' ' + point.meter.model.name + ' ' + point.meter.serialNumber }} <br>
+                        <a href="#/models/info/?id={{ point.meter.model.id }}">Подробные характеристики</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Дата установки: </span>
+                    </td>
+                    <td>
+                        {{point.installationDate}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Данные предприятия: </span>
+                    </td>
+                    <td>
+                        <span ng-if="point.enterpriseEntry.actual">Актуальны</span>
+                        <span ng-if="!point.enterpriseEntry.actual">Не актуальны</span>
+                        <a href="#/enterprise/info/?id={{ point.enterpriseEntry.id }}">Просмотреть</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <br><br>
+            <a href="#/points/table">Назад</a>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>

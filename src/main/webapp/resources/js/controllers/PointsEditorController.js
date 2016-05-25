@@ -84,7 +84,6 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
         if ($scope.newAddress) {
             $scope.point.address.id = null;
         } else if (!$scope.editAddress) {
-         //   $scope.point.address = $scope.addresses[$scope.addressId];
             $scope.point.address = findObjectById($scope.addresses, $scope.addressesSelect.opt);
         }
         $scope.point.enterpriseEntry = findObjectById($scope.enterpriseEntries, $scope.enterpriseEntriesSelect.opt);
@@ -128,23 +127,9 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
     };
 });
 
-function findIndexById(arr, id) {
-    for (var i = 0; i < arr.length; i++) {
-        if (arr[i].id == id) {
-            // alert(JSON.stringify(arr[i]));
-            //  alert(i);
-            return i;
-        }
-    }
-    alert('No such id!');
-    return null;
-}
-
 function findObjectById(arr, id) {
     for (var i = 0; i < arr.length; i++) {
         if (arr[i].id == id) {
-            // alert(JSON.stringify(arr[i]));
-            //  alert(i);
             return arr[i];
         }
     }

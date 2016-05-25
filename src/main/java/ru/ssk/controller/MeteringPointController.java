@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.ssk.model.LegalEntity;
+import ru.ssk.model.Meter;
 import ru.ssk.model.MeteringPoint;
 import ru.ssk.service.*;
 
@@ -96,7 +97,13 @@ public class MeteringPointController extends BaseController {
     @RequestMapping(value = "/info/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public MeteringPoint getInfo(@RequestParam(value = "id") Long id) {
-        return meteringPointService.findById(id);
+        MeteringPoint meteringPoint = meteringPointService.findById(id);
+        if (meteringPoint.getOwner() instanceof LegalEntity) {
+            meteringPoint.setOwner(legalEntityService.findById(meteringPoint.getOwner().getId()));
+        } else {
+            meteringPoint.setOwner(physicalPersonService.findById(meteringPoint.getOwner().getId()));
+        }
+        return meteringPoint;
     }
 
     private void synchronizeAddressSession(MeteringPoint meteringPoint) {

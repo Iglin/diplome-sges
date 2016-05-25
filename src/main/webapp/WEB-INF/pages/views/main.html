@@ -28,6 +28,7 @@
     <script src="resources/js/controllers/metersEditorController.js"></script>
     <script src="resources/js/controllers/pointsController.js"></script>
     <script src="resources/js/controllers/pointsEditorController.js"></script>
+    <script src="resources/js/controllers/pointsInfoController.js"></script>
 
     <script src="resources/js/controllers/testController.js"></script>
 </head>
@@ -81,7 +82,7 @@
                 "owners", "addressesTable", "addressesEditor", "personsTable", "personsEditor", "personsPassport",
                 "entitiesTable", "entitiesEditor", "modelsTable", "modelsEditor", "modelsInfo",
                 "enterpriseTable", "enterpriseEditor", "enterpriseInfo", "metersTable", "metersEditor",
-                "pointsTable", "pointsEditor",
+                "pointsTable", "pointsEditor", "pointsInfo",
                 "test"])
             .config(function($routeProvider){
                 $routeProvider
@@ -184,6 +185,10 @@
                         .when("/points/table", {
                             templateUrl:'/partials/pointsTable.html',
                             controller:'pointsController'
+                        })
+                        .when("/points/info", {
+                            templateUrl:'/partials/pointsInfo.html',
+                            controller:'pointsInfoController'
                         })
                         .when("/test", {
                             templateUrl:'/partials/test.html',

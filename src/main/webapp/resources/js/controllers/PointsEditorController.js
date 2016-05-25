@@ -3,20 +3,27 @@
  */
 var pointsEditor = angular.module("pointsEditor", []);
 pointsEditor.controller('pointsEditorController', function($scope, $http, $routeParams) {
-    loadAddresses();
-    loadEnterprise();
-    loadEntities();
-    loadPersons();
-    loadMeters();
-
+   // loadAddresses();
+   // loadEnterprise();
+   // loadEntities();
+   // loadPersons();
+   // loadMeters();
     if ($routeParams['id'] != null && $routeParams['id'].trim() != '') {
         $http({
             url:'/points/editor/',
             method:'GET',
             params: { id: $routeParams['id'] }
         }).then(function(response){
-            $scope.point = response.data;
+            var paramsMap = response.data;
+            $scope.point = paramsMap['point'];
+            $scope.addresses = paramsMap['addresses'];
+            $scope.meters = paramsMap['meters'];
+            $scope.enterpriseEntries = paramsMap['enterpriseEntries'];
+            $scope.entities = paramsMap['entities'];
+            $scope.persons = paramsMap['persons'];
+            
             $scope.addressIdFromReq = $scope.point.address.id;
+            
             $scope.ownerIdFromReq = $scope.point.owner.id;
             $scope.meterIdFromReq = $scope.point.meter.id;
             $scope.enterpriseEntryIdFromReq = $scope.point.enterpriseEntry.id;
@@ -33,6 +40,19 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
         $scope.editAddress = true;
 
     } else {
+        $http({
+            url:'/points/editor/',
+            method:'GET'
+        }).then(function(response){
+            var paramsMap = response.data;
+            $scope.addresses = paramsMap['addresses'];
+            $scope.meters = paramsMap['meters'];
+            $scope.enterpriseEntries = paramsMap['enterpriseEntries'];
+            $scope.entities = paramsMap['entities'];
+            $scope.persons = paramsMap['persons'];
+        }, function(response){
+            alert(JSON.stringify(response));
+        });
         $scope.isUpdate = false;
         $scope.newAddress = false;
         $scope.editAddress = false;
@@ -105,7 +125,7 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
     }
 
     $scope.pickAddressFromDB = function () {
-        loadAddresses();
+      //  loadAddresses();
         $scope.newAddress = false;
         $scope.editAddress = false;
     };
@@ -126,12 +146,12 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
         } else if (!$scope.editAddress) {
             $scope.point.address = $scope.addresses[$scope.addressId];
         }
-        $scope.point.enterpriseEntry = $scope.enterpriseEntries[$scope.enterpriseEntryId];
-        $scope.point.meter = $scope.meters[$scope.meterId];
+        $scope.point.enterpriseEntry = $scope.enterpriseEntries[$scope.enterpriseEntryIndex];
+        $scope.point.meter = $scope.meters[$scope.meterIndex];
         if ($scope.ownerType == 'Юр. лицо') {
-            $scope.point.owner = $scope.entities[$scope.entityId];
+            $scope.point.owner = $scope.entities[$scope.entityIndex];
         } else {
-            $scope.point.owner = $scope.persons[$scope.personId];
+            $scope.point.owner = $scope.persons[$scope.personIndex];
         }
     }
 

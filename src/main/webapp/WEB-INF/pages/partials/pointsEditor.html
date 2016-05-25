@@ -18,10 +18,14 @@
                         <span>Cчётчик: </span>
                     </td>
                     <td>
-                        <select  class="form-control" ng-model="point.meter"
+                        <!--select  class="form-control" ng-model="point.meter"
                                  ng-options="x.model.manufacturer + ' ' + x.model.name + ' ' + x.serialNumber for x in meters">
+                        </select-->
+                        <select class="form-control" ng-model="meterIndex">
+                            <option ng-repeat="x in meters track by $index" ng-value="$index" ng-selected="x.id == point.meter.id">
+                                {{ x.model.manufacturer + ' ' + x.model.name + ' ' + x.serialNumber }}
+                            </option>
                         </select>
-
                         <!--select class="form-control" ng-model="meterId">
                             <option ng-repeat="x in meters track by $index" value="{{ $index }}"  ng-selected="x.id == point.meter.id">
                                 {{ x.model.manufacturer + ' ' + x.model.name + ' ' + x.serialNumber }}
@@ -34,10 +38,14 @@
                         <span>Данные предприятия: </span>
                     </td>
                     <td>
-                        <select class="form-control" ng-model="point.enterpriseEntry"
+                        <!--select class="form-control" ng-model="point.enterpriseEntry"
                                 ng-options="x.name + '; Директор: ' + x.director + '; Начальник СУ: ' + x.registryChief for x in enterpriseEntries">
+                        </select-->
+                        <select class="form-control" ng-model="enterpriseEntryIndex">
+                            <option ng-repeat="x in enterpriseEntries track by $index" ng-value="$index" ng-selected="x.id == point.enterpriseEntry.id">
+                                {{ x.name + '; Директор: ' + x.director + '; Начальник СУ: ' + x.registryChief }}
+                            </option>
                         </select>
-
                         <!--select class="form-control" ng-model="enterpriseEntryId">
                             <option ng-repeat="x in enterpriseEntries track by $index" value="{{ $index }}"  ng-selected="x.id == point.enterpriseEntry.id">
                                 {{ x.name + '; Директор: ' + x.director + '; Начальник СУ: ' + x.registryChief }}
@@ -116,25 +124,25 @@
             <input type="radio" name="owner_radio" ng-model="ownerType" value="Физ. лицо"/> Физ. лицо
             <input type="radio" name="owner_radio" ng-model="ownerType" value="Юр. лицо"/>  Юр. лицо
             <br><br>
-            <select ng-if="ownerType == 'Физ. лицо'" class="form-control" ng-model="point.owner"
-                    ng-options="x.lastName + ' ' + x.middleName + ' ' + x.firstName + '; Лицевой счёт: ' + x.personalAccount for x in persons">
+            <!--select ng-if="ownerType == 'Физ. лицо'" class="form-control" ng-model="point.owner"
+                    ng-options="x.lastName + ' ' + x.middleName + ' ' + x.firstName + '; Лицевой счёт: ' + x.personalAccount for x in persons"
+                    ng-selected="x.id == point.owner.id">
             </select>
             <select ng-if="ownerType == 'Юр. лицо'" class="form-control" ng-model="point.owner"
-                    ng-options="x.name + '; Лицевой счёт: ' + x.personalAccount for x in entities">
-            </select>
+                    ng-options="x.name + '; Лицевой счёт: ' + x.personalAccount for x in entities"
+                    ng-selected="x.id == point.owner.id">
+            </select-->
 
-            <!--select class="form-control" ng-model="personId"
-                    ng-hide="ownerType == 'Юр. лицо'">
-                <option ng-repeat="x in persons track by $index" value="{{ $index }}" ng-selected="x.id == point.owner.id">
+            <select ng-if="ownerType == 'Физ. лицо'" class="form-control" ng-model="personIndex">
+                <option ng-repeat="x in persons track by $index" value="$index" ng-selected="x.id == point.owner.id">
                     {{ x.lastName + ' ' + x.middleName + ' ' + x.firstName + '; Лицевой счёт: ' + x.personalAccount }}
                 </option>
             </select>
-            <select class="form-control" ng-model="entityId"
-                    ng-hide="ownerType == 'Физ. лицо'">
-                <option ng-repeat="x in entities track by $index" value="{{ $index }}" ng-selected="x.id == point.owner.id">
+            <select ng-if="ownerType == 'Юр. лицо'" class="form-control" ng-model="enityIndex">
+                <option ng-repeat="x in entities track by $index" value="$index" ng-selected="x.id == point.owner.id">
                     {{ x.name + '; Лицевой счёт: ' + x.personalAccount }}
                 </option>
-            </select-->
+            </select>
             <br><br>
             <button class="btn btn-success" id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>
             <button class="btn btn-success" id="btn_upt" type="button" ng-show="isUpdate" ng-click="update()">Сохранить</button>

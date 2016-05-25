@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import ru.ssk.model.LegalEntity;
 import ru.ssk.model.MeteringPoint;
-import ru.ssk.service.AddressService;
-import ru.ssk.service.MeteringPointService;
+import ru.ssk.service.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by user on 25.05.2016.
@@ -24,6 +26,14 @@ public class MeteringPointController extends BaseController {
     private MeteringPointService meteringPointService;
     @Autowired
     private AddressService addressService;
+    @Autowired
+    private MeterService meterService;
+    @Autowired
+    private EnterpriseService enterpriseService;
+    @Autowired
+    private LegalEntityService legalEntityService;
+    @Autowired
+    private PhysicalPersonService physicalPersonService;
 
     @RequestMapping(value = "/table/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
@@ -31,10 +41,25 @@ public class MeteringPointController extends BaseController {
         return meteringPointService.findAll();
     }
 
-    @RequestMapping(value = "/editor/", method = RequestMethod.GET)
+  /*  @RequestMapping(value = "/editor/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public MeteringPoint getOne(@RequestParam(value = "id") long id){
         return meteringPointService.findById(id);
+    }*/
+
+    @RequestMapping(value = "/editor/", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String, Object> openEditor(@RequestParam(value = "id", required = false) String id) {
+        Map<String, Object> params = new HashMap<>(5);
+        if (id != null) {
+            params.put("point", meteringPointService.findById(Long.parseLong(id)));
+        }
+        params.put("addresses", addressService.findAll());
+        params.put("meters", meterService.findAll());
+        params.put("enterpriseEntries", enterpriseService.findAll());
+        params.put("entities", legalEntityService.findAll());
+        params.put("persons", physicalPersonService.findAll());
+        return params;
     }
 
     @RequestMapping(value = "/table/", method = RequestMethod.DELETE)
@@ -68,12 +93,12 @@ public class MeteringPointController extends BaseController {
         return new Gson().toJson("Данные о точке учёта успешно сохранены в базе.");
     }
 
-  /*  @RequestMapping(value = "/info/", method = RequestMethod.GET)
+    @RequestMapping(value = "/info/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public MeteringPoint getInfo(@RequestParam(value = "id") Long id) {
         return meteringPointService.findById(id);
     }
-*/
+
     private void synchronizeAddressSession(MeteringPoint meteringPoint) {
         Long addressId = meteringPoint.getAddress().getId();
         if (addressId != null) {

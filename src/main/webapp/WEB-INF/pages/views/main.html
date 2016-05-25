@@ -24,6 +24,8 @@
     <script src="resources/js/controllers/enterpriseController.js"></script>
     <script src="resources/js/controllers/enterpriseEditorController.js"></script>
     <script src="resources/js/controllers/enterpriseInfoController.js"></script>
+    <script src="resources/js/controllers/metersController.js"></script>
+    <script src="resources/js/controllers/metersEditorController.js"></script>
 
     <script src="resources/js/controllers/testController.js"></script>
 </head>
@@ -47,6 +49,7 @@
                             <ul class="nav navbar-nav">
                                 <!--li ng-click="pickMenuItem('owners')" ng-class="{active: menu.owners}"><a href="#/owners">Собственники</a></li-->
                                 <li ng-click="pickMenuItem('models')" ng-class="{active: menu.models}"><a href="#/models/table">Модели счётчиков</a></li>
+                                <li ng-click="pickMenuItem('meters')" ng-class="{active: menu.meters}"><a href="#/meters/table">Счётчики</a></li>
                                 <li ng-click="pickMenuItem('persons')" ng-class="{active: menu.persons}"><a href="#/persons/table">Физические лица</a></li>
                                 <li ng-click="pickMenuItem('entities')" ng-class="{active: menu.entities}"><a href="#/entities/table">Юридические лица</a></li>
                                 <li ng-click="pickMenuItem('addresses')" ng-class="{active: menu.addresses}"><a href="#/addresses/table">Адреса</a></li>
@@ -74,7 +77,7 @@
             ["ngRoute",
                 "owners", "addressesTable", "addressesEditor", "personsTable", "personsEditor", "personsPassport",
                 "entitiesTable", "entitiesEditor", "modelsTable", "modelsEditor", "modelsInfo",
-                "enterpriseTable", "enterpriseEditor", "enterpriseInfo",
+                "enterpriseTable", "enterpriseEditor", "enterpriseInfo", "metersTable", "metersEditor",
                 "test"])
             .config(function($routeProvider){
                 $routeProvider
@@ -154,6 +157,18 @@
                             templateUrl:'/partials/enterpriseInfo.html',
                             controller:'enterpriseInfoController'
                         })
+                        .when("/meters/editor", {
+                            templateUrl:'/partials/metersEditor.html',
+                            controller:'metersEditorController'
+                        })
+                        .when("/meters/editor/edit", {
+                            templateUrl:'/partials/metersEditor.html',
+                            controller:'metersEditorController'
+                        })
+                        .when("/meters/table", {
+                            templateUrl:'/partials/metersTable.html',
+                            controller:'metersController'
+                        })
                         .when("/test", {
                             templateUrl:'/partials/test.html',
                             controller:'testController'
@@ -187,7 +202,8 @@
             test: false,
             profile: false,
             models: false,
-            enterprise: false
+            enterprise: false,
+            meters: false
         };
     });
 </script>

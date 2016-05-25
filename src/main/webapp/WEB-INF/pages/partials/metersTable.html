@@ -1,0 +1,33 @@
+<div class="container">
+    <br>
+    <a class="btn-primary btn" href="#/meters/editor">Добавить новый счётчик</a>
+    <button class="btn-danger btn" type="button" ng-click="delete()">Удалить отмеченные записи</button>
+    <br><br>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th></th><th>Серийный номер</th><th>Год производства</th><th>Последняя проверка</th><th>Начальные показания</th>
+            <th>Модель</th><th>Производитель</th><th>Характеристики</th><th>Редактирование</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="x in meters">
+            <td>
+                <label><input class="checkbox_delete" type="checkbox" id="{{ x.id }}"></label>
+            </td>
+            <td>{{ x.serialNumber }}</td>
+            <td>{{ x.productionYear }}</td>
+            <td>{{ x.lastCalibrationDate }}</td>
+            <td>{{ x.startingReadout }}</td>
+            <td>{{ x.model.name }}</td>
+            <td>{{ x.model.manufacturer }}</td>
+            <td>
+                <a href="#/models/info/?id={{ x.model.id }}">Характеристики счётчика</a>
+            </td>
+            <td>
+                <a href="#/meters/editor/edit/?id={{ x.id }}">Изменить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

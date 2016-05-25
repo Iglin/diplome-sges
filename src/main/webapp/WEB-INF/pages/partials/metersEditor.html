@@ -1,0 +1,68 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <table class="table">
+                <thead></thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <span>Серийный номер: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="meter.serialNumber" placeholder="Введите серийный номер">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Год производства: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" min="1900" max="2100" required ng-model="meter.productionYear" placeholder="Введите год производства">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Дата последней проверки: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="date" required ng-model="meter.lastCalibrationDate">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Начальные показания: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" min="0" required ng-model="meter.startingReadout" placeholder="Введите начальные показания">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Модель счётчика: </span>
+                    </td>
+                    <td>
+                        <select class="form-control" ng-model="modelId">
+                            <option ng-repeat="x in models track by $index" value="{{ $index }}"  ng-selected="x.id == meter.model.id">
+                                {{ x.manufacturer + ' ' + x.name }}
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!--h3>Модель счётчика: </h3>
+            <select class="form-control" ng-model="modelId">
+                <option ng-repeat="x in models track by $index" value="{{ $index }}">
+                    {{ x.manufacturer + ' ' + x.name }}
+                </option>
+            </select-->
+            <br><br>
+            <button class="btn btn-success" id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>
+            <button class="btn btn-success" id="btn_upt" type="button" ng-show="isUpdate" ng-click="update()">Сохранить</button>
+            <a class="btn btn-default" href="#/meters/table">Отмена</a>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>

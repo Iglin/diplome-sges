@@ -28,11 +28,9 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
                     $scope.entitiesSelect = { opt: $scope.entities[0].id };
                     $scope.personsSelect = { opt: $scope.point.owner.id };
                 }
-            //    $scope.metersSelect = { opt: $scope.meters[findIndexById($scope.meters, $scope.point.meter.id)].id };
                 $scope.metersSelect = { opt: $scope.point.meter.id };
                 $scope.enterpriseEntriesSelect = { opt: $scope.point.enterpriseEntry.id };
-
-           //    $scope.addressIdFromReq = $scope.point.address.id;
+                $scope.addressesSelect = { opt: $scope.point.address.id };
             }, function(response){
                 alert(JSON.stringify(response));
             });
@@ -55,6 +53,7 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
                 $scope.enterpriseEntriesSelect = { opt: $scope.enterpriseEntries[0].id };
                 $scope.entitiesSelect = { opt: $scope.entities[0].id };
                 $scope.personsSelect = { opt: $scope.persons[0].id };
+                $scope.addressesSelect = { opt: $scope.addresses[0].id };
             }, function(response){
                 alert(JSON.stringify(response));
             });
@@ -85,7 +84,8 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
         if ($scope.newAddress) {
             $scope.point.address.id = null;
         } else if (!$scope.editAddress) {
-            $scope.point.address = $scope.addresses[$scope.addressId];
+         //   $scope.point.address = $scope.addresses[$scope.addressId];
+            $scope.point.address = findObjectById($scope.addresses, $scope.addressesSelect.opt);
         }
         $scope.point.enterpriseEntry = findObjectById($scope.enterpriseEntries, $scope.enterpriseEntriesSelect.opt);
 

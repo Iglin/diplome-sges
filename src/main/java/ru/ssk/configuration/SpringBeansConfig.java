@@ -56,4 +56,9 @@ public class SpringBeansConfig {
     public EnterpriseService enterpriseService() {
         return new EnterpriseServiceImpl();
     }
+
+    @Bean
+    public MeteringPointService meteringPointService() {
+        return new MeteringPointServiceImpl();
+    }
 }

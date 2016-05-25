@@ -1,0 +1,40 @@
+<div class="container">
+    <br>
+    <a class="btn-primary btn" href="#/points/editor">Добавить новую точку учёта</a>
+    <button class="btn-danger btn" type="button" ng-click="delete()">Удалить отмеченные записи</button>
+    <br><br>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th></th><th>Собственник</th><th>Адрес</th><th>Дата установки</th>
+            <th>Подробнее</th><th>Редактирование</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="x in points">
+            <td>
+                <label><input class="checkbox_delete" type="checkbox" id="{{ x.id }}"></label>
+            </td>
+            <td>
+                <span ng-if="x.owner.lastName == null">
+                    {{ x.owner.name }} <span ng-if="x.actual"><span class="label label-info">юр. лицо</span></span>
+                </span>
+                <span ng-if="x.owner.lastName != null">
+                    {{ x.owner.lastName + ' ' + x.owner.middleName + ' ' + x.owner.firstName }}
+                    <span ng-if="x.actual"><span class="label label-info">физ. лицо</span></span>
+                </span>
+            </td>
+            <td>{{ x.address.region + ', ' + x.address.city + ', ' +
+                x.address.street + ', ' + x.address.building + ', ' +
+                x.address.apartment + '; Индекс: ' + x.address.index }}</td>
+            <td>{{ x.installationDate }}</td>
+            <td>
+                <a href="#/points/info/?id={{ x.id }}">Посмотреть подробную информацию</a>
+            </td>
+            <td>
+                <a href="#/points/editor/edit/?id={{ x.id }}">Изменить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

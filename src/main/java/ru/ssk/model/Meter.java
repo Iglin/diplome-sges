@@ -1,7 +1,10 @@
 package ru.ssk.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Set;
 
 /**
  * Created by user on 24.05.2016.
@@ -25,6 +28,10 @@ public class Meter {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "model", nullable = false)
     private MeterModel model;
+
+    @OneToMany(mappedBy = "meter", fetch = FetchType.LAZY)//, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })
+    @JsonIgnore
+    private Set<MeteringPoint> meteringPoints;
 
     public Meter() {
     }
@@ -75,5 +82,13 @@ public class Meter {
 
     public void setModel(MeterModel model) {
         this.model = model;
+    }
+
+    public Set<MeteringPoint> getMeteringPoints() {
+        return meteringPoints;
+    }
+
+    public void setMeteringPoints(Set<MeteringPoint> meteringPoints) {
+        this.meteringPoints = meteringPoints;
     }
 }

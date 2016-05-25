@@ -1,6 +1,9 @@
 package ru.ssk.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by user on 10.03.2016.
@@ -20,6 +23,10 @@ public class Owner {
     private String email;
     @Column(name = "personal_acc", nullable = false, unique = true)
     private Long personalAccount;
+
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)//, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })
+    @JsonIgnore
+    private Set<MeteringPoint> meteringPoints;
 
     public Owner() {
     }
@@ -58,7 +65,15 @@ public class Owner {
         return personalAccount;
     }
 
-    public void setPersonalAccount(long personalAccount) {
+    public void setPersonalAccount(Long personalAccount) {
         this.personalAccount = personalAccount;
+    }
+
+    public Set<MeteringPoint> getMeteringPoints() {
+        return meteringPoints;
+    }
+
+    public void setMeteringPoints(Set<MeteringPoint> meteringPoints) {
+        this.meteringPoints = meteringPoints;
     }
 }

@@ -77,7 +77,7 @@ public class TestController extends BaseController {
         physicalPerson.setLastName("Иванов");
         physicalPerson.setMiddleName("Иванович");
         physicalPerson.setEmail("ivan@mail.ru");
-        physicalPerson.setPersonalAccount(123452);
+        physicalPerson.setPersonalAccount(Long.valueOf(123452));
         physicalPerson.setPhone("+79011111111");
         physicalPerson.setPassport(new Passport(new Long("3422451785"),
                 "Отделение УФМС России по Самарской обл. в г. Чапаевске",
@@ -90,7 +90,7 @@ public class TestController extends BaseController {
         physicalPerson1.setLastName("Пётр");
         physicalPerson1.setMiddleName("Петрович");
         physicalPerson1.setEmail("pete@mail.ru");
-        physicalPerson1.setPersonalAccount(123321);
+        physicalPerson1.setPersonalAccount(Long.valueOf(123321));
         physicalPerson1.setPhone("+79033311111");
         physicalPerson1.setPassport(new Passport(new Long("3477771785"),
                 "Отделение УФМС России в г. Самаре",

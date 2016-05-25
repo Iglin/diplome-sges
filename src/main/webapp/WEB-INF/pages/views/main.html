@@ -26,6 +26,8 @@
     <script src="resources/js/controllers/enterpriseInfoController.js"></script>
     <script src="resources/js/controllers/metersController.js"></script>
     <script src="resources/js/controllers/metersEditorController.js"></script>
+    <script src="resources/js/controllers/pointsController.js"></script>
+    <script src="resources/js/controllers/pointsEditorController.js"></script>
 
     <script src="resources/js/controllers/testController.js"></script>
 </head>
@@ -53,6 +55,7 @@
                                 <li ng-click="pickMenuItem('persons')" ng-class="{active: menu.persons}"><a href="#/persons/table">Физические лица</a></li>
                                 <li ng-click="pickMenuItem('entities')" ng-class="{active: menu.entities}"><a href="#/entities/table">Юридические лица</a></li>
                                 <li ng-click="pickMenuItem('addresses')" ng-class="{active: menu.addresses}"><a href="#/addresses/table">Адреса</a></li>
+                                <li ng-click="pickMenuItem('points')" ng-class="{active: menu.points}"><a href="#/points/table">Точки учёта</a></li>
                                 <li ng-click="pickMenuItem('enterprise')" ng-class="{active: menu.enterprise}"><a href="#/enterprise/table">Данные предприятия</a></li>
                                 <li ng-click="pickMenuItem('test')" ng-class="{active: menu.test}"><a href="#/test">Test</a></li>
                             </ul>
@@ -78,6 +81,7 @@
                 "owners", "addressesTable", "addressesEditor", "personsTable", "personsEditor", "personsPassport",
                 "entitiesTable", "entitiesEditor", "modelsTable", "modelsEditor", "modelsInfo",
                 "enterpriseTable", "enterpriseEditor", "enterpriseInfo", "metersTable", "metersEditor",
+                "pointsTable", "pointsEditor",
                 "test"])
             .config(function($routeProvider){
                 $routeProvider
@@ -169,6 +173,18 @@
                             templateUrl:'/partials/metersTable.html',
                             controller:'metersController'
                         })
+                        .when("/points/editor", {
+                            templateUrl:'/partials/pointsEditor.html',
+                            controller:'pointsEditorController'
+                        })
+                        .when("/points/editor/edit", {
+                            templateUrl:'/partials/pointsEditor.html',
+                            controller:'pointsEditorController'
+                        })
+                        .when("/points/table", {
+                            templateUrl:'/partials/pointsTable.html',
+                            controller:'pointsController'
+                        })
                         .when("/test", {
                             templateUrl:'/partials/test.html',
                             controller:'testController'
@@ -203,7 +219,8 @@
             profile: false,
             models: false,
             enterprise: false,
-            meters: false
+            meters: false,
+            points: false
         };
     });
 </script>

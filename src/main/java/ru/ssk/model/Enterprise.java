@@ -1,6 +1,9 @@
 package ru.ssk.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by user on 24.05.2016.
@@ -36,6 +39,10 @@ public class Enterprise {
             fetch = FetchType.EAGER)
     @JoinColumn(name = "bank_addr", nullable = false)
     private Address bankAddress;
+
+    @OneToMany(mappedBy = "enterpriseEntry", fetch = FetchType.LAZY)//, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })
+    @JsonIgnore
+    private Set<MeteringPoint> meteringPoints;
 
     public Enterprise() {
     }
@@ -134,5 +141,13 @@ public class Enterprise {
 
     public void setBankAddress(Address bankAddress) {
         this.bankAddress = bankAddress;
+    }
+
+    public Set<MeteringPoint> getMeteringPoints() {
+        return meteringPoints;
+    }
+
+    public void setMeteringPoints(Set<MeteringPoint> meteringPoints) {
+        this.meteringPoints = meteringPoints;
     }
 }

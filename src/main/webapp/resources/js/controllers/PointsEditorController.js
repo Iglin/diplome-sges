@@ -3,126 +3,67 @@
  */
 var pointsEditor = angular.module("pointsEditor", []);
 pointsEditor.controller('pointsEditorController', function($scope, $http, $routeParams) {
-   // loadAddresses();
-   // loadEnterprise();
-   // loadEntities();
-   // loadPersons();
-   // loadMeters();
-    if ($routeParams['id'] != null && $routeParams['id'].trim() != '') {
-        $http({
-            url:'/points/editor/',
-            method:'GET',
-            params: { id: $routeParams['id'] }
-        }).then(function(response){
-            var paramsMap = response.data;
-            $scope.point = paramsMap['point'];
-            $scope.addresses = paramsMap['addresses'];
-            $scope.meters = paramsMap['meters'];
-            $scope.enterpriseEntries = paramsMap['enterpriseEntries'];
-            $scope.entities = paramsMap['entities'];
-            $scope.persons = paramsMap['persons'];
-            
-            $scope.addressIdFromReq = $scope.point.address.id;
-            
-            $scope.ownerIdFromReq = $scope.point.owner.id;
-            $scope.meterIdFromReq = $scope.point.meter.id;
-            $scope.enterpriseEntryIdFromReq = $scope.point.enterpriseEntry.id;
-            if ($scope.point.owner.hasOwnProperty('name')) {
-                $scope.ownerType = 'Юр. лицо';
-            } else {
-                $scope.ownerType = 'Физ. лицо';
-            }
-        }, function(response){
-            alert(JSON.stringify(response));
-        });
-        $scope.isUpdate = true;
-        $scope.newAddress = false;
-        $scope.editAddress = true;
 
-    } else {
-        $http({
-            url:'/points/editor/',
-            method:'GET'
-        }).then(function(response){
-            var paramsMap = response.data;
-            $scope.addresses = paramsMap['addresses'];
-            $scope.meters = paramsMap['meters'];
-            $scope.enterpriseEntries = paramsMap['enterpriseEntries'];
-            $scope.entities = paramsMap['entities'];
-            $scope.persons = paramsMap['persons'];
-        }, function(response){
-            alert(JSON.stringify(response));
-        });
-        $scope.isUpdate = false;
-        $scope.newAddress = false;
-        $scope.editAddress = false;
-        $scope.ownerType = 'Юр. лицо';
-    }
-
-    function loadAddresses() {
-        if ($scope.addresses == null) {
+    angular.element(document).ready(function () {
+        if ($routeParams['id'] != null && $routeParams['id'].trim() != '') {
             $http({
-                url:'/addresses/table/',
-                method:'GET'
+                url:'/points/editor/',
+                method:'GET',
+                params: { id: $routeParams['id'] }
             }).then(function(response){
-                $scope.addresses = response.data;
+                var paramsMap = response.data;
+                $scope.point = paramsMap['point'];
+                $scope.addresses = paramsMap['addresses'];
+                $scope.meters = paramsMap['meters'];
+                $scope.enterpriseEntries = paramsMap['enterpriseEntries'];
+                $scope.entities = paramsMap['entities'];
+                $scope.persons = paramsMap['persons'];
+
+                if ($scope.point.owner.hasOwnProperty('name')) {
+                    $scope.ownerType = 'Юр. лицо';
+                    $scope.entitiesSelect = { opt: $scope.point.owner.id };
+                    $scope.personsSelect = { opt: $scope.persons[0].id };
+                } else {
+                    $scope.ownerType = 'Физ. лицо';
+                    $scope.entitiesSelect = { opt: $scope.entities[0].id };
+                    $scope.personsSelect = { opt: $scope.point.owner.id };
+                }
+            //    $scope.metersSelect = { opt: $scope.meters[findIndexById($scope.meters, $scope.point.meter.id)].id };
+                $scope.metersSelect = { opt: $scope.point.meter.id };
+                $scope.enterpriseEntriesSelect = { opt: $scope.point.enterpriseEntry.id };
+
+           //    $scope.addressIdFromReq = $scope.point.address.id;
             }, function(response){
                 alert(JSON.stringify(response));
             });
-        }
-    }
-
-    function loadEntities() {
-        if ($scope.entities == null) {
+            $scope.isUpdate = true;
+            $scope.newAddress = false;
+            $scope.editAddress = true;
+        } else {
             $http({
-                url:'/entities/table/',
+                url:'/points/editor/',
                 method:'GET'
             }).then(function(response){
-                $scope.entities = response.data;
+                var paramsMap = response.data;
+                $scope.addresses = paramsMap['addresses'];
+                $scope.meters = paramsMap['meters'];
+                $scope.enterpriseEntries = paramsMap['enterpriseEntries'];
+                $scope.entities = paramsMap['entities'];
+                $scope.persons = paramsMap['persons'];
+
+                $scope.metersSelect = { opt: $scope.meters[0].id };
+                $scope.enterpriseEntriesSelect = { opt: $scope.enterpriseEntries[0].id };
+                $scope.entitiesSelect = { opt: $scope.entities[0].id };
+                $scope.personsSelect = { opt: $scope.persons[0].id };
             }, function(response){
                 alert(JSON.stringify(response));
             });
+            $scope.isUpdate = false;
+            $scope.newAddress = false;
+            $scope.editAddress = false;
+            $scope.ownerType = 'Юр. лицо';
         }
-    }
-
-    function loadPersons() {
-        if ($scope.addresses == null) {
-            $http({
-                url:'/persons/table/',
-                method:'GET'
-            }).then(function(response){
-                $scope.persons = response.data;
-            }, function(response){
-                alert(JSON.stringify(response));
-            });
-        }
-    }
-
-    function loadMeters() {
-        if ($scope.addresses == null) {
-            $http({
-                url:'/meters/table/',
-                method:'GET'
-            }).then(function(response){
-                $scope.meters = response.data;
-            }, function(response){
-                alert(JSON.stringify(response));
-            });
-        }
-    }
-
-    function loadEnterprise() {
-        if ($scope.enterpriseEntries == null) {
-            $http({
-                url:'/enterprise/table/',
-                method:'GET'
-            }).then(function(response){
-                $scope.enterpriseEntries = response.data;
-            }, function(response){
-                alert(JSON.stringify(response));
-            });
-        }
-    }
+    });
 
     $scope.pickAddressFromDB = function () {
       //  loadAddresses();
@@ -146,12 +87,13 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
         } else if (!$scope.editAddress) {
             $scope.point.address = $scope.addresses[$scope.addressId];
         }
-        $scope.point.enterpriseEntry = $scope.enterpriseEntries[$scope.enterpriseEntryIndex];
-        $scope.point.meter = $scope.meters[$scope.meterIndex];
+        $scope.point.enterpriseEntry = findObjectById($scope.enterpriseEntries, $scope.enterpriseEntriesSelect.opt);
+
+        $scope.point.meter = findObjectById($scope.meters, $scope.metersSelect.opt);
         if ($scope.ownerType == 'Юр. лицо') {
-            $scope.point.owner = $scope.entities[$scope.entityIndex];
+            $scope.point.owner = findObjectById($scope.entities, $scope.entitiesSelect.opt);
         } else {
-            $scope.point.owner = $scope.persons[$scope.personIndex];
+            $scope.point.owner = findObjectById($scope.persons, $scope.personsSelect.opt);
         }
     }
 
@@ -185,3 +127,27 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
         });
     };
 });
+
+function findIndexById(arr, id) {
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i].id == id) {
+            // alert(JSON.stringify(arr[i]));
+            //  alert(i);
+            return i;
+        }
+    }
+    alert('No such id!');
+    return null;
+}
+
+function findObjectById(arr, id) {
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i].id == id) {
+            // alert(JSON.stringify(arr[i]));
+            //  alert(i);
+            return arr[i];
+        }
+    }
+    alert('No such id!');
+    return null;
+}

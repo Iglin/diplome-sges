@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.ssk.model.LegalEntity;
-import ru.ssk.model.Meter;
 import ru.ssk.model.MeteringPoint;
 import ru.ssk.service.*;
 
@@ -41,12 +40,6 @@ public class MeteringPointController extends BaseController {
     public List<MeteringPoint> all(){
         return meteringPointService.findAll();
     }
-
-  /*  @RequestMapping(value = "/editor/", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public MeteringPoint getOne(@RequestParam(value = "id") long id){
-        return meteringPointService.findById(id);
-    }*/
 
     @RequestMapping(value = "/editor/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)

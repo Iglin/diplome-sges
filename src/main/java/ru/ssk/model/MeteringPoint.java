@@ -1,6 +1,6 @@
 package ru.ssk.model;
 
-import org.hibernate.annotations.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
@@ -36,6 +36,10 @@ public class MeteringPoint {
             fetch = FetchType.EAGER)
     @JoinColumn(name = "meter", nullable = false, unique = true)
     private Meter meter;
+
+    @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "meteringPoint", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private EntityStatement entityStatement;
 
     public MeteringPoint() {
     }
@@ -86,5 +90,13 @@ public class MeteringPoint {
 
     public void setMeter(Meter meter) {
         this.meter = meter;
+    }
+
+    public EntityStatement getEntityStatement() {
+        return entityStatement;
+    }
+
+    public void setEntityStatement(EntityStatement entityStatement) {
+        this.entityStatement = entityStatement;
     }
 }

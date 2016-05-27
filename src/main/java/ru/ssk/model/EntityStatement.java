@@ -7,7 +7,7 @@ import java.sql.Date;
  * Created by user on 27.05.2016.
  */
 @Entity
-@Table(name = "emtity_statement")
+@Table(name = "entity_statement")
 public class EntityStatement {
     @Id
     @Column(name = "stat_num")

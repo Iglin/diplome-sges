@@ -3,9 +3,6 @@ package ru.ssk.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.sql.Date;
 
 /**

@@ -25,5 +25,4 @@ public interface MeteringPointRepository extends JpaRepository<MeteringPoint, Lo
     @Modifying
     @Query("DELETE FROM MeteringPoint a WHERE a.id IN ?1")
     void deleteWithIds(List<Long> ids);
-
 }

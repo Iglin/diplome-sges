@@ -61,4 +61,9 @@ public class SpringBeansConfig {
     public MeteringPointService meteringPointService() {
         return new MeteringPointServiceImpl();
     }
+
+    @Bean
+    public EntityStatementService entityStatementService() {
+        return new EntityStatementServiceImpl();
+    }
 }

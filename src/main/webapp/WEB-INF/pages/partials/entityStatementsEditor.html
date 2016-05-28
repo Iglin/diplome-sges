@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <table class="table">
+                <thead></thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <span>Номер заявления: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" required ng-model="statement.number">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Дата: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="date" required ng-model="statement.date">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <h3>
+                Данные точки учёта:
+            </h3>
+            <button class="btn btn-primary" ng-click="addPointsFilter();">Добавить фильтр</button>
+            <points-filters></points-filters>
+            <button class="btn btn-primary" ng-click="filterPoints();">Применить</button>
+            <div style="{ height: 200px !important; overflow: scroll; }">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Собственник</th><th>Адрес</th><th>Дата установки</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="x in points" ng-click="pickPoint(x);">
+                        <td>
+                            {{ x.meteringPoint.owner.name }}
+                        </td>
+                        <td>{{ x.address.region + ', ' + x.address.city + ', ' +
+                            x.address.street + ', ' + x.address.building + ', ' +
+                            x.address.apartment + '; Индекс: ' + x.address.index }}</td>
+                        <td>{{ x.installationDate }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <br><br>
+            <button class="btn btn-success" id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>
+            <button class="btn btn-success" id="btn_upt" type="button" ng-show="isUpdate" ng-click="update()">Сохранить</button>
+            <a class="btn btn-default" href="#/points/table">Отмена</a>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>

@@ -26,25 +26,40 @@
             <h3>
                 Данные точки учёта:
             </h3>
-            <button class="btn btn-primary" ng-click="addPointsFilter();">Добавить фильтр</button>
-            <points-filters></points-filters>
-            <button class="btn btn-primary" ng-click="filterPoints();">Применить</button>
+
+            <button class='btn btn-primary' ng-click='addPointsFilter();'>Добавить фильтр</button>
+            <div ng-repeat='singleFilter in pointsFilters track by $index'>
+                <select class='form-control' ng-model='singleFilter.parameter' required
+                        ng-options='x as x.value for x in ((pointsFiltersParams | filter : {usedBy: null}) &&
+                        (pointsFiltersParams | filter : {usedBy: $index}))'></select>
+                <input type='text' class='form-control' ng-model='singleFilter.value'>
+                <button class='btn btn-danger' ng-click='removePointsFilter($index);'>-</button><br>
+            </div>
+            <br><br>
+            pointsFiltersParams : {{pointsFiltersParams}} <br>
+            pointsFilters : {{pointsFilters}} <br>
+            <button class='btn btn-primary' ng-click='filterPoints();'>Применить</button>
+
+
             <div style="{ height: 200px !important; overflow: scroll; }">
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th>Собственник</th><th>Адрес</th><th>Дата установки</th>
+                        <th>Собственник</th><th>Адрес</th><th>Дата установки</th><th>Счётчик</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="x in points" ng-click="pickPoint(x);">
                         <td>
-                            {{ x.meteringPoint.owner.name }}
+                            {{ x.owner.name }}
                         </td>
                         <td>{{ x.address.region + ', ' + x.address.city + ', ' +
                             x.address.street + ', ' + x.address.building + ', ' +
                             x.address.apartment + '; Индекс: ' + x.address.index }}</td>
                         <td>{{ x.installationDate }}</td>
+                        <td>
+                            {{ x.meter.model.Manufacturer + ' ' + x.meter.model.name + '; с/н: ' + x.meter.serialNumber }}
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -53,7 +68,7 @@
             <br><br>
             <button class="btn btn-success" id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>
             <button class="btn btn-success" id="btn_upt" type="button" ng-show="isUpdate" ng-click="update()">Сохранить</button>
-            <a class="btn btn-default" href="#/points/table">Отмена</a>
+            <a class="btn btn-default" href="#/entity_statements/table">Отмена</a>
         </div>
         <div class="col-sm-3"></div>
     </div>

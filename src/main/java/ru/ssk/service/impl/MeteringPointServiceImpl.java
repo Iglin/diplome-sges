@@ -75,6 +75,11 @@ public class MeteringPointServiceImpl implements MeteringPointService {
     }
 
     @Override
+    public List<MeteringPoint> findAllEntityPoints() {
+        return meteringPointRepository.findAllEntityPoints();
+    }
+
+    @Override
     public List<MeteringPoint> findAll() {
         return meteringPointRepository.findAll();
     }

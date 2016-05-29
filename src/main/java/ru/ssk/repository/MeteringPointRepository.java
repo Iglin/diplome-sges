@@ -22,6 +22,9 @@ public interface MeteringPointRepository extends JpaRepository<MeteringPoint, Lo
     List<MeteringPoint> findByAddress(Address address);
     List<MeteringPoint> findByEnterpriseEntry(Enterprise enterprise);
 
+    @Query("SELECT e FROM MeteringPoint e WHERE e.owner.id IN (SELECT o.id FROM LegalEntity o)")
+    List<MeteringPoint> findAllEntityPoints();
+
     @Modifying
     @Query("DELETE FROM MeteringPoint a WHERE a.id IN ?1")
     void deleteWithIds(List<Long> ids);

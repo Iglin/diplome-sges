@@ -29,6 +29,8 @@
     <script src="resources/js/controllers/pointsController.js"></script>
     <script src="resources/js/controllers/pointsEditorController.js"></script>
     <script src="resources/js/controllers/pointsInfoController.js"></script>
+    <script src="resources/js/controllers/entityStatementsController.js"></script>
+    <script src="resources/js/controllers/entityStatementsEditorController.js"></script>
 
     <script src="resources/js/controllers/testController.js"></script>
 </head>
@@ -51,6 +53,7 @@
                             </div-->
                             <ul class="nav navbar-nav">
                                 <!--li ng-click="pickMenuItem('owners')" ng-class="{active: menu.owners}"><a href="#/owners">Собственники</a></li-->
+                                <li ng-click="pickMenuItem('entityStatements')" ng-class="{active: menu.entityStatements}"><a href="#/entity_statements/table">Заявления юр. лиц</a></li>
                                 <li ng-click="pickMenuItem('models')" ng-class="{active: menu.models}"><a href="#/models/table">Модели счётчиков</a></li>
                                 <li ng-click="pickMenuItem('meters')" ng-class="{active: menu.meters}"><a href="#/meters/table">Счётчики</a></li>
                                 <li ng-click="pickMenuItem('persons')" ng-class="{active: menu.persons}"><a href="#/persons/table">Физические лица</a></li>
@@ -82,7 +85,7 @@
                 "owners", "addressesTable", "addressesEditor", "personsTable", "personsEditor", "personsPassport",
                 "entitiesTable", "entitiesEditor", "modelsTable", "modelsEditor", "modelsInfo",
                 "enterpriseTable", "enterpriseEditor", "enterpriseInfo", "metersTable", "metersEditor",
-                "pointsTable", "pointsEditor", "pointsInfo",
+                "pointsTable", "pointsEditor", "pointsInfo", "entityStatementsTable", "entityStatementsEditor",
                 "test"])
             .config(function($routeProvider){
                 $routeProvider
@@ -190,6 +193,18 @@
                             templateUrl:'/partials/pointsInfo.html',
                             controller:'pointsInfoController'
                         })
+                        .when("/entity_statements/editor", {
+                            templateUrl:'/partials/entityStatementsEditor.html',
+                            controller:'entityStatementsEditorController'
+                        })
+                        .when("/entity_statements/editor/edit", {
+                            templateUrl:'/partials/entityStatementsEditor.html',
+                            controller:'entityStatementsEditorController'
+                        })
+                        .when("/entity_statements/table", {
+                            templateUrl:'/partials/entityStatementsTable.html',
+                            controller:'entityStatementsController'
+                        })
                         .when("/test", {
                             templateUrl:'/partials/test.html',
                             controller:'testController'
@@ -225,7 +240,8 @@
             models: false,
             enterprise: false,
             meters: false,
-            points: false
+            points: false,
+            entityStatements: false
         };
     });
 </script>

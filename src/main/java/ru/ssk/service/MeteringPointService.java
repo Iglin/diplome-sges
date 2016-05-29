@@ -21,5 +21,6 @@ public interface MeteringPointService {
     List<MeteringPoint> findByOwner(Owner owner);
     List<MeteringPoint> findByAddress(Address address);
     List<MeteringPoint> findByEnterpriseEntry(Enterprise enterprise);
+    List<MeteringPoint> findAllEntityPoints();
     List<MeteringPoint> findAll();
 }

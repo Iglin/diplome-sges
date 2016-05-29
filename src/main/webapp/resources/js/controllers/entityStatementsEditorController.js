@@ -7,98 +7,40 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
     angular.element(document).ready(function () {
         if ($routeParams['id'] != null && $routeParams['id'].trim() != '') {
             $http({
-                url:'/points/editor/',
+                url:'/entity_statements/editor/',
                 method:'GET',
                 params: { id: $routeParams['id'] }
             }).then(function(response){
                 var paramsMap = response.data;
                 $scope.statement = paramsMap['statement'];
                 $scope.points = paramsMap['points'];
-
-                if ($scope.point.owner.hasOwnProperty('name')) {
-                    $scope.ownerType = 'Юр. лицо';
-                    $scope.entitiesSelect = { opt: $scope.point.owner.id };
-                    $scope.personsSelect = { opt: $scope.persons[0].id };
-                } else {
-                    $scope.ownerType = 'Физ. лицо';
-                    $scope.entitiesSelect = { opt: $scope.entities[0].id };
-                    $scope.personsSelect = { opt: $scope.point.owner.id };
-                }
-                $scope.metersSelect = { opt: $scope.point.meter.id };
-                $scope.enterpriseEntriesSelect = { opt: $scope.point.enterpriseEntry.id };
-                $scope.addressesSelect = { opt: $scope.point.address.id };
             }, function(response){
                 alert(JSON.stringify(response));
             });
             $scope.isUpdate = true;
-            $scope.newAddress = false;
-            $scope.editAddress = true;
         } else {
             $http({
-                url:'/points/editor/',
+                url:'/entity_statements/editor/',
                 method:'GET'
             }).then(function(response){
                 var paramsMap = response.data;
-                $scope.addresses = paramsMap['addresses'];
-                $scope.meters = paramsMap['meters'];
-                $scope.enterpriseEntries = paramsMap['enterpriseEntries'];
-                $scope.entities = paramsMap['entities'];
-                $scope.persons = paramsMap['persons'];
-
-                $scope.metersSelect = { opt: $scope.meters[0].id };
-                $scope.enterpriseEntriesSelect = { opt: $scope.enterpriseEntries[0].id };
-                $scope.entitiesSelect = { opt: $scope.entities[0].id };
-                $scope.personsSelect = { opt: $scope.persons[0].id };
-                $scope.addressesSelect = { opt: $scope.addresses[0].id };
+                $scope.points = paramsMap['points'];
             }, function(response){
                 alert(JSON.stringify(response));
             });
             $scope.isUpdate = false;
-            $scope.newAddress = false;
-            $scope.editAddress = false;
-            $scope.ownerType = 'Юр. лицо';
         }
+        $scope.pointsFilters = [];
+        $scope.pointsFiltersParams = [{ usedBy: null, value: 'Дата установки' }, { usedBy: null, value: 'Адрес' },
+            { usedBy: null, value: 'Собственник' }, { usedBy: null, value: 'Счётчик' }];
     });
 
-    $scope.pickAddressFromDB = function () {
-        //  loadAddresses();
-        $scope.newAddress = false;
-        $scope.editAddress = false;
-    };
-
-    $scope.setNewAddress = function () {
-        $scope.newAddress = true;
-        $scope.editAddress = false;
-    };
-
-    $scope.setEditAddress = function () {
-        $scope.newAddress = false;
-        $scope.editAddress = true;
-    };
-
-    function prepareToSend() {
-        if ($scope.newAddress) {
-            $scope.point.address.id = null;
-        } else if (!$scope.editAddress) {
-            $scope.point.address = findObjectById($scope.addresses, $scope.addressesSelect.opt);
-        }
-        $scope.point.enterpriseEntry = findObjectById($scope.enterpriseEntries, $scope.enterpriseEntriesSelect.opt);
-
-        $scope.point.meter = findObjectById($scope.meters, $scope.metersSelect.opt);
-        if ($scope.ownerType == 'Юр. лицо') {
-            $scope.point.owner = findObjectById($scope.entities, $scope.entitiesSelect.opt);
-        } else {
-            $scope.point.owner = findObjectById($scope.persons, $scope.personsSelect.opt);
-        }
-    }
-
     $scope.add = function () {
-        prepareToSend();
         $http({
-            url: '/points/editor/',
+            url: '/entity_statements/editor/',
             method: 'POST',
             params: {
-                point: $scope.point
+                statement: $scope.statement
             }
         }).then(function (response) {
             alert(response.data);
@@ -108,12 +50,11 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
     };
 
     $scope.update = function () {
-        prepareToSend();
         $http({
-            url: '/points/editor/',
+            url: '/entity_statements/editor/',
             method: 'PUT',
             params: {
-                point: $scope.point
+                statement: $scope.statement
             }
         }).then(function (response) {
             alert(response.data);
@@ -121,14 +62,54 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
             alert(JSON.stringify(response));
         });
     };
+
+    $scope.addPointsFilter = function () {
+        var index = $scope.pointsFilters.length;
+        if (index < $scope.pointsFiltersParams.length) {
+            for (var i = 0; i < $scope.pointsFiltersParams.length; i++) {
+                if ($scope.pointsFiltersParams[i].usedBy == null) {
+                    $scope.pointsFilters[index] = new Filter($scope.pointsFiltersParams[i], '');
+                    $scope.pointsFiltersParams[i].usedBy = index;
+                    break;
+                }
+            }
+        }
+    };
+
+    $scope.removePointsFilter = function (index) {
+        $scope.pointsFilters[index].parameter.usedBy = null;
+        if ($scope.pointsFilters.length - 1 > index) {
+            for (var i = index + 1; i < pointsFilters.length; i++) {
+                pointsFilters[i - 1] = pointsFilters[i];
+            }
+        }
+        $scope.pointsFilters[$scope.pointsFilters.length - 1] = null;
+    };
+
+    $scope.filterPointsParams = function (x, index) {
+        return x.usedBy == null || x.usedBy == index;
+    };
+
+    $scope.filterPoints = function () {
+
+    }
 });
 
-function findObjectById(arr, id) {
-    for (var i = 0; i < arr.length; i++) {
-        if (arr[i].id == id) {
-            return arr[i];
-        }
+entityStatementsEditor.directive('pointsFiltersDirective', function() {
+    return {
+        template:
+        "<button class='btn btn-primary' ng-click='addPointsFilter();'>Добавить фильтр</button>" +
+        "<div ng-repeat='singleFilter in pointsFilters track by $index'>" +
+        "<select class='form-control' ng-model='pointsFilters[$index].parameter' required " +
+        "ng-options='x for x.value in pointsFiltersParams | filter:{ usedBy : $index || null }'></select>" +
+        "<input type='text' class='form-control' ng-model='pointsFilters[$index].value'>" +
+        "<button class='btn btn-danger' ng-click='removePointsFilter($index);'>-</button><br>" +
+        "</div>" +
+        "<button class='btn btn-primary' ng-click='filterPoints();'>Применить</button>"
     }
-    alert('No such id!');
-    return null;
+});
+
+function Filter(parameter, value) {
+    this.parameter = parameter;
+    this.value = value;
 }

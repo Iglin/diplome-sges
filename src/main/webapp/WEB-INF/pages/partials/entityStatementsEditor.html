@@ -27,13 +27,21 @@
                 Данные точки учёта:
             </h3>
 
-            <button class='btn btn-primary' ng-click='addPointsFilter();'>Добавить фильтр</button>
+            <button class='btn btn-primary' ng-click='addPointsFilter();'>Добавить фильтр</button><br><br>
             <div ng-repeat='singleFilter in pointsFilters track by $index'>
-                <select class='form-control' ng-model='singleFilter.parameter' required
-                        ng-options='x as x.value for x in ((pointsFiltersParams | filter : {usedBy: null}) &&
-                        (pointsFiltersParams | filter : {usedBy: $index}))'></select>
-                <input type='text' class='form-control' ng-model='singleFilter.value'>
-                <button class='btn btn-danger' ng-click='removePointsFilter($index);'>-</button><br>
+                <div class="col-xs-5">
+                    <label for="sel{{$index}}"></label>
+                    <select id='sel{{$index}}' class='form-control' ng-model='singleFilter.parameter' required
+                            ng-options='x as x for x in pointsFiltersParams[$index]' ng-change="pointsFiltersChange()"></select>
+                </div>
+                <div class="col-xs-6">
+                    <label for="inp{{$index}}"></label>
+                    <input id="inp{{$index}}" type='text' class='form-control' ng-model='singleFilter.value'>
+                </div>
+                <div class="col-xs-1">
+                    <button class='btn btn-danger' ng-click='removePointsFilter($index);'>-</button>
+                </div>
+                <br>
             </div>
             <br><br>
             pointsFiltersParams : {{pointsFiltersParams}} <br>

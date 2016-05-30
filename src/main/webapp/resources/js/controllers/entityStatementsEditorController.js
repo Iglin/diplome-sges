@@ -13,6 +13,8 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
             }).then(function(response){
                 var paramsMap = response.data;
                 $scope.statement = paramsMap['statement'];
+                var arr = $scope.statement.date.split('-');
+                $scope.statement.date = new Date(arr[0], --arr[1], arr[2]);
                 $scope.points = paramsMap['points'];
                 for (var i = 0; i < $scope.points.length; i++) {
                     if ($scope.points[i].id == $scope.statement.meteringPoint.id) {

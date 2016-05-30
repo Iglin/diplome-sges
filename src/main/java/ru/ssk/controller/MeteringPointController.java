@@ -3,18 +3,21 @@ package ru.ssk.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.ssk.model.LegalEntity;
 import ru.ssk.model.MeteringPoint;
 import ru.ssk.service.*;
-import ru.ssk.spec.MeteringPointSpecs;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.springframework.data.jpa.domain.Specifications.where;
+import static ru.ssk.spec.MeteringPointSpecs.*;
 
 /**
  * Created by user on 25.05.2016.
@@ -105,9 +108,13 @@ public class MeteringPointController extends BaseController {
     public List<MeteringPoint> filter(@RequestParam(value = "filters") String filters) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         FiltersMap filtersMap = gson.fromJson(filters, FiltersMap.class);
-        String entityName = filtersMap.getFiltersValue("Собственник");
-        System.out.println(entityName);
-        return meteringPointService.findAll(MeteringPointSpecs.ownedByEntity(entityName));
+        String personalAccount = filtersMap.getFiltersValue("Собственник");
+        Specification<MeteringPoint> specification;
+        if (personalAccount != null && !personalAccount.trim().equals("")) {
+            specification = where(ownedBy(Long.valueOf(personalAccount)));
+        }
+        if ()
+        return meteringPointService.findAll(ownedBy(Long.valueOf(entityName)));
     }
 
     private void synchronizeAddressSession(MeteringPoint meteringPoint) {

@@ -3,10 +3,8 @@ package ru.ssk.spec;
 import org.springframework.data.jpa.domain.Specification;
 import ru.ssk.model.*;
 
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
+import javax.persistence.criteria.*;
+import java.sql.Date;
 
 /**
  * Created by user on 30.05.2016.
@@ -17,19 +15,43 @@ public class MeteringPointSpecs {
         throw new AssertionError("Tried to instantiate Specs class!");
     }
 
-    public static Specification<MeteringPoint> ownedByEntity(String ownerName) {
+    public static Specification<MeteringPoint> ownedBy(Long personalAccount) {
         return (root, query, builder) ->
-                builder.like(
-                        root.get(MeteringPoint_.owner).<String> get(LegalEntity_.name), "%" + ownerName + "%");
-
-                  /*              .join(MeteringPoint_.owner)
-                                .get(String.valueOf(LegalEntity_.name)),
-                        ownerName);
-
+                builder.equal(root.get(MeteringPoint_.owner).<Long> get(Owner_.personalAccount), personalAccount);
+/*
             Subquery<Long> entityQuery = query.subquery(Long.class);
             Root<LegalEntity> legalEntityRoot = entityQuery.from(LegalEntity.class);
             Join<LegalEntity, MeteringPoint> points = legalEntityRoot.join(LegalEntity_.meteringPoints);
 */
+    }
+
+    public static Specification<MeteringPoint> locatedIn(Address address) {
+        return (root, query, builder) -> {
+            Path<Address> path = root.get(MeteringPoint_.address);
+            return builder.and(
+                    builder.like(path.get(Address_.region), "%" + address.getRegion() + "%"),
+                    builder.like(path.get(Address_.city), "%" + address.getCity() + "%"),
+                    builder.like(path.get(Address_.street), "%" + address.getStreet() + "%"),
+                    builder.like(path.get(Address_.building), "%" + address.getBuilding() + "%"),
+                    builder.like(path.get(Address_.apartment), "%" + address.getApartment() + "%"),
+                    builder.equal(path.get(Address_.index), address.getIndex())
+            );
+        };
+    }
+
+    public static Specification<MeteringPoint> hasMeter(String manufacturer, String model, String serialNumber) {
+        return (root, query, builder) -> {
+            Path<Meter> path = root.get(MeteringPoint_.meter);
+            return builder.and(
+                    builder.like(path.get(Meter_.model).get(MeterModel_.manufacturer), "%" + manufacturer + "%"),
+                    builder.like(path.get(Meter_.model).get(MeterModel_.name), "%" + model + "%"),
+                    builder.equal(path.get(Meter_.serialNumber), serialNumber)
+            );
+        };
+    }
+
+    public static Specification<MeteringPoint> installedInPeriod(Date dateFrom, Date dateTo) {
+        return (root, query, builder) -> builder.between(root.get(MeteringPoint_.installationDate), dateFrom, dateTo);
     }
 
    /* public static Specification<Customer> isLongTermCustomer() {

@@ -13,6 +13,8 @@ import ru.ssk.model.PhysicalPerson;
 import ru.ssk.service.*;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.springframework.data.jpa.domain.Specifications.where;
@@ -104,7 +106,7 @@ public class MeteringPointController extends BaseController {
 
     @RequestMapping(value = "/filter/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public List<MeteringPoint> filterEntityPoints(@RequestParam(value = "filters") String filters) {
+    public List<MeteringPoint> filterEntityPoints(@RequestParam(value = "filters") String filters) throws ParseException {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         FiltersMap filtersMap = gson.fromJson(filters, FiltersMap.class);
         Map<String, String> filterValues = filtersMap.getFilterValues("Собственник");
@@ -140,13 +142,18 @@ public class MeteringPointController extends BaseController {
         }
         filterValues = filtersMap.getFilterValues("Дата установки");
         if (filterValues != null) {
-            Date dateFrom = Date.valueOf(filterValues.get("dateFrom"));
-            Date dateTo = Date.valueOf(filterValues.get("dateTo"));
-            if (specification == null) {
-                specification = installedInPeriod(dateFrom, dateTo);
-            } else {
-                specification = where(specification).and(installedInPeriod(dateFrom, dateTo));
+            String dateFromString = filterValues.get("dateFrom");
+            String dateToString = filterValues.get("dateTo");
+            if (dateFromString != null && dateToString != null) {
+                Date dateFrom = Date.valueOf(dateFromString.substring(0, 10));
+                Date dateTo = Date.valueOf(dateToString.substring(0, 10));
+                if (specification == null) {
+                    specification = installedInPeriod(dateFrom, dateTo);
+                } else {
+                    specification = where(specification).and(installedInPeriod(dateFrom, dateTo));
+                }
             }
+         //   Date dateTo = new Date(formatter.parse(filterValues.get("dateTo")).getTime());
         }
         if (specification != null) {
             List<MeteringPoint> list = meteringPointService.findAll(specification);

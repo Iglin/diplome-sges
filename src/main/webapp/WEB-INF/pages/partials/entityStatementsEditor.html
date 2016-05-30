@@ -28,7 +28,7 @@
             </h3>
 
             <button class='btn btn-primary' ng-click='addPointsFilter();'>Добавить фильтр</button><br><br>
-            <div ng-repeat='singleFilter in pointsFilters track by $index'>
+            <div class="row" ng-repeat='singleFilter in pointsFilters track by $index'>
                 <div class="col-xs-5">
                     <label for="sel{{$index}}"></label>
                     <select id='sel{{$index}}' class='form-control' ng-model='singleFilter.parameter' required
@@ -43,9 +43,7 @@
                 </div>
                 <br>
             </div>
-            <br><br>
-            pointsFiltersParams : {{pointsFiltersParams}} <br>
-            pointsFilters : {{pointsFilters}} <br>
+            <br>
             <button class='btn btn-primary' ng-click='filterPoints();'>Применить</button>
 
 

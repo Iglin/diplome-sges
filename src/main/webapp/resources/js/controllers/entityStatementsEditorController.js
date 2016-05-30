@@ -84,6 +84,7 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
 
     $scope.filterPoints = function () {
 
+        
     };
 
     function refreshPointsFilters() {

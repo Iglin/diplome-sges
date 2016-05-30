@@ -108,13 +108,13 @@ public class MeteringPointController extends BaseController {
     public List<MeteringPoint> filter(@RequestParam(value = "filters") String filters) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         FiltersMap filtersMap = gson.fromJson(filters, FiltersMap.class);
-        String personalAccount = filtersMap.getFiltersValue("Собственник");
-        Specification<MeteringPoint> specification;
-        if (personalAccount != null && !personalAccount.trim().equals("")) {
-            specification = where(ownedBy(Long.valueOf(personalAccount)));
+        Map<String, String> filterValues = filtersMap.getFilterValues("Собственник");
+        Specification<MeteringPoint> specification = null;
+        if (filterValues.get("personalAccount") != null && !filterValues.get("personalAccount").trim().equals("")) {
+            specification = where(ownedBy(Long.valueOf(filterValues.get("personalAccount"))));
         }
-        if ()
-        return meteringPointService.findAll(ownedBy(Long.valueOf(entityName)));
+       // if ()
+        return meteringPointService.findAll(specification);
     }
 
     private void synchronizeAddressSession(MeteringPoint meteringPoint) {

@@ -18,50 +18,38 @@ public class MeteringPointSpecs {
     public static Specification<MeteringPoint> ownedBy(Long personalAccount) {
         return (root, query, builder) ->
                 builder.equal(root.get(MeteringPoint_.owner).<Long> get(Owner_.personalAccount), personalAccount);
-/*
-            Subquery<Long> entityQuery = query.subquery(Long.class);
-            Root<LegalEntity> legalEntityRoot = entityQuery.from(LegalEntity.class);
-            Join<LegalEntity, MeteringPoint> points = legalEntityRoot.join(LegalEntity_.meteringPoints);
-*/
     }
 
-    public static Specification<MeteringPoint> locatedIn(Address address) {
+    public static Specification<MeteringPoint> locatedIn(String region, String city, String street, String building, String apartment, String index) {
         return (root, query, builder) -> {
             Path<Address> path = root.get(MeteringPoint_.address);
-            return builder.and(
-                    builder.like(path.get(Address_.region), "%" + address.getRegion() + "%"),
-                    builder.like(path.get(Address_.city), "%" + address.getCity() + "%"),
-                    builder.like(path.get(Address_.street), "%" + address.getStreet() + "%"),
-                    builder.like(path.get(Address_.building), "%" + address.getBuilding() + "%"),
-                    builder.like(path.get(Address_.apartment), "%" + address.getApartment() + "%"),
-                    builder.equal(path.get(Address_.index), address.getIndex())
-            );
+            Predicate predicate = builder.and(
+                    builder.like(path.get(Address_.region), "%" + region + "%"),
+                    builder.like(path.get(Address_.city), "%" + city + "%"),
+                    builder.like(path.get(Address_.street), "%" + street + "%"),
+                    builder.like(path.get(Address_.building), "%" + building + "%"),
+                    builder.like(path.get(Address_.apartment), "%" + apartment + "%"));
+            if (index != null && !index.trim().equals("")) {
+                predicate = builder.and(predicate, builder.equal(path.get(Address_.index), index));
+            }
+            return predicate;
         };
     }
 
     public static Specification<MeteringPoint> hasMeter(String manufacturer, String model, String serialNumber) {
         return (root, query, builder) -> {
             Path<Meter> path = root.get(MeteringPoint_.meter);
-            return builder.and(
+            Predicate predicate = builder.and(
                     builder.like(path.get(Meter_.model).get(MeterModel_.manufacturer), "%" + manufacturer + "%"),
-                    builder.like(path.get(Meter_.model).get(MeterModel_.name), "%" + model + "%"),
-                    builder.equal(path.get(Meter_.serialNumber), serialNumber)
-            );
+                    builder.like(path.get(Meter_.model).get(MeterModel_.name), "%" + model + "%"));
+            if (serialNumber != null && !serialNumber.trim().equals("")) {
+                predicate = builder.and(predicate, builder.equal(path.get(Meter_.serialNumber), serialNumber));
+            }
+            return predicate;
         };
     }
 
     public static Specification<MeteringPoint> installedInPeriod(Date dateFrom, Date dateTo) {
         return (root, query, builder) -> builder.between(root.get(MeteringPoint_.installationDate), dateFrom, dateTo);
     }
-
-   /* public static Specification<Customer> isLongTermCustomer() {
-        return new Specification<Customer>() {
-            public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query,
-                                         CriteriaBuilder builder) {
-
-                LocalDate date = new LocalDate().minusYears(2);
-                return builder.lessThan(root.get(Customer_.createdAt), date);
-            }
-        };
-    }*/
 }

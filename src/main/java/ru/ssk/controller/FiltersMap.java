@@ -7,28 +7,28 @@ import java.util.Map;
  * Created by user on 30.05.2016.
  */
 public class FiltersMap {
-    private Map<String, String> filters = new HashMap<>();
+    private Map<String, Map<String, String>> filters = new HashMap<>();
 
     public FiltersMap() {
     }
 
-    public Map<String, String> getFilters() {
+    public Map<String, Map<String, String>> getFilters() {
         return filters;
     }
 
-    public void setFilters(Map<String, String> filters) {
+    public void setFilters(Map<String, Map<String, String>> filters) {
         this.filters = filters;
     }
 
-    public void putFilter(String parameter, String value) {
-        filters.put(parameter, value);
+    public void putFilter(String parameter, Map<String, String> values) {
+        filters.put(parameter, values);
     }
 
     public void removeFilter(String parameter) {
         filters.remove(parameter);
     }
 
-    public String getFiltersValue(String parameter) {
+    public Map<String, String> getFilterValues(String parameter) {
         return filters.get(parameter);
     }
 }

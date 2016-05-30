@@ -68,7 +68,7 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
         var index = $scope.pointsFilters.length;
         var maxIndex = $scope.pointsFiltersModel.length - 1;
         if (index <= maxIndex) {
-            $scope.pointsFilters[index] = new Filter($scope.pointsFiltersParams[index][0], '');
+            $scope.pointsFilters[index] = new Filter($scope.pointsFiltersParams[index][0], {});
             refreshPointsFilters();
         }
     };
@@ -85,7 +85,7 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
     $scope.filterPoints = function () {
         var filtersMap = { filters: {} };
         for (var i = 0; i < $scope.pointsFilters.length; i++) {
-            filtersMap.filters[$scope.pointsFilters[i].parameter] = $scope.pointsFilters[i].value;
+            filtersMap.filters[$scope.pointsFilters[i].parameter] = $scope.pointsFilters[i].values;
         }
 
         alert(JSON.stringify(filtersMap));
@@ -135,8 +135,8 @@ entityStatementsEditor.directive('pointsFiltersDirective', function() {
     }
 });
 
-function Filter(parameter, value) {
+function Filter(parameter, values) {
     this.parameter = parameter;
-    this.value = value;
+    this.values = values;
 }
 

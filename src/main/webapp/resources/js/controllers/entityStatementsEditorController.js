@@ -68,12 +68,13 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
         var index = $scope.pointsFilters.length;
         var maxIndex = $scope.pointsFiltersModel.length - 1;
         if (index <= maxIndex) {
-            $scope.pointsFilters[index] = new Filter($scope.pointsFiltersParams[index][0], {});
+            $scope.pointsFilters[index] = new Filter($scope.pointsFiltersParams[index][0]);
             refreshPointsFilters();
         }
     };
 
-    $scope.pointsFiltersChange = function () {
+    $scope.pointsFiltersChange = function (index) {
+        $scope.pointsFilters[index].values = {};
         refreshPointsFilters();
     };
 
@@ -135,8 +136,33 @@ entityStatementsEditor.directive('pointsFiltersDirective', function() {
     }
 });
 
-function Filter(parameter, values) {
+function Filter(parameter) {
     this.parameter = parameter;
-    this.values = values;
+    switch (parameter) {
+        case 'Счётчик':
+            this.values = {};
+            this.values['manufacturer'] = '';
+            this.values['model'] = '';
+            this.values['serialNumber'] = '';
+            break;
+        case 'Адрес':
+            this.values = {};
+            this.values['region'] = '';
+            this.values['city'] = '';
+            this.values['street'] = '';
+            this.values['building'] = '';
+            this.values['apartment'] = '';
+            this.values['index'] = null;
+            break;
+        case 'Дата подключения':
+            this.values = {};
+            this.values['dateTo'] = '';
+            this.values['dateFrom'] = '';
+            break;
+        case 'Собственник':
+            this.values = {};
+            this.values['personalAccount'] = '';
+            break;
+    }
 }
 

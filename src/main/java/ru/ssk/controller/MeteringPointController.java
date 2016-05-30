@@ -9,12 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.ssk.model.LegalEntity;
 import ru.ssk.model.MeteringPoint;
+import ru.ssk.model.PhysicalPerson;
 import ru.ssk.service.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Date;
+import java.util.*;
 
 import static org.springframework.data.jpa.domain.Specifications.where;
 import static ru.ssk.spec.MeteringPointSpecs.*;
@@ -105,16 +104,60 @@ public class MeteringPointController extends BaseController {
 
     @RequestMapping(value = "/filter/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public List<MeteringPoint> filter(@RequestParam(value = "filters") String filters) {
+    public List<MeteringPoint> filterEntityPoints(@RequestParam(value = "filters") String filters) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         FiltersMap filtersMap = gson.fromJson(filters, FiltersMap.class);
         Map<String, String> filterValues = filtersMap.getFilterValues("Собственник");
         Specification<MeteringPoint> specification = null;
-        if (filterValues.get("personalAccount") != null && !filterValues.get("personalAccount").trim().equals("")) {
-            specification = where(ownedBy(Long.valueOf(filterValues.get("personalAccount"))));
+        if (filterValues != null) {
+            specification = ownedBy(Long.valueOf(filterValues.get("personalAccount")));
         }
-       // if ()
-        return meteringPointService.findAll(specification);
+        filterValues = filtersMap.getFilterValues("Адрес");
+        if (filterValues != null) {
+            String region = filterValues.get("region");
+            String street = filterValues.get("street");
+            String city = filterValues.get("city");
+            String building = filterValues.get("building");
+            String apartment = filterValues.get("apartment");
+            String index = filterValues.get("index");
+            if (specification == null) {
+                specification = locatedIn(region, city, street, building, apartment, index);
+                //specification = where(locatedIn(region, city, street, building, apartment, index));
+            } else {
+                specification = where(specification).and(locatedIn(region, city, street, building, apartment, index));
+            }
+        }
+        filterValues = filtersMap.getFilterValues("Счётчик");
+        if (filterValues != null) {
+            String manufacturer = filterValues.get("manufacturer");
+            String model = filterValues.get("model");
+            String serialNumber = filterValues.get("serialNumber");
+            if (specification == null) {
+                specification = hasMeter(manufacturer, model, serialNumber);
+            } else {
+                specification = where(specification).and(hasMeter(manufacturer, model, serialNumber));
+            }
+        }
+        filterValues = filtersMap.getFilterValues("Дата установки");
+        if (filterValues != null) {
+            Date dateFrom = Date.valueOf(filterValues.get("dateFrom"));
+            Date dateTo = Date.valueOf(filterValues.get("dateTo"));
+            if (specification == null) {
+                specification = installedInPeriod(dateFrom, dateTo);
+            } else {
+                specification = where(specification).and(installedInPeriod(dateFrom, dateTo));
+            }
+        }
+        if (specification != null) {
+            List<MeteringPoint> list = meteringPointService.findAll(specification);
+            List<MeteringPoint> result = new ArrayList<>(list.size());
+            list.forEach(meteringPoint -> {
+                if (meteringPoint.getOwner() instanceof LegalEntity) result.add(meteringPoint);
+            });
+            return result;
+        } else {
+            return meteringPointService.findAllEntityPoints();
+        }
     }
 
     private void synchronizeAddressSession(MeteringPoint meteringPoint) {

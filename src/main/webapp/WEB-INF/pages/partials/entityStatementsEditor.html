@@ -32,14 +32,15 @@
                 <div class="col-xs-5">
                     <label for="sel{{$index}}"></label>
                     <select id='sel{{$index}}' class='form-control' ng-model='singleFilter.parameter' required
-                            ng-options='x as x for x in pointsFiltersParams[$index]' ng-change="pointsFiltersChange()"></select>
+                            ng-options='x as x for x in pointsFiltersParams[$index]' ng-change="pointsFiltersChange($index)"></select>
                 </div>
                 <div class="col-xs-6" ng-if="singleFilter.parameter == 'Собственник'">
                     <input type='number' min="0" class='form-control' ng-model='singleFilter.values["personalAccount"]'
                            placeholder="Введите номер персонального счёта">
                 </div>
                 <div class="col-xs-6" ng-if="singleFilter.parameter == 'Дата установки'">
-                    <input type='date' class='form-control' ng-model='singleFilter.values["installationDate"]'>
+                    С: <input type='date' class='form-control' ng-model='singleFilter.values["dateFrom"]'><br>
+                    По: <input type='date' class='form-control' ng-model='singleFilter.values["dateTo"]'><br>
                 </div>
                 <div class="col-xs-6" ng-if="singleFilter.parameter == 'Счётчик'">
                     Производитель: <input type='text' class='form-control' ng-model='singleFilter.values["manufacturer"]'><br>

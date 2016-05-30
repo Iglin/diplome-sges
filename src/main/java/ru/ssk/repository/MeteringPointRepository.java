@@ -1,5 +1,6 @@
 package ru.ssk.repository;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -25,6 +26,9 @@ public interface MeteringPointRepository extends JpaRepository<MeteringPoint, Lo
 
     @Query("SELECT e FROM MeteringPoint e WHERE e.owner.id IN (SELECT o.id FROM LegalEntity o)")
     List<MeteringPoint> findAllEntityPoints();
+
+    @Query("SELECT e FROM MeteringPoint e WHERE e.owner.id IN (SELECT o.id FROM LegalEntity o)")
+    List<MeteringPoint> findAllEntityPoints(Specification<MeteringPoint> specification);
 
     @Modifying
     @Query("DELETE FROM MeteringPoint a WHERE a.id IN ?1")

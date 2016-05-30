@@ -23,14 +23,44 @@ public class MeteringPointSpecs {
     public static Specification<MeteringPoint> locatedIn(String region, String city, String street, String building, String apartment, String index) {
         return (root, query, builder) -> {
             Path<Address> path = root.get(MeteringPoint_.address);
-            Predicate predicate = builder.and(
-                    builder.like(path.get(Address_.region), "%" + region + "%"),
-                    builder.like(path.get(Address_.city), "%" + city + "%"),
-                    builder.like(path.get(Address_.street), "%" + street + "%"),
-                    builder.like(path.get(Address_.building), "%" + building + "%"),
-                    builder.like(path.get(Address_.apartment), "%" + apartment + "%"));
-            if (index != null && !index.trim().equals("")) {
-                predicate = builder.and(predicate, builder.equal(path.get(Address_.index), index));
+            Predicate predicate = null;
+            if (region != null) {
+                predicate = builder.like(path.get(Address_.region), "%" + region + "%");
+            }
+            if (city != null) {
+                if (predicate == null) {
+                    predicate = builder.like(path.get(Address_.city), "%" + city + "%");
+                } else {
+                    predicate = builder.and(predicate, builder.like(path.get(Address_.city), "%" + city + "%"));
+                }
+            }
+            if (street != null) {
+                if (predicate == null) {
+                    predicate = builder.like(path.get(Address_.street), "%" + street + "%");
+                } else {
+                    predicate = builder.and(predicate, builder.like(path.get(Address_.street), "%" + street + "%"));
+                }
+            }
+            if (building != null) {
+                if (predicate == null) {
+                    predicate = builder.like(path.get(Address_.building), "%" + building + "%");
+                } else {
+                    predicate = builder.and(predicate, builder.like(path.get(Address_.building), "%" + building + "%"));
+                }
+            }
+            if (apartment != null) {
+                if (predicate == null) {
+                    predicate = builder.like(path.get(Address_.apartment), "%" + apartment + "%");
+                } else {
+                    predicate = builder.and(predicate, builder.like(path.get(Address_.apartment), "%" + apartment + "%"));
+                }
+            }
+            if (index != null) {
+                if (predicate == null) {
+                    predicate = builder.equal(path.get(Address_.index), index);
+                } else {
+                    predicate = builder.and(predicate, builder.equal(path.get(Address_.index), index));
+                }
             }
             return predicate;
         };
@@ -39,11 +69,23 @@ public class MeteringPointSpecs {
     public static Specification<MeteringPoint> hasMeter(String manufacturer, String model, String serialNumber) {
         return (root, query, builder) -> {
             Path<Meter> path = root.get(MeteringPoint_.meter);
-            Predicate predicate = builder.and(
-                    builder.like(path.get(Meter_.model).get(MeterModel_.manufacturer), "%" + manufacturer + "%"),
-                    builder.like(path.get(Meter_.model).get(MeterModel_.name), "%" + model + "%"));
-            if (serialNumber != null && !serialNumber.trim().equals("")) {
-                predicate = builder.and(predicate, builder.equal(path.get(Meter_.serialNumber), serialNumber));
+            Predicate predicate = null;
+            if (manufacturer != null) {
+                predicate = builder.like(path.get(Meter_.model).get(MeterModel_.manufacturer), "%" + manufacturer + "%");
+            }
+            if (model != null) {
+                if (predicate == null) {
+                    predicate = builder.like(path.get(Meter_.model).get(MeterModel_.name), "%" + model + "%");
+                } else {
+                    predicate = builder.and(predicate, builder.like(path.get(Meter_.model).get(MeterModel_.name), "%" + model + "%"));
+                }
+            }
+            if (serialNumber != null) {
+                if (predicate == null) {
+                    predicate = builder.equal(path.get(Meter_.serialNumber), serialNumber);
+                } else {
+                    predicate = builder.and(predicate, builder.equal(path.get(Meter_.serialNumber), serialNumber));
+                }
             }
             return predicate;
         };

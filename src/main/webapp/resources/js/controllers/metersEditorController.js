@@ -9,34 +9,32 @@ metersEditor.controller('metersEditorController', function($scope, $http, $route
             method:'GET',
             params: { id: $routeParams['id'] }
         }).then(function(response){
-            $scope.meter = response.data;
-            $scope.modelIdFromReq = $scope.meters.model.id;
+            var paramsMap = response.data;
+            $scope.meter = paramsMap['meter'];
+            $scope.models = paramsMap['models'];
+          //  $scope.modelIdFromReq = $scope.meters.model.id;
+            $scope.isUpdate = true;
+            $scope.modelsSelect = { opt: $scope.meter.model.id };
         }, function(response){
             alert(JSON.stringify(response));
         });
-        $scope.isUpdate = true;
-        loadModels();
     } else {
-        $scope.isUpdate = false;
-        loadModels();
-    }
-
-
-    function loadModels() {
-        if ($scope.models == null) {
-            $http({
-                url:'/models/table/',
-                method:'GET'
-            }).then(function(response){
-                $scope.models = response.data;
-            }, function(response){
-                alert(JSON.stringify(response));
-            });
-        }
+        $http({
+            url:'/meters/editor/',
+            method:'GET'
+        }).then(function(response){
+            var paramsMap = response.data;
+            $scope.models = paramsMap['models'];
+            $scope.meter = {};
+            $scope.isUpdate = false;
+            $scope.modelsSelect = { opt: $scope.models[0].id };
+        }, function(response){
+            alert(JSON.stringify(response));
+        });
     }
 
     function prepareToSend() {
-        $scope.meter.model = $scope.models[$scope.modelId];
+        $scope.meter.model = findObjectById($scope.models, $scope.modelsSelect.opt);
     }
 
     $scope.add = function () {
@@ -69,3 +67,13 @@ metersEditor.controller('metersEditorController', function($scope, $http, $route
         });
     };
 });
+
+function findObjectById(arr, id) {
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i].id == id) {
+            return arr[i];
+        }
+    }
+    alert('No such id!');
+    return null;
+}

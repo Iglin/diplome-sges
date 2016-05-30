@@ -42,22 +42,12 @@
                         <span>Модель счётчика: </span>
                     </td>
                     <td>
-                        <select class="form-control" ng-model="modelId">
-                            <option ng-repeat="x in models track by $index" value="{{ $index }}"  ng-selected="x.id == meter.model.id">
-                                {{ x.manufacturer + ' ' + x.name }}
-                            </option>
-                        </select>
+                        <select class="form-control" ng-model='modelsSelect.opt' required
+                                ng-options="x.id as x.manufacturer + ' ' + x.name for x in models"></select>
                     </td>
                 </tr>
                 </tbody>
             </table>
-
-            <!--h3>Модель счётчика: </h3>
-            <select class="form-control" ng-model="modelId">
-                <option ng-repeat="x in models track by $index" value="{{ $index }}">
-                    {{ x.manufacturer + ' ' + x.name }}
-                </option>
-            </select-->
             <br><br>
             <button class="btn btn-success" id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>
             <button class="btn btn-success" id="btn_upt" type="button" ng-show="isUpdate" ng-click="update()">Сохранить</button>

@@ -81,6 +81,12 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
     };
 
     function prepareToSend() {
+        //alert(JSON.stringify($scope.point.installationDate));
+        if ($scope.noInstallationDate) {
+           // alert(JSON.stringify($scope.point.installationDate));
+            $scope.point.installationDate = null;
+        }
+        alert($scope.noInstallationDate);
         if ($scope.newAddress) {
             $scope.point.address.id = null;
         } else if (!$scope.editAddress) {
@@ -88,12 +94,17 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
         }
         $scope.point.enterpriseEntry = findObjectById($scope.enterpriseEntries, $scope.enterpriseEntriesSelect.opt);
 
-        $scope.point.meter = findObjectById($scope.meters, $scope.metersSelect.opt);
+        if (!$scope.noMeter) {
+            $scope.point.meter = findObjectById($scope.meters, $scope.metersSelect.opt);
+        } else {
+            $scope.point.meter = null;
+        }
         if ($scope.ownerType == 'Юр. лицо') {
             $scope.point.owner = findObjectById($scope.entities, $scope.entitiesSelect.opt);
         } else {
             $scope.point.owner = findObjectById($scope.persons, $scope.personsSelect.opt);
         }
+        alert('prepared');
     }
 
     $scope.add = function () {

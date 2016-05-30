@@ -11,7 +11,9 @@ import ru.ssk.service.MeterModelService;
 import ru.ssk.service.MeterService;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by user on 25.05.2016.
@@ -31,10 +33,21 @@ public class MeterController extends BaseController {
         return meterService.findAll();
     }
 
-    @RequestMapping(value = "/editor/", method = RequestMethod.GET)
+   /* @RequestMapping(value = "/editor/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Meter getOne(@RequestParam(value = "id") long id){
         return meterService.findById(id);
+    }
+*/
+    @RequestMapping(value = "/editor/", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String, Object> openEditor(@RequestParam(value = "id", required = false) String id) {
+        Map<String, Object> params = new HashMap<>(2);
+        if (id != null) {
+            params.put("meter", meterService.findById(Long.parseLong(id)));
+        }
+        params.put("models", meterModelService.findAll());
+        return params;
     }
 
     @RequestMapping(value = "/table/", method = RequestMethod.DELETE)

@@ -15,7 +15,7 @@ public class MeteringPoint {
     @SequenceGenerator(name = "metering_point_seq", sequenceName = "metering_point_id_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "metering_point_seq")
     private Long id;
-    @Column(name = "install_date", nullable = false)
+    @Column(name = "install_date", nullable = true)
     private Date installationDate;
     @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST },
             fetch = FetchType.EAGER)
@@ -31,7 +31,7 @@ public class MeteringPoint {
     private Enterprise enterpriseEntry;
     @ManyToOne(//cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST },
             fetch = FetchType.EAGER)
-    @JoinColumn(name = "meter", nullable = false, unique = true)
+    @JoinColumn(name = "meter", nullable = true, unique = true)
     private Meter meter;
 
     @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "meteringPoint", fetch = FetchType.LAZY)

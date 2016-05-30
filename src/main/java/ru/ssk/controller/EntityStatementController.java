@@ -62,15 +62,17 @@ public class EntityStatementController extends BaseController {
     public String updatePerson(@RequestParam(value = "statement") String point) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         EntityStatement entityStatement = gson.fromJson(point, EntityStatement.class);
+        System.out.println(point);
+        System.out.println(entityStatement.getMeteringPoint());
         entityStatementService.save(entityStatement);
         return new Gson().toJson("Запись успешно обновлена.");
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public String add(@RequestParam(value = "point") String point) {
+    public String add(@RequestParam(value = "statement") String statement) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
-        EntityStatement entityStatement = gson.fromJson(point, EntityStatement.class);
+        EntityStatement entityStatement = gson.fromJson(statement, EntityStatement.class);
         entityStatementService.save(entityStatement);
         return new Gson().toJson("Данные о заявлении успешно сохранены в базе.");
     }

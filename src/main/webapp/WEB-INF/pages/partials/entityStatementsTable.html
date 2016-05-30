@@ -13,7 +13,7 @@
         <tbody>
         <tr ng-repeat="x in entityStatements">
             <td>
-                <label><input class="checkbox_delete" type="checkbox" id="{{ x.id }}"></label>
+                <label><input class="checkbox_delete" type="checkbox" id="{{ x.number }}"></label>
             </td>
             <td>
                 {{ x.number }}
@@ -31,12 +31,11 @@
             <td>{{ x.meteringPoint.address.region + ', ' + x.meteringPoint.address.city + ', ' +
                 x.meteringPoint.address.street + ', ' + x.meteringPoint.address.building + ', ' +
                 x.meteringPoint.address.apartment + '; Индекс: ' + x.meteringPoint.address.index }}</td>
-            <td>{{ x.installationDate }}</td>
             <td>
                 <a href="#/points/info/?id={{ x.meteringPoint.id }}">Посмотреть подробную информацию</a>
             </td>
             <td>
-                <a href="#/entity_statements/editor/edit/?id={{ x.id }}">Изменить</a>
+                <a href="#/entity_statements/editor/edit/?id={{ x.number }}">Изменить</a>
             </td>
         </tr>
         </tbody>

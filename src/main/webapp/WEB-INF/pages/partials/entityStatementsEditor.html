@@ -21,6 +21,14 @@
                         <input class="form-control" type="date" required ng-model="statement.date">
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <span>Жилое помещение: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="checkbox" required ng-model="statement.housing">
+                    </td>
+                </tr>
                 </tbody>
             </table>
             <h3>
@@ -68,11 +76,14 @@
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th>Собственник</th><th>Адрес</th><th>Дата установки</th><th>Счётчик</th>
+                        <th></th><th>Собственник</th><th>Адрес</th><th>Дата установки</th><th>Счётчик</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="x in points" ng-click="pickPoint(x);">
+                    <tr ng-repeat="x in points" ng-click="pickPoint(x);" style="cursor: pointer;">
+                        <td>
+                            <span ng-if="x == statement.meteringPoint" class="label label-success">Выбрана</span>
+                        </td>
                         <td>
                             {{ x.owner.name }}
                         </td>

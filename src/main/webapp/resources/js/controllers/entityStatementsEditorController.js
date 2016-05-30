@@ -14,6 +14,12 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
                 var paramsMap = response.data;
                 $scope.statement = paramsMap['statement'];
                 $scope.points = paramsMap['points'];
+                for (var i = 0; i < $scope.points.length; i++) {
+                    if ($scope.points[i].id == $scope.statement.meteringPoint.id) {
+                        $scope.statement.meteringPoint = $scope.points[i];
+                        break;
+                    }
+                }
             }, function(response){
                 alert(JSON.stringify(response));
             });
@@ -37,6 +43,7 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
     });
 
     $scope.add = function () {
+        alert(JSON.stringify($scope.statement));
         $http({
             url: '/entity_statements/editor/',
             method: 'POST',
@@ -88,8 +95,6 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
         for (var i = 0; i < $scope.pointsFilters.length; i++) {
             filtersMap.filters[$scope.pointsFilters[i].parameter] = $scope.pointsFilters[i].values;
         }
-
-        alert(JSON.stringify(filtersMap));
         $http({
             url: '/points/filter/',
             method: 'POST',
@@ -126,6 +131,10 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
                 }
             }
         }
+    }
+
+    $scope.pickPoint = function (point) {
+        $scope.statement.meteringPoint = point;
     }
 });
 

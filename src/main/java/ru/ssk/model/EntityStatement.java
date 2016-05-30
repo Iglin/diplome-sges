@@ -16,7 +16,7 @@ public class EntityStatement {
     private boolean housing;
     @Column(name = "date", nullable = false)
     private Date date;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "metering_point", nullable = false, unique = true)
     private MeteringPoint meteringPoint;
 

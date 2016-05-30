@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.ssk.model.LegalEntity;
 import ru.ssk.model.MeteringPoint;
 import ru.ssk.service.*;
+import ru.ssk.spec.MeteringPointSpecs;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -97,6 +98,16 @@ public class MeteringPointController extends BaseController {
             meteringPoint.setOwner(physicalPersonService.findById(meteringPoint.getOwner().getId()));
         }
         return meteringPoint;
+    }
+
+    @RequestMapping(value = "/filter/", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public List<MeteringPoint> filter(@RequestParam(value = "filters") String filters) {
+        Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+        FiltersMap filtersMap = gson.fromJson(filters, FiltersMap.class);
+        String entityName = filtersMap.getFiltersValue("Собственник");
+        System.out.println(entityName);
+        return meteringPointService.findAll(MeteringPointSpecs.ownedByEntity(entityName));
     }
 
     private void synchronizeAddressSession(MeteringPoint meteringPoint) {

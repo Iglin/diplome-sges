@@ -83,8 +83,23 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
     };
 
     $scope.filterPoints = function () {
+        var filtersMap = { filters: {} };
+        for (var i = 0; i < $scope.pointsFilters.length; i++) {
+            filtersMap.filters[$scope.pointsFilters[i].parameter] = $scope.pointsFilters[i].value;
+        }
 
-        
+        alert(JSON.stringify(filtersMap));
+        $http({
+            url: '/points/filter/',
+            method: 'POST',
+            params: {
+                filters: filtersMap
+            }
+        }).then(function (response) {
+            $scope.points = response.data;
+        }, function (response) {
+            alert(JSON.stringify(response));
+        });
     };
 
     function refreshPointsFilters() {

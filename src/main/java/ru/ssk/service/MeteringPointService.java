@@ -1,5 +1,6 @@
 package ru.ssk.service;
 
+import org.springframework.data.jpa.domain.Specification;
 import ru.ssk.model.*;
 
 import java.sql.Date;
@@ -23,4 +24,5 @@ public interface MeteringPointService {
     List<MeteringPoint> findByEnterpriseEntry(Enterprise enterprise);
     List<MeteringPoint> findAllEntityPoints();
     List<MeteringPoint> findAll();
+    List<MeteringPoint> findAll(Specification<MeteringPoint> specification);
 }

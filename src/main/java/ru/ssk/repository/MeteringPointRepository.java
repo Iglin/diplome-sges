@@ -1,6 +1,7 @@
 package ru.ssk.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 @Repository
 @Transactional
-public interface MeteringPointRepository extends JpaRepository<MeteringPoint, Long> {
+public interface MeteringPointRepository extends JpaRepository<MeteringPoint, Long>, JpaSpecificationExecutor {
     List<MeteringPoint> findByInstallationDate(Date date);
     List<MeteringPoint> findByMeter(Meter meter);
     List<MeteringPoint> findByOwner(Owner owner);

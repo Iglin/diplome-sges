@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.ssk.model.EntityStatement;
+import ru.ssk.model.MeteringPoint;
 import ru.ssk.service.EntityStatementService;
 import ru.ssk.service.MeteringPointService;
 

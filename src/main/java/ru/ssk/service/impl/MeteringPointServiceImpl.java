@@ -1,6 +1,7 @@
 package ru.ssk.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import ru.ssk.model.*;
 import ru.ssk.repository.MeteringPointRepository;
 import ru.ssk.service.AddressService;
@@ -82,5 +83,10 @@ public class MeteringPointServiceImpl implements MeteringPointService {
     @Override
     public List<MeteringPoint> findAll() {
         return meteringPointRepository.findAll();
+    }
+
+    @Override
+    public List<MeteringPoint> findAll(Specification<MeteringPoint> specification) {
+        return meteringPointRepository.findAll(specification);
     }
 }

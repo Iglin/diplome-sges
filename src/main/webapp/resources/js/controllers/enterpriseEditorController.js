@@ -10,8 +10,6 @@ enterpriseEditor.controller('enterpriseEditorController', function($scope, $http
             params: { id: $routeParams['id'] }
         }).then(function(response){
             $scope.enterprise = response.data;
-            $scope.addressIdFromReq = $scope.enterprise.bankAddress.id;
-          //  alert(JSON.stringify($scope.enterprise.bankInn));
         }, function(response){
             alert(JSON.stringify(response));
         });
@@ -19,6 +17,7 @@ enterpriseEditor.controller('enterpriseEditorController', function($scope, $http
         $scope.newAddress = false;
         $scope.editAddress = true;
     } else {
+
         $scope.isUpdate = false;
         $scope.newAddress = false;
         $scope.editAddress = false;
@@ -33,6 +32,11 @@ enterpriseEditor.controller('enterpriseEditorController', function($scope, $http
                 method:'GET'
             }).then(function(response){
                 $scope.addresses = response.data;
+                if ($scope.isUpdate) {
+                    $scope.addressesSelect = { opt: $scope.enterprise.bankAddress.id };
+                } else {
+                    $scope.addressesSelect = { opt: $scope.addresses[0].id };
+                }
             }, function(response){
                 alert(JSON.stringify(response));
             });
@@ -41,6 +45,11 @@ enterpriseEditor.controller('enterpriseEditorController', function($scope, $http
 
     $scope.pickAddressFromDB = function () {
         loadAddresses();
+        if ($scope.isUpdate) {
+            $scope.addressesSelect = { opt: $scope.enterprise.bankAddress.id };
+        } else {
+            $scope.addressesSelect = { opt: $scope.addresses[0].id };
+        }
         $scope.newAddress = false;
         $scope.editAddress = false;
     };
@@ -56,11 +65,10 @@ enterpriseEditor.controller('enterpriseEditorController', function($scope, $http
     };
 
     function prepareToSend() {
-     //   $scope.needToReadAddress = false;
         if ($scope.newAddress) {
             $scope.enterprise.bankAddress.id = null;
         } else if (!$scope.editAddress) {
-            $scope.enterprise.bankAddress = $scope.addresses[$scope.addressId];
+            $scope.enterprise.bankAddress = $scope.addresses[$scope.addressesSelect.opt];
         }
     }
 

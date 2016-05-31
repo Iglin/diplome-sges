@@ -20,7 +20,10 @@ personsEditor.controller('personsEditorController', function($scope, $http, $rou
                 $scope.personalAccount = $scope.person.personalAccount;
                 $scope.passportNumber = $scope.person.passport.passportNumber;
                 $scope.placeOfIssue = $scope.person.passport.placeOfIssue;
-                $scope.dateOfIssue = $scope.person.passport.dateOfIssue;
+
+                var arr = $scope.person.passport.dateOfIssue.split('-');
+                $scope.dateOfIssue = new Date(arr[0], --arr[1], arr[2]);
+              //  $scope.dateOfIssue = $scope.person.passport.dateOfIssue;
 
                 $scope.regionLiv = $scope.person.livingAddress.region;
                 $scope.cityLiv = $scope.person.livingAddress.city;

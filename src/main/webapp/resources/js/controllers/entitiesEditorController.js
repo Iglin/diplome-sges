@@ -10,6 +10,8 @@ entitiesEditor.controller('entitiesEditorController', function($scope, $http, $r
             params: { id: $routeParams['id'] }
         }).then(function(response){
             $scope.entity = response.data;
+            var arr = $scope.entity.registrationDate.split('-');
+            $scope.entity.registrationDate = new Date(arr[0], --arr[1], arr[2]);
             $scope.addressIdFromReq = $scope.entity.address.id;
         }, function(response){
             alert(JSON.stringify(response));

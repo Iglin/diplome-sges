@@ -13,6 +13,12 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
             }).then(function(response){
                 var paramsMap = response.data;
                 $scope.point = paramsMap['point'];
+                if ($scope.point.installationDate != null) {
+                    var arr = $scope.point.installationDate.split('-');
+                    $scope.point.installationDate = new Date(arr[0], --arr[1], arr[2]);
+                } else {
+                    $scope.noInstallationDate = true;
+                }
                 $scope.addresses = paramsMap['addresses'];
                 $scope.meters = paramsMap['meters'];
                 $scope.enterpriseEntries = paramsMap['enterpriseEntries'];
@@ -28,9 +34,16 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
                     $scope.entitiesSelect = { opt: $scope.entities[0].id };
                     $scope.personsSelect = { opt: $scope.point.owner.id };
                 }
-                $scope.metersSelect = { opt: $scope.point.meter.id };
+
                 $scope.enterpriseEntriesSelect = { opt: $scope.point.enterpriseEntry.id };
                 $scope.addressesSelect = { opt: $scope.point.address.id };
+
+                if ($scope.point.meter == null) {
+                    $scope.metersSelect = { opt: $scope.meters[0].id };
+                    $scope.noMeter = true;
+                } else {
+                    $scope.metersSelect = { opt: $scope.point.meter.id };
+                }
             }, function(response){
                 alert(JSON.stringify(response));
             });
@@ -81,12 +94,9 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
     };
 
     function prepareToSend() {
-        //alert(JSON.stringify($scope.point.installationDate));
         if ($scope.noInstallationDate) {
-           // alert(JSON.stringify($scope.point.installationDate));
             $scope.point.installationDate = null;
         }
-        alert($scope.noInstallationDate);
         if ($scope.newAddress) {
             $scope.point.address.id = null;
         } else if (!$scope.editAddress) {
@@ -104,7 +114,6 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
         } else {
             $scope.point.owner = findObjectById($scope.persons, $scope.personsSelect.opt);
         }
-        alert('prepared');
     }
 
     $scope.add = function () {

@@ -12,8 +12,9 @@ metersEditor.controller('metersEditorController', function($scope, $http, $route
             var paramsMap = response.data;
             $scope.meter = paramsMap['meter'];
             $scope.models = paramsMap['models'];
-          //  $scope.modelIdFromReq = $scope.meters.model.id;
             $scope.isUpdate = true;
+            var arr = $scope.meter.lastCalibrationDate.split('-');
+            $scope.meter.lastCalibrationDate = new Date(arr[0], --arr[1], arr[2]);
             $scope.modelsSelect = { opt: $scope.meter.model.id };
         }, function(response){
             alert(JSON.stringify(response));

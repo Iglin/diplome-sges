@@ -1,0 +1,97 @@
+<table class="table">
+    <thead></thead>
+    <tbody>
+    <tr>
+        <td>
+            <span>Дата установки: </span>
+        </td>
+        <td>
+            Отсутствует: <input type="checkbox" ng-model="noInstallationDate"><br>
+            <input ng-hide="noInstallationDate" class="form-control" type="date" ng-model="point.installationDate">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>Cчётчик: </span>
+        </td>
+        <td>
+            Отсутствует: <input type="checkbox" ng-model="noMeter"><br>
+            <select ng-if="!noMeter" class="form-control" ng-model='metersSelect.opt'
+                    ng-options="x.id as x.model.manufacturer + ' ' + x.model.name + ' ' + x.serialNumber for x in meters"></select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>Данные предприятия: </span>
+        </td>
+        <td>
+            <select class="form-control" ng-model='enterpriseEntriesSelect.opt' required
+                    ng-options="x.id as x.name + '; Директор: ' + x.director + '; Начальник СУ: ' + x.registryChief for x in enterpriseEntries"></select>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<h3>Адрес: </h3>
+<button class="btn btn-primary" type="button" ng-show="newAddress || editAddress" ng-click="pickAddressFromDB()">Выбрать адрес из базы</button>
+<button class="btn btn-primary" type="button" ng-show="!editAddress && isUpdate" ng-click="setEditAddress()">Редактировать привязанный адрес</button>
+<button class="btn btn-primary" type="button" ng-hide="newAddress" ng-click="setNewAddress()">Зарегистрировать новый адрес</button>
+<br><br>
+<table ng-show="newAddress || editAddress">
+    <tr>
+        <td>
+            <span>Регион: </span>
+        </td>
+        <td>
+            <input class="form-control" type="text" required ng-model="point.address.region" placeholder="Введите регион">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>Город: </span>
+        </td>
+        <td>
+            <input class="form-control" type="text" required ng-model="point.address.city" placeholder="Введите город">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>Улица: </span>
+        </td>
+        <td>
+            <input class="form-control" type="text" required ng-model="point.address.street" placeholder="Введите улицу">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>Дом: </span>
+        </td>
+        <td>
+            <input class="form-control" type="text" required ng-model="point.address.building" placeholder="Введите номер дома">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>Квартира: </span>
+        </td>
+        <td>
+            <input class="form-control" type="text" required ng-model="point.address.apartment" placeholder="Введите номер квартиры">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>Индекс: </span>
+        </td>
+        <td>
+            <input class="form-control" type="number" min="000000" max="999999" required ng-model="point.address.index" placeholder="Введите индекс">
+        </td>
+    </tr>
+</table>
+<select ng-hide="newAddress || editAddress" class="form-control" ng-model='addressesSelect.opt' required
+        ng-options="x.id as x.region + ', ' + x.city + ', ' +
+                    x.street + ', ' + x.building + ', ' +
+                    x.apartment + '; Индекс: ' + x.index for x in addresses">
+</select>
+<br><br>
+
+<h3>Собственник: </h3>

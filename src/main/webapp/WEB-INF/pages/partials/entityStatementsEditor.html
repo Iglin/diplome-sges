@@ -34,8 +34,14 @@
             <h3>
                 Данные точки учёта:
             </h3>
-            <div ng-include="'/partials/pointsFilter.html'"></div>
-            <div style="{ height: 200px !important; overflow: scroll; }">
+            <div ng-if="!isUpdate" class="row">
+                <button ng-if="!newPoint"  ng-click="regNewPoint();" class="btn btn-default">Зарегистрировать новую точку учёта</button>
+                <button ng-if="newPoint" ng-click="pickPointFromDB();" class="btn btn-default">Выбрать точку учёта из базы</button>
+                <br><br>
+            </div>
+
+            <div ng-hide="newPoint" ng-include="'/partials/pointsFilter.html'"></div>
+            <div ng-hide="newPoint" style="{ height: 200px !important; overflow: scroll; }">
                 <table class="table table-hover">
                     <thead>
                     <tr>
@@ -61,6 +67,8 @@
                     </tbody>
                 </table>
             </div>
+
+            <div ng-if="newPoint" ng-include="'/partials/newPointForm.html'"></div>
 
             <br><br>
             <button class="btn btn-success" id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>

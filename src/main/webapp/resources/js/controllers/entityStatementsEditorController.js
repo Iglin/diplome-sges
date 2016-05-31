@@ -5,6 +5,7 @@ var entityStatementsEditor = angular.module("entityStatementsEditor", []);
 entityStatementsEditor.controller('entityStatementsEditorController', function($scope, $http, $routeParams) {
 
     angular.element(document).ready(function () {
+        $scope.newPoint = false;
         if ($routeParams['id'] != null && $routeParams['id'].trim() != '') {
             $http({
                 url:'/entity_statements/editor/',
@@ -38,40 +39,12 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
             });
             $scope.isUpdate = false;
         }
+        $scope.statement = {};
         $scope.pointsFilters = [];
         $scope.pointsFiltersParams = [];
         $scope.pointsFiltersModel = ['Дата установки', 'Адрес', 'Собственник', 'Счётчик'];
         refreshPointsFilters();
     });
-
-    $scope.add = function () {
-        alert(JSON.stringify($scope.statement));
-        $http({
-            url: '/entity_statements/editor/',
-            method: 'POST',
-            params: {
-                statement: $scope.statement
-            }
-        }).then(function (response) {
-            alert(response.data);
-        }, function (response) {
-            alert(JSON.stringify(response));
-        });
-    };
-
-    $scope.update = function () {
-        $http({
-            url: '/entity_statements/editor/',
-            method: 'PUT',
-            params: {
-                statement: $scope.statement
-            }
-        }).then(function (response) {
-            alert(response.data);
-        }, function (response) {
-            alert(JSON.stringify(response));
-        });
-    };
 
     $scope.addPointsFilter = function () {
         var index = $scope.pointsFilters.length;
@@ -137,7 +110,107 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
 
     $scope.pickPoint = function (point) {
         $scope.statement.meteringPoint = point;
+    };
+
+    $scope.pickPointFromDB = function () {
+        $scope.newPoint = false;
+        $scope.point = null;
+    };
+
+    $scope.regNewPoint = function () {
+        $scope.newPoint = true;
+        $http({
+            url:'/points/editor/',
+            method:'GET'
+        }).then(function(response){
+            var paramsMap = response.data;
+            $scope.addresses = paramsMap['addresses'];
+            $scope.meters = paramsMap['meters'];
+            $scope.enterpriseEntries = paramsMap['enterpriseEntries'];
+            $scope.entities = paramsMap['entities'];
+
+            $scope.metersSelect = { opt: $scope.meters[0].id };
+            $scope.enterpriseEntriesSelect = { opt: $scope.enterpriseEntries[0].id };
+            $scope.entitiesSelect = { opt: $scope.entities[0].id };
+            $scope.addressesSelect = { opt: $scope.addresses[0].id };
+        }, function(response){
+            alert(JSON.stringify(response));
+        });
+        $scope.newAddress = false;
+        $scope.editAddress = false;
+        $scope.point = {};
+        $scope.point.installationDate = new Date();
+    };
+
+    $scope.pickAddressFromDB = function () {
+        $scope.newAddress = false;
+        $scope.editAddress = false;
+    };
+
+    $scope.setNewAddress = function () {
+        $scope.newAddress = true;
+        $scope.editAddress = false;
+    };
+
+    $scope.setEditAddress = function () {
+        $scope.newAddress = false;
+        $scope.editAddress = true;
+    };
+
+    function prepareToSend() {
+        if ($scope.newPoint) {
+            if ($scope.point.owner == null) {
+                alert('Необходимо выбрать собственника!');
+                stopImmediatePropagation();
+            }
+            if ($scope.noInstallationDate) {
+                $scope.point.installationDate = null;
+            }
+            if ($scope.newAddress) {
+                $scope.point.address.id = null;
+            } else if (!$scope.editAddress) {
+                $scope.point.address = findObjectById($scope.addresses, $scope.addressesSelect.opt);
+            }
+            $scope.point.enterpriseEntry = findObjectById($scope.enterpriseEntries, $scope.enterpriseEntriesSelect.opt);
+
+            if (!$scope.noMeter) {
+                $scope.point.meter = findObjectById($scope.meters, $scope.metersSelect.opt);
+            } else {
+                $scope.point.meter = null;
+            }
+            $scope.statement.meteringPoint = $scope.point;
+        }
     }
+
+    $scope.add = function () {
+        prepareToSend();
+        $http({
+            url: '/entity_statements/editor/',
+            method: 'POST',
+            params: {
+                statement: $scope.statement
+            }
+        }).then(function (response) {
+            alert(response.data);
+        }, function (response) {
+            alert(JSON.stringify(response));
+        });
+    };
+
+    $scope.update = function () {
+        prepareToSend();
+        $http({
+            url: '/entity_statements/editor/',
+            method: 'PUT',
+            params: {
+                statement: $scope.statement
+            }
+        }).then(function (response) {
+            alert(response.data);
+        }, function (response) {
+            alert(JSON.stringify(response));
+        });
+    };
 });
 
 function Filter(parameter) {
@@ -170,3 +243,12 @@ function Filter(parameter) {
     }
 }
 
+function findObjectById(arr, id) {
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i].id == id) {
+            return arr[i];
+        }
+    }
+    alert('No such id!');
+    return null;
+}

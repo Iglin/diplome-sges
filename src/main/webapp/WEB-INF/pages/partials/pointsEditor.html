@@ -91,13 +91,6 @@
                     </td>
                 </tr>
             </table>
-            <!--select class="form-control" ng-model="addressId" ng-hide="newAddress || editAddress">
-                <option ng-repeat="x in addresses track by $index" value="{{ $index }}" ng-selected="x.id == point.address.id">
-                    {{ x.region + ', ' + x.city + ', ' +
-                    x.street + ', ' + x.building + ', ' +
-                    x.apartment + '; Индекс: ' + x.index }}
-                </option>
-            </select-->
             <select ng-hide="newAddress || editAddress" class="form-control" ng-model='addressesSelect.opt' required
                     ng-options="x.id as x.region + ', ' + x.city + ', ' +
                     x.street + ', ' + x.building + ', ' +

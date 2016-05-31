@@ -124,6 +124,8 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
 
     $scope.regNewPoint = function () {
         $scope.newPoint = true;
+        $scope.noMeter = true;
+        $scope.noInstallationDate = true;
         $http({
             url:'/points/editor/',
             method:'GET'
@@ -145,6 +147,8 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
         $scope.editAddress = false;
         $scope.point = {};
         $scope.point.installationDate = new Date();
+
+        $scope.statement.meteringPoint = {};
     };
 
     $scope.pickAddressFromDB = function () {
@@ -188,7 +192,7 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
     }
 
     $scope.pickEntity = function (entity) {
-        $scope.statement.owner = entity;
+        $scope.point.owner = entity;
     };
 
     $scope.addEntitiesFilter = function () {

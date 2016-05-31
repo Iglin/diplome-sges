@@ -107,7 +107,7 @@
         <tbody>
         <tr ng-repeat="x in entities" ng-click="pickEntity(x);" style="cursor: pointer;">
             <td>
-                <span ng-if="x == statement.owner" class="label label-success">Выбран</span>
+                <span ng-if="x == point.owner" class="label label-success">Выбран</span>
             </td>
             <td>{{ x.name }}</td>
             <td>{{ x.ogrn }}</td>

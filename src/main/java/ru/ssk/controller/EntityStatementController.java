@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import ru.ssk.model.Address;
 import ru.ssk.model.EntityStatement;
 import ru.ssk.model.MeteringPoint;
+import ru.ssk.service.AddressService;
 import ru.ssk.service.EntityStatementService;
 import ru.ssk.service.MeteringPointService;
 
@@ -27,6 +29,8 @@ public class EntityStatementController extends BaseController {
     private EntityStatementService entityStatementService;
     @Autowired
     private MeteringPointService meteringPointService;
+    @Autowired
+    private AddressService addressService;
 
     @RequestMapping(value = "/table/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
@@ -73,6 +77,14 @@ public class EntityStatementController extends BaseController {
     public String add(@RequestParam(value = "statement") String statement) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         EntityStatement entityStatement = gson.fromJson(statement, EntityStatement.class);
+        if (entityStatement.getMeteringPoint().getId() == null) {
+            Address address = entityStatement.getMeteringPoint().getAddress();
+            if (address.getId() != null) {
+                entityStatement.getMeteringPoint().setAddress(addressService.findById(address.getId()));
+            }
+            long id = meteringPointService.save(entityStatement.getMeteringPoint()).getId();
+            entityStatement.setMeteringPoint(meteringPointService.findById(id));
+        }
         entityStatementService.save(entityStatement);
         return new Gson().toJson("Данные о заявлении успешно сохранены в базе.");
     }

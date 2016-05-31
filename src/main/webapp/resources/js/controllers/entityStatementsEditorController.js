@@ -44,6 +44,11 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
         $scope.pointsFiltersParams = [];
         $scope.pointsFiltersModel = ['Дата установки', 'Адрес', 'Собственник', 'Счётчик'];
         refreshPointsFilters();
+        $scope.entitiesFilters = [];
+        $scope.entitiesFiltersParams = [];
+        $scope.entitiesFiltersModel = ['Наименование', 'Дата регистрации', 'Персональный счёт', 'Телефон', 'E-mail',
+            'Адрес', 'ОГРН', 'ИНН', 'КПП'];
+        refreshEntitiesFilters();
     });
 
     $scope.addPointsFilter = function () {
@@ -179,6 +184,72 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
                 $scope.point.meter = null;
             }
             $scope.statement.meteringPoint = $scope.point;
+        }
+    }
+
+    $scope.pickEntity = function (entity) {
+        $scope.statement.owner = entity;
+    };
+
+    $scope.addEntitiesFilter = function () {
+        var index = $scope.entitiesFilters.length;
+        var maxIndex = $scope.entitiesFiltersModel.length - 1;
+        if (index <= maxIndex) {
+            $scope.entitiesFilters[index] = new Filter($scope.entitiesFiltersParams[index][0]);
+            refreshEntitiesFilters();
+        }
+    };
+
+    $scope.entitiesFiltersChange = function (index) {
+        $scope.entitiesFilters[index].values = {};
+        refreshEntitiesFilters();
+    };
+
+    $scope.removeEntitiesFilter = function (index) {
+        $scope.entitiesFilters.splice(index, 1);
+        refreshEntitiesFilters();
+    };
+
+    $scope.filterEntities = function () {
+        var filtersMap = { filters: {} };
+        for (var i = 0; i < $scope.entitiesFilters.length; i++) {
+            filtersMap.filters[$scope.entitiesFilters[i].parameter] = $scope.entitiesFilters[i].values;
+        }
+        $http({
+            url: '/entities/filter/',
+            method: 'POST',
+            params: {
+                filters: filtersMap
+            }
+        }).then(function (response) {
+            $scope.entities = response.data;
+        }, function (response) {
+            alert(JSON.stringify(response));
+        });
+    };
+
+    function refreshEntitiesFilters() {
+        var maxFilters = $scope.entitiesFiltersModel.length;
+        for (var i = 0; i < maxFilters; i++) {
+            $scope.entitiesFiltersParams[i] = [];
+            for (var j = 0; j < maxFilters; j++) {
+                $scope.entitiesFiltersParams[i][j] = $scope.entitiesFiltersModel[j];
+            }
+        }
+        for (var i = 0; i < maxFilters; i++) {
+            for (var j = 0; j < $scope.entitiesFilters.length; j++) {
+                if ($scope.entitiesFiltersModel[i] == $scope.entitiesFilters[j].parameter) {
+                    var parameter = $scope.entitiesFilters[j].parameter;
+                    for (var k = 0; k < maxFilters; k++) {
+                        if (k != j) {
+                            var index = $scope.entitiesFiltersParams[k].indexOf(parameter);
+                            if (index != -1) {
+                                $scope.entitiesFiltersParams[k].splice(index, 1);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

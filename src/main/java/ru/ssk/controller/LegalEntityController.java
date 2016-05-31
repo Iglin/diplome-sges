@@ -109,55 +109,67 @@ public class LegalEntityController extends BaseController {
         filterValues = filtersMap.getFilterValues("Телефон");
         if (filterValues != null) {
             String phone = filterValues.get("phone");
-            if (specification == null) {
-                specification = hasPhone(phone);
-            } else {
-                specification = where(specification).and(hasPhone(phone));
+            if (phone != null && !phone.equals("")) {
+                if (specification == null) {
+                    specification = hasPhone(phone);
+                } else {
+                    specification = where(specification).and(hasPhone(phone));
+                }
             }
         }
         filterValues = filtersMap.getFilterValues("E-mail");
         if (filterValues != null) {
             String email = filterValues.get("email");
-            if (specification == null) {
-                specification = hasEmail(email);
-            } else {
-                specification = where(specification).and(hasEmail(email));
+            if (email != null && !email.equals("")) {
+                if (specification == null) {
+                    specification = hasEmail(email);
+                } else {
+                    specification = where(specification).and(hasEmail(email));
+                }
             }
         }
-        filterValues = filtersMap.getFilterValues("Название");
+        filterValues = filtersMap.getFilterValues("Наименование");
         if (filterValues != null) {
             String name = filterValues.get("name");
-            if (specification == null) {
-                specification = hasName(name);
-            } else {
-                specification = where(specification).and(hasName(name));
+            if (name != null && !name.equals("")) {
+                if (specification == null) {
+                    specification = hasName(name);
+                } else {
+                    specification = where(specification).and(hasName(name));
+                }
             }
         }
         filterValues = filtersMap.getFilterValues("ОГРН");
         if (filterValues != null) {
             String ogrn = filterValues.get("ogrn");
-            if (specification == null) {
-                specification = hasOgrn(ogrn);
-            } else {
-                specification = where(specification).and(hasOgrn(ogrn));
+            if (ogrn != null && !ogrn.equals("")) {
+                if (specification == null) {
+                    specification = hasOgrn(ogrn);
+                } else {
+                    specification = where(specification).and(hasOgrn(ogrn));
+                }
             }
         }
         filterValues = filtersMap.getFilterValues("ИНН");
         if (filterValues != null) {
             String inn = filterValues.get("inn");
-            if (specification == null) {
-                specification = hasInn(inn);
-            } else {
-                specification = where(specification).and(hasInn(inn));
+            if (inn != null && !inn.equals("")) {
+                if (specification == null) {
+                    specification = hasInn(inn);
+                } else {
+                    specification = where(specification).and(hasInn(inn));
+                }
             }
         }
         filterValues = filtersMap.getFilterValues("КПП");
         if (filterValues != null) {
             String kpp = filterValues.get("kpp");
-            if (specification == null) {
-                specification = hasKpp(kpp);
-            } else {
-                specification = where(specification).and(hasKpp(kpp));
+            if (kpp != null && !kpp.equals("")) {
+                if (specification == null) {
+                    specification = hasKpp(kpp);
+                } else {
+                    specification = where(specification).and(hasKpp(kpp));
+                }
             }
         }
         filterValues = filtersMap.getFilterValues("Дата регистрации");

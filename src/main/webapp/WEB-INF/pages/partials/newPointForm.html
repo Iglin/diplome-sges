@@ -95,3 +95,32 @@
 <br><br>
 
 <h3>Собственник: </h3>
+<div ng-include="'/partials/entitiesFilter.html'"></div>
+<div style="{ height: 200px !important; overflow: scroll; }">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th></th><th>Наименование</th><th>ОГРН</th><th>ИНН</th><th>КПП</th><th>Адрес</th><th>Телефон</th><th>E-mail</th>
+            <th>Номер счёта</th><th>Дата регистрации</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="x in entities" ng-click="pickEntity(x);" style="cursor: pointer;">
+            <td>
+                <span ng-if="x == statement.owner" class="label label-success">Выбран</span>
+            </td>
+            <td>{{ x.name }}</td>
+            <td>{{ x.ogrn }}</td>
+            <td>{{ x.inn }}</td>
+            <td>{{ x.kpp }}</td>
+            <td>{{ x.address.region + ', ' + x.address.city + ', ' +
+                x.address.street + ', ' + x.address.building + ', ' +
+                x.address.apartment + '; Индекс: ' + x.address.index }}</td>
+            <td>{{ x.phone }}</td>
+            <td>{{ x.email }}</td>
+            <td>{{ x.personalAccount }}</td>
+            <td>{{ x.registrationDate }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

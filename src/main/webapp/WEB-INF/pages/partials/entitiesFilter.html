@@ -1,0 +1,52 @@
+<button class='btn btn-primary' ng-click='addEntitiesFilter();'>Добавить фильтр</button><br><br>
+<div class="row" ng-repeat='singleFilter in entitiesFilters track by $index'>
+    <div class="col-xs-5">
+        <label for="sel{{$index}}"></label>
+        <select id='sel{{$index}}' class='form-control' ng-model='singleFilter.parameter' required
+                ng-options='x as x for x in entitiesFiltersParams[$index]' ng-change="entitiesFiltersChange($index)"></select>
+    </div>
+    <div class="col-xs-6" ng-if="singleFilter.parameter == 'Наименование'">
+        <input type='text' class='form-control' ng-model='singleFilter.values["name"]'
+               placeholder="Введите наименование юр. лица">
+    </div>
+    <div class="col-xs-6" ng-if="singleFilter.parameter == 'Персональный счёт'">
+        <input type='number' min="0" class='form-control' ng-model='singleFilter.values["personalAccount"]'
+               placeholder="Введите номер персонального счёта">
+    </div>
+    <div class="col-xs-6" ng-if="singleFilter.parameter == 'Дата регистрации'">
+        <input type='date' class='form-control' ng-model='singleFilter.values["registrationDate"]'>
+    </div>
+    <div class="col-xs-6" ng-if="singleFilter.parameter == 'Телефон'">
+        <input type='text' class='form-control' ng-model='singleFilter.values["phone"]'
+               placeholder="Введите номер телефона">
+    </div>
+    <div class="col-xs-6" ng-if="singleFilter.parameter == 'E-mail'">
+        <input type='text' class='form-control' ng-model='singleFilter.values["email"]'
+               placeholder="Введите e-mail адрес">
+    </div>
+    <div class="col-xs-6" ng-if="singleFilter.parameter == 'ОГРН'">
+        <input type='text' class='form-control' ng-model='singleFilter.values["ogrn"]'
+               placeholder="Введите ОГРН">
+    </div>
+    <div class="col-xs-6" ng-if="singleFilter.parameter == 'ИНН'">
+        <input type='text' class='form-control' ng-model='singleFilter.values["inn"]'
+               placeholder="Введите ИНН">
+    </div>
+    <div class="col-xs-6" ng-if="singleFilter.parameter == 'КПП'">
+        <input type='text' class='form-control' ng-model='singleFilter.values["kpp"]'
+               placeholder="Введите КПП">
+    </div>
+    <div class="col-xs-6" ng-if="singleFilter.parameter == 'Адрес'">
+        Регион: <input type='text' class='form-control' ng-model='singleFilter.values["region"]'><br>
+        Город: <input type='text' class='form-control' ng-model='singleFilter.values["city"]'><br>
+        Улица: <input type='text' class='form-control' ng-model='singleFilter.values["street"]'><br>
+        Дом: <input type='text' class='form-control' ng-model='singleFilter.values["building"]'><br>
+        Квартира: <input type='text' class='form-control' ng-model='singleFilter.values["apartment"]'><br>
+        Индекс: <input type='number' min="0" max="999999" class='form-control' ng-model='singleFilter.values["index"]'><br>
+    </div>
+    <div class="col-xs-1">
+        <button class='btn btn-danger' ng-click='removeEntitiesFilter($index);'>-</button>
+    </div>
+    <br><br><br>
+</div>
+<button class='btn btn-primary' ng-click='filterEntities();'>Применить</button>

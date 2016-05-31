@@ -124,7 +124,6 @@ public class MeteringPointController extends BaseController {
             String index = filterValues.get("index");
             if (specification == null) {
                 specification = locatedIn(region, city, street, building, apartment, index);
-                //specification = where(locatedIn(region, city, street, building, apartment, index));
             } else {
                 specification = where(specification).and(locatedIn(region, city, street, building, apartment, index));
             }

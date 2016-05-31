@@ -1,6 +1,7 @@
 package ru.ssk.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import ru.ssk.model.Address;
 import ru.ssk.model.LegalEntity;
 import ru.ssk.repository.LegalEntityRepository;
@@ -97,5 +98,10 @@ public class LegalEntityServiceImpl implements LegalEntityService {
     @Override
     public List<LegalEntity> findAll() {
         return legalEntityRepository.findAll();
+    }
+
+    @Override
+    public List<LegalEntity> findAll(Specification<LegalEntity> specification) {
+        return legalEntityRepository.findAll(specification);
     }
 }

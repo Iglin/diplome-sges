@@ -1,5 +1,6 @@
 package ru.ssk.service;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.ssk.model.Address;
 import ru.ssk.model.LegalEntity;
@@ -27,4 +28,5 @@ public interface LegalEntityService {
     List<LegalEntity> findByAddress(Address address);
     List<LegalEntity> findByInnAndKpp(String inn, String kpp);
     List<LegalEntity> findAll();
+    List<LegalEntity> findAll(Specification<LegalEntity> specification);
 }

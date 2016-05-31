@@ -20,9 +20,9 @@ entityStatements.controller('entityStatementsController', function($scope, $http
         var idsToDelete = [];
         var j = 0;
         for (var i = 0; i < $scope.entityStatements.length; i++) {
-            var cb = document.getElementById($scope.entityStatements[i].id);
+            var cb = document.getElementById($scope.entityStatements[i].number);
             if (cb.checked) {
-                idsToDelete[j] = $scope.entityStatements[i].id;
+                idsToDelete[j] = $scope.entityStatements[i].number;
                 j++;
             }
         }

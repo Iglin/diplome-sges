@@ -20,9 +20,9 @@ personStatements.controller('personStatementsController', function($scope, $http
         var idsToDelete = [];
         var j = 0;
         for (var i = 0; i < $scope.personStatements.length; i++) {
-            var cb = document.getElementById($scope.personStatements[i].id);
+            var cb = document.getElementById($scope.personStatements[i].number);
             if (cb.checked) {
-                idsToDelete[j] = $scope.personStatements[i].id;
+                idsToDelete[j] = $scope.personStatements[i].number;
                 j++;
             }
         }

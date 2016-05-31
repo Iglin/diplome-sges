@@ -130,7 +130,7 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th></th><th>Имя</th><!--th>Номер паспорта</th--><th>Адрес</th><th>Телефон</th><th>E-mail</th>
+            <th></th><th>Имя</th><th>Адрес</th><th>Телефон</th><th>E-mail</th>
             <th>Номер счёта</th>
         </tr>
         </thead>
@@ -140,7 +140,6 @@
                 <span ng-if="x == point.owner" class="label label-success">Выбран</span>
             </td>
             <td>{{ x.lastName + ' ' + x.firstName + ' ' + x.middleName }}</td>
-            <!--td>{{ x.passport.passportNumber }}</td-->
             <td>{{ x.livingAddress.region + ', ' + x.livingAddress.city + ', ' +
                 x.livingAddress.street + ', ' + x.livingAddress.building + ', ' +
                 x.livingAddress.apartment + '; Индекс: ' + x.livingAddress.index }}</td>

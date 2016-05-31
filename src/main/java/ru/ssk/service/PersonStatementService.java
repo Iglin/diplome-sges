@@ -19,7 +19,7 @@ public interface PersonStatementService {
     PersonStatement findByNumber(long number);
     PersonStatement findByMeteringPoint(MeteringPoint meteringPoint);
     List<PersonStatement> findByDate(Date date);
-    List<PersonStatement> findByHousing(boolean housing);
+    List<PersonStatement> findByHasElevator(boolean hasElevator);
     List<PersonStatement> findAll();
 
     void deleteWithIds(List<Long> ids);

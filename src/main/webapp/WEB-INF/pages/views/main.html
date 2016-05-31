@@ -34,6 +34,8 @@
     <script src="resources/js/controllers/pointsInfoController.js"></script>
     <script src="resources/js/controllers/entityStatementsController.js"></script>
     <script src="resources/js/controllers/entityStatementsEditorController.js"></script>
+    <script src="resources/js/controllers/personStatementsController.js"></script>
+    <script src="resources/js/controllers/personStatementsEditorController.js"></script>
 
     <script src="resources/js/controllers/testController.js"></script>
 </head>
@@ -57,6 +59,7 @@
                             <ul class="nav navbar-nav">
                                 <!--li ng-click="pickMenuItem('owners')" ng-class="{active: menu.owners}"><a href="#/owners">Собственники</a></li-->
                                 <li ng-click="pickMenuItem('entityStatements')" ng-class="{active: menu.entityStatements}"><a href="#/entity_statements/table">Заявления юр. лиц</a></li>
+                                <li ng-click="pickMenuItem('personStatements')" ng-class="{active: menu.personStatements}"><a href="#/person_statements/table">Заявления физ. лиц</a></li>
                                 <li ng-click="pickMenuItem('models')" ng-class="{active: menu.models}"><a href="#/models/table">Модели счётчиков</a></li>
                                 <li ng-click="pickMenuItem('meters')" ng-class="{active: menu.meters}"><a href="#/meters/table">Счётчики</a></li>
                                 <li ng-click="pickMenuItem('persons')" ng-class="{active: menu.persons}"><a href="#/persons/table">Физические лица</a></li>
@@ -89,6 +92,7 @@
                 "entitiesTable", "entitiesEditor", "modelsTable", "modelsEditor", "modelsInfo",
                 "enterpriseTable", "enterpriseEditor", "enterpriseInfo", "metersTable", "metersEditor",
                 "pointsTable", "pointsEditor", "pointsInfo", "entityStatementsTable", "entityStatementsEditor",
+                "personStatementsTable", "personStatementsEditor",
                 "test"])
             .config(function($routeProvider){
                 $routeProvider
@@ -208,6 +212,18 @@
                             templateUrl:'/partials/entityStatementsTable.html',
                             controller:'entityStatementsController'
                         })
+                        .when("/person_statements/editor", {
+                            templateUrl:'/partials/personStatementsEditor.html',
+                            controller:'personStatementsEditorController'
+                        })
+                        .when("/person_statements/editor/edit", {
+                            templateUrl:'/partials/personStatementsEditor.html',
+                            controller:'personStatementsEditorController'
+                        })
+                        .when("/person_statements/table", {
+                            templateUrl:'/partials/personStatementsTable.html',
+                            controller:'personStatementsController'
+                        })
                         .when("/test", {
                             templateUrl:'/partials/test.html',
                             controller:'testController'
@@ -244,7 +260,8 @@
             enterprise: false,
             meters: false,
             points: false,
-            entityStatements: false
+            entityStatements: false,
+            personStatements: false
         };
     });
 </script>

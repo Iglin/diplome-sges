@@ -54,8 +54,8 @@ public class PersonStatementServiceImpl implements PersonStatementService {
     }
 
     @Override
-    public List<PersonStatement> findByHousing(boolean housing) {
-        return personStatementRepository.findByHousing(housing);
+    public List<PersonStatement> findByHasElevator(boolean hasElevator) {
+        return personStatementRepository.findByHasElevator(hasElevator);
     }
 
     @Override

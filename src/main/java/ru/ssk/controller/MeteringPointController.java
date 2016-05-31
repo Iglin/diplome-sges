@@ -106,7 +106,8 @@ public class MeteringPointController extends BaseController {
 
     @RequestMapping(value = "/filter/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public List<MeteringPoint> filterEntityPoints(@RequestParam(value = "filters") String filters) throws ParseException {
+    public List<MeteringPoint> filterEntityPoints(@RequestParam(value = "filters") String filters,
+                                                  @RequestParam(value = "ownerType") String ownerType) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         FiltersMap filtersMap = gson.fromJson(filters, FiltersMap.class);
         Map<String, String> filterValues = filtersMap.getFilterValues("Собственник");
@@ -154,15 +155,28 @@ public class MeteringPointController extends BaseController {
             }
          //   Date dateTo = new Date(formatter.parse(filterValues.get("dateTo")).getTime());
         }
-        if (specification != null) {
-            List<MeteringPoint> list = meteringPointService.findAll(specification);
-            List<MeteringPoint> result = new ArrayList<>(list.size());
-            list.forEach(meteringPoint -> {
-                if (meteringPoint.getOwner() instanceof LegalEntity) result.add(meteringPoint);
-            });
-            return result;
+        if (ownerType.equals("entity")) {
+            if (specification != null) {
+                List<MeteringPoint> list = meteringPointService.findAll(specification);
+                List<MeteringPoint> result = new ArrayList<>(list.size());
+                list.forEach(meteringPoint -> {
+                    if (meteringPoint.getOwner() instanceof LegalEntity) result.add(meteringPoint);
+                });
+                return result;
+            } else {
+                return meteringPointService.findAllEntityPoints();
+            }
         } else {
-            return meteringPointService.findAllEntityPoints();
+            if (specification != null) {
+                List<MeteringPoint> list = meteringPointService.findAll(specification);
+                List<MeteringPoint> result = new ArrayList<>(list.size());
+                list.forEach(meteringPoint -> {
+                    if (meteringPoint.getOwner() instanceof PhysicalPerson) result.add(meteringPoint);
+                });
+                return result;
+            } else {
+                return meteringPointService.findAllPersonPoints();
+            }
         }
     }
 

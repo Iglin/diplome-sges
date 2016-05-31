@@ -23,6 +23,7 @@ public interface MeteringPointService {
     List<MeteringPoint> findByAddress(Address address);
     List<MeteringPoint> findByEnterpriseEntry(Enterprise enterprise);
     List<MeteringPoint> findAllEntityPoints();
+    List<MeteringPoint> findAllPersonPoints();
     List<MeteringPoint> findAll();
     List<MeteringPoint> findAll(Specification<MeteringPoint> specification);
 }

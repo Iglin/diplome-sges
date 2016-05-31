@@ -1,0 +1,42 @@
+<button class='btn btn-primary' ng-click='addPersonsFilter();'>Добавить фильтр</button><br><br>
+<div class="row" ng-repeat='singleFilter in personsFilters track by $index'>
+    <div class="col-xs-5">
+        <label for="sel{{$index}}"></label>
+        <select id='sel{{$index}}' class='form-control' ng-model='singleFilter.parameter' required
+                ng-options='x as x for x in personsFiltersParams[$index]' ng-change="personsFiltersChange($index)"></select>
+    </div>
+    <div class="col-xs-6" ng-if="singleFilter.parameter == 'Имя'">
+        Фамилия: <input type='text' class='form-control' ng-model='singleFilter.values["lastName"]'><br>
+        Имя: <input type='text' class='form-control' ng-model='singleFilter.values["firstName"]'><br>
+        Отчество: <input type='text' class='form-control' ng-model='singleFilter.values["middleName"]'><br>
+    </div>
+    <div class="col-xs-6" ng-if="singleFilter.parameter == 'Персональный счёт'">
+        <input type='number' min="0" class='form-control' ng-model='singleFilter.values["personalAccount"]'
+               placeholder="Введите номер персонального счёта">
+    </div>
+    <div class="col-xs-6" ng-if="singleFilter.parameter == 'Телефон'">
+        <input type='text' class='form-control' ng-model='singleFilter.values["phone"]'
+               placeholder="Введите номер телефона">
+    </div>
+    <div class="col-xs-6" ng-if="singleFilter.parameter == 'E-mail'">
+        <input type='text' class='form-control' ng-model='singleFilter.values["email"]'
+               placeholder="Введите e-mail адрес">
+    </div>
+    <div class="col-xs-6" ng-if="singleFilter.parameter == 'Номер паспорта'">
+        <input type='number' class='form-control' ng-model='singleFilter.values["passportNumber"]'
+               placeholder="Введите номер паспорта">
+    </div>
+    <div class="col-xs-6" ng-if="singleFilter.parameter == 'Адрес'">
+        Регион: <input type='text' class='form-control' ng-model='singleFilter.values["region"]'><br>
+        Город: <input type='text' class='form-control' ng-model='singleFilter.values["city"]'><br>
+        Улица: <input type='text' class='form-control' ng-model='singleFilter.values["street"]'><br>
+        Дом: <input type='text' class='form-control' ng-model='singleFilter.values["building"]'><br>
+        Квартира: <input type='text' class='form-control' ng-model='singleFilter.values["apartment"]'><br>
+        Индекс: <input type='number' min="0" max="999999" class='form-control' ng-model='singleFilter.values["index"]'><br>
+    </div>
+    <div class="col-xs-1">
+        <button class='btn btn-danger' ng-click='removePersonsFilter($index);'>-</button>
+    </div>
+    <br><br><br>
+</div>
+<button class='btn btn-primary' ng-click='filterPersons();'>Применить</button>

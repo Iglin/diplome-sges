@@ -1,15 +1,15 @@
 /**
- * Created by user on 28.05.2016.
+ * Created by user on 31.05.2016.
  */
-var entityStatementsEditor = angular.module("entityStatementsEditor", []);
-entityStatementsEditor.controller('entityStatementsEditorController', function($scope, $http, $routeParams) {
+var personStatementsEditor = angular.module("personStatementsEditor", []);
+personStatementsEditor.controller('personStatementsEditorController', function($scope, $http, $routeParams) {
 
     angular.element(document).ready(function () {
         $scope.newPoint = false;
-        $scope.ownerType = 'entity';
+        $scope.ownerType = 'person';
         if ($routeParams['id'] != null && $routeParams['id'].trim() != '') {
             $http({
-                url:'/entity_statements/editor/',
+                url:'/person_statements/editor/',
                 method:'GET',
                 params: { id: $routeParams['id'] }
             }).then(function(response){
@@ -30,7 +30,7 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
             $scope.isUpdate = true;
         } else {
             $http({
-                url:'/entity_statements/editor/',
+                url:'/person_statements/editor/',
                 method:'GET'
             }).then(function(response){
                 var paramsMap = response.data;
@@ -45,11 +45,10 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
         $scope.pointsFiltersParams = [];
         $scope.pointsFiltersModel = ['Дата установки', 'Адрес', 'Собственник', 'Счётчик'];
         refreshPointsFilters();
-        $scope.entitiesFilters = [];
-        $scope.entitiesFiltersParams = [];
-        $scope.entitiesFiltersModel = ['Наименование', 'Дата регистрации', 'Персональный счёт', 'Телефон', 'E-mail',
-            'Адрес', 'ОГРН', 'ИНН', 'КПП'];
-        refreshEntitiesFilters();
+        $scope.personsFilters = [];
+        $scope.personsFiltersParams = [];
+        $scope.personsFiltersModel = ['Имя', 'Номер паспорта', 'Персональный счёт', 'Телефон', 'E-mail', 'Адрес'];
+        refreshPersonsFilters();
     });
 
     $scope.addPointsFilter = function () {
@@ -80,8 +79,8 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
             url: '/points/filter/',
             method: 'POST',
             params: {
-                filters: filtersMap, 
-                ownerType: 'entity'
+                filters: filtersMap,
+                ownerType: 'person'
             }
         }).then(function (response) {
             $scope.points = response.data;
@@ -136,11 +135,11 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
             $scope.addresses = paramsMap['addresses'];
             $scope.meters = paramsMap['meters'];
             $scope.enterpriseEntries = paramsMap['enterpriseEntries'];
-            $scope.entities = paramsMap['entities'];
+            $scope.persons = paramsMap['persons'];
 
             $scope.metersSelect = { opt: $scope.meters[0].id };
             $scope.enterpriseEntriesSelect = { opt: $scope.enterpriseEntries[0].id };
-            $scope.entitiesSelect = { opt: $scope.entities[0].id };
+            $scope.personsSelect = { opt: $scope.persons[0].id };
             $scope.addressesSelect = { opt: $scope.addresses[0].id };
         }, function(response){
             alert(JSON.stringify(response));
@@ -193,64 +192,64 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
         }
     }
 
-    $scope.pickEntity = function (entity) {
-        $scope.point.owner = entity;
+    $scope.pickPerson = function (person) {
+        $scope.point.owner = person;
     };
 
-    $scope.addEntitiesFilter = function () {
-        var index = $scope.entitiesFilters.length;
-        var maxIndex = $scope.entitiesFiltersModel.length - 1;
+    $scope.addPersonsFilter = function () {
+        var index = $scope.personsFilters.length;
+        var maxIndex = $scope.personsFiltersModel.length - 1;
         if (index <= maxIndex) {
-            $scope.entitiesFilters[index] = new Filter($scope.entitiesFiltersParams[index][0]);
-            refreshEntitiesFilters();
+            $scope.personsFilters[index] = new Filter($scope.personsFiltersParams[index][0]);
+            refreshPersonsFilters();
         }
     };
 
-    $scope.entitiesFiltersChange = function (index) {
-        $scope.entitiesFilters[index].values = {};
-        refreshEntitiesFilters();
+    $scope.personsFiltersChange = function (index) {
+        $scope.personsFilters[index].values = {};
+        refreshPersonsFilters();
     };
 
-    $scope.removeEntitiesFilter = function (index) {
-        $scope.entitiesFilters.splice(index, 1);
-        refreshEntitiesFilters();
+    $scope.removePersonsFilter = function (index) {
+        $scope.personsFilters.splice(index, 1);
+        refreshPersonsFilters();
     };
 
-    $scope.filterEntities = function () {
+    $scope.filterPersons = function () {
         var filtersMap = { filters: {} };
-        for (var i = 0; i < $scope.entitiesFilters.length; i++) {
-            filtersMap.filters[$scope.entitiesFilters[i].parameter] = $scope.entitiesFilters[i].values;
+        for (var i = 0; i < $scope.personsFilters.length; i++) {
+            filtersMap.filters[$scope.personsFilters[i].parameter] = $scope.personsFilters[i].values;
         }
         $http({
-            url: '/entities/filter/',
+            url: '/persons/filter/',
             method: 'POST',
             params: {
                 filters: filtersMap
             }
         }).then(function (response) {
-            $scope.entities = response.data;
+            $scope.persons = response.data;
         }, function (response) {
             alert(JSON.stringify(response));
         });
     };
 
-    function refreshEntitiesFilters() {
-        var maxFilters = $scope.entitiesFiltersModel.length;
+    function refreshPersonsFilters() {
+        var maxFilters = $scope.personsFiltersModel.length;
         for (var i = 0; i < maxFilters; i++) {
-            $scope.entitiesFiltersParams[i] = [];
+            $scope.personsFiltersParams[i] = [];
             for (var j = 0; j < maxFilters; j++) {
-                $scope.entitiesFiltersParams[i][j] = $scope.entitiesFiltersModel[j];
+                $scope.personsFiltersParams[i][j] = $scope.personsFiltersModel[j];
             }
         }
         for (var i = 0; i < maxFilters; i++) {
-            for (var j = 0; j < $scope.entitiesFilters.length; j++) {
-                if ($scope.entitiesFiltersModel[i] == $scope.entitiesFilters[j].parameter) {
-                    var parameter = $scope.entitiesFilters[j].parameter;
+            for (var j = 0; j < $scope.personsFilters.length; j++) {
+                if ($scope.personsFiltersModel[i] == $scope.personsFilters[j].parameter) {
+                    var parameter = $scope.personsFilters[j].parameter;
                     for (var k = 0; k < maxFilters; k++) {
                         if (k != j) {
-                            var index = $scope.entitiesFiltersParams[k].indexOf(parameter);
+                            var index = $scope.personsFiltersParams[k].indexOf(parameter);
                             if (index != -1) {
-                                $scope.entitiesFiltersParams[k].splice(index, 1);
+                                $scope.personsFiltersParams[k].splice(index, 1);
                             }
                         }
                     }
@@ -262,7 +261,7 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
     $scope.add = function () {
         prepareToSend();
         $http({
-            url: '/entity_statements/editor/',
+            url: '/person_statements/editor/',
             method: 'POST',
             params: {
                 statement: $scope.statement
@@ -277,7 +276,7 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
     $scope.update = function () {
         prepareToSend();
         $http({
-            url: '/entity_statements/editor/',
+            url: '/person_statements/editor/',
             method: 'PUT',
             params: {
                 statement: $scope.statement
@@ -292,32 +291,7 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
 
 function Filter(parameter) {
     this.parameter = parameter;
-    switch (parameter) {
-        case 'Счётчик':
-            this.values = {};
-            this.values['manufacturer'] = '';
-            this.values['model'] = '';
-            this.values['serialNumber'] = '';
-            break;
-        case 'Адрес':
-            this.values = {};
-            this.values['region'] = '';
-            this.values['city'] = '';
-            this.values['street'] = '';
-            this.values['building'] = '';
-            this.values['apartment'] = '';
-            this.values['index'] = null;
-            break;
-        case 'Дата подключения':
-            this.values = {};
-            this.values['dateTo'] = '';
-            this.values['dateFrom'] = '';
-            break;
-        case 'Собственник':
-            this.values = {};
-            this.values['personalAccount'] = '';
-            break;
-    }
+    this.values = {};
 }
 
 function findObjectById(arr, id) {

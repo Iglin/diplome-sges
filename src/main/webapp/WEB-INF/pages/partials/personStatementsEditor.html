@@ -1,0 +1,110 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table">
+                <thead></thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <span>Номер заявления: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" required ng-model="statement.number">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Дата: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="date" required ng-model="statement.date">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Наличие лифта: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="checkbox" required ng-model="statement.hasElevator">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Кол-во комнат: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" min="1" required ng-model="statement.roomsCount">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Кол-во зарегистрированных жильцов: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" min="1" required ng-model="statement.registeredCount">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Кол-во фактически проживающих жильцов: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" min="1" required ng-model="statement.livingCount">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Домашний телефон: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="statement.homePhone">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <h3>
+                Данные точки учёта:
+            </h3>
+            <div ng-if="!isUpdate" class="row">
+                <button ng-if="!newPoint"  ng-click="regNewPoint();" class="btn btn-default">Зарегистрировать новую точку учёта</button>
+                <button ng-if="newPoint" ng-click="pickPointFromDB();" class="btn btn-default">Выбрать точку учёта из базы</button>
+                <br><br>
+            </div>
+
+            <div ng-hide="newPoint" ng-include="'/partials/pointsFilter.html'"></div>
+            <div ng-hide="newPoint" style="{ height: 200px !important; overflow: scroll; }">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th></th><th>Собственник</th><th>Адрес</th><th>Дата установки</th><th>Счётчик</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="x in points" ng-click="pickPoint(x);" style="cursor: pointer;">
+                        <td>
+                            <span ng-if="x == statement.meteringPoint" class="label label-success">Выбрана</span>
+                        </td>
+                        <td>
+                            {{ x.owner.lastName + ' ' + x.owner.firstName + ' ' + x.owner.middleName }}
+                        </td>
+                        <td>{{ x.address.region + ', ' + x.address.city + ', ' +
+                            x.address.street + ', ' + x.address.building + ', ' +
+                            x.address.apartment + '; Индекс: ' + x.address.index }}</td>
+                        <td>{{ x.installationDate }}</td>
+                        <td>
+                            {{ x.meter.model.Manufacturer + ' ' + x.meter.model.name + '; с/н: ' + x.meter.serialNumber }}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div ng-if="newPoint" ng-include="'/partials/newPointForm.html'"></div>
+
+            <br><br>
+            <button class="btn btn-success" id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>
+            <button class="btn btn-success" id="btn_upt" type="button" ng-show="isUpdate" ng-click="update()">Сохранить</button>
+            <a class="btn btn-default" href="#/person_statements/table">Отмена</a>
+        </div>
+    </div>
+</div>

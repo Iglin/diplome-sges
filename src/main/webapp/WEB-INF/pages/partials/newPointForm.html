@@ -95,8 +95,8 @@
 <br><br>
 
 <h3>Собственник: </h3>
-<div ng-include="'/partials/entitiesFilter.html'"></div>
-<div style="{ height: 200px !important; overflow: scroll; }">
+<div ng-if="ownerType == 'entity'" ng-include="'/partials/entitiesFilter.html'"></div>
+<div ng-if="ownerType == 'entity'" style="{ height: 200px !important; overflow: scroll; }">
     <table class="table table-hover">
         <thead>
         <tr>
@@ -120,6 +120,33 @@
             <td>{{ x.email }}</td>
             <td>{{ x.personalAccount }}</td>
             <td>{{ x.registrationDate }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div ng-if="ownerType == 'person'" ng-include="'/partials/personsFilter.html'"></div>
+<div ng-if="ownerType == 'person'" style="{ height: 200px !important; overflow: scroll; }">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th></th><th>Имя</th><!--th>Номер паспорта</th--><th>Адрес</th><th>Телефон</th><th>E-mail</th>
+            <th>Номер счёта</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="x in persons" ng-click="pickPerson(x);" style="cursor: pointer;">
+            <td>
+                <span ng-if="x == point.owner" class="label label-success">Выбран</span>
+            </td>
+            <td>{{ x.lastName + ' ' + x.firstName + ' ' + x.middleName }}</td>
+            <!--td>{{ x.passport.passportNumber }}</td-->
+            <td>{{ x.livingAddress.region + ', ' + x.livingAddress.city + ', ' +
+                x.livingAddress.street + ', ' + x.livingAddress.building + ', ' +
+                x.livingAddress.apartment + '; Индекс: ' + x.livingAddress.index }}</td>
+            <td>{{ x.phone }}</td>
+            <td>{{ x.email }}</td>
+            <td>{{ x.personalAccount }}</td>
         </tr>
         </tbody>
     </table>

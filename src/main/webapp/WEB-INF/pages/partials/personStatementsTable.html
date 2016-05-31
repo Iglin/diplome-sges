@@ -1,0 +1,57 @@
+<div class="container">
+    <br>
+    <a class="btn-primary btn" href="#/person_statements/editor">Добавить новое заявление</a>
+    <button class="btn-danger btn" type="button" ng-click="delete()">Удалить отмеченные записи</button>
+    <br><br>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th></th><th>Номер</th><th>Дата</th><th>Соственник</th><th>Адрес</th><th>Домашний телефон</th>
+            <th>Наличие лифта</th><th>Кол-во комнат</th><th>Кол-во зарегистрированных</th>
+            <th>Кол-во проживающих</th><th>Точка учёта</th><th>Редактирование</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="x in personStatements">
+            <td>
+                <label><input class="checkbox_delete" type="checkbox" id="{{ x.number }}"></label>
+            </td>
+            <td>
+                {{ x.number }}
+            </td>
+            <td>
+                {{ x.date }}
+            </td>
+            <td>
+                {{ x.meteringPoint.owner.lastName + ' ' + x.meteringPoint.owner.firstName + ' ' + x.meteringPoint.owner.middleName }}
+            </td>
+            <td>{{ x.meteringPoint.address.region + ', ' + x.meteringPoint.address.city + ', ' +
+                x.meteringPoint.address.street + ', ' + x.meteringPoint.address.building + ', ' +
+                x.meteringPoint.address.apartment + '; Индекс: ' + x.meteringPoint.address.index }}
+            </td>
+            <td>
+                {{ x.homePhone }}
+            </td>
+            <td>
+                <span ng-if="x.hasElevator">есть</span>
+                <span ng-if="!x.hasElevator">нет</span>
+            </td>
+            <td>
+                {{ x.roomsCount }}
+            </td>
+            <td>
+                {{ x.registeredCount }}
+            </td>
+            <td>
+                {{ x.livingCount }}
+            </td>
+            <td>
+                <a href="#/points/info/?id={{ x.meteringPoint.id }}">Подробная информация</a>
+            </td>
+            <td>
+                <a href="#/person_statements/editor/edit/?id={{ x.number }}">Изменить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

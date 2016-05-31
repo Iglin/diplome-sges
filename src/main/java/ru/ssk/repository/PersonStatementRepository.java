@@ -20,7 +20,7 @@ public interface PersonStatementRepository  extends JpaRepository<PersonStatemen
     PersonStatement findByNumber(long number);
     PersonStatement findByMeteringPoint(MeteringPoint meteringPoint);
     List<PersonStatement> findByDate(Date date);
-    List<PersonStatement> findByHousing(boolean housing);
+    List<PersonStatement> findByHasElevator(boolean hasElevator);
 
     @Modifying
     @Query("DELETE FROM PersonStatement a WHERE a.number IN ?1")

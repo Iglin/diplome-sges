@@ -8,8 +8,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script-->
     <link rel="stylesheet" href="resources/css/bootstrap.min.css">
-    <script src="resources/js/bootstrap.min.js"></script>
     <script src="resources/js/jquery-1.12.4.min.js"></script>
+    <script src="resources/js/bootstrap.min.js"></script>
+
 
     <script src="resources/js/angular.min.js"></script>
     <script src="resources/js/angular-route.js"></script>
@@ -57,17 +58,34 @@
                             <!--div class="navbar-header">
                                 <a class="navbar-brand" href="#">WebSiteName</a>
                             </div-->
-                            <ul class="nav navbar-nav">
-                                <!--li ng-click="pickMenuItem('owners')" ng-class="{active: menu.owners}"><a href="#/owners">Собственники</a></li-->
-                                <li ng-click="pickMenuItem('entityStatements')" ng-class="{active: menu.entityStatements}"><a href="#/entity_statements/table">Заявления юр. лиц</a></li>
-                                <li ng-click="pickMenuItem('personStatements')" ng-class="{active: menu.personStatements}"><a href="#/person_statements/table">Заявления физ. лиц</a></li>
-                                <li ng-click="pickMenuItem('models')" ng-class="{active: menu.models}"><a href="#/models/table">Модели счётчиков</a></li>
-                                <li ng-click="pickMenuItem('meters')" ng-class="{active: menu.meters}"><a href="#/meters/table">Счётчики</a></li>
-                                <li ng-click="pickMenuItem('persons')" ng-class="{active: menu.persons}"><a href="#/persons/table">Физические лица</a></li>
-                                <li ng-click="pickMenuItem('entities')" ng-class="{active: menu.entities}"><a href="#/entities/table">Юридические лица</a></li>
-                                <li ng-click="pickMenuItem('addresses')" ng-class="{active: menu.addresses}"><a href="#/addresses/table">Адреса</a></li>
+                            <ul class="nav navbar-nav" >
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="">Заявления
+                                        <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li ng-click="pickMenuItem('entityStatements')" ng-class="{active: menu.entityStatements}"><a href="#/entity_statements/table">Заявления юр. лиц</a></li>
+                                        <li ng-click="pickMenuItem('personStatements')" ng-class="{active: menu.personStatements}"><a href="#/person_statements/table">Заявления физ. лиц</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="">Собственники
+                                        <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li ng-click="pickMenuItem('persons')" ng-class="{active: menu.persons}"><a href="#/persons/table">Физические лица</a></li>
+                                        <li ng-click="pickMenuItem('entities')" ng-class="{active: menu.entities}"><a href="#/entities/table">Юридические лица</a></li>
+                                    </ul>
+                                </li>
                                 <li ng-click="pickMenuItem('points')" ng-class="{active: menu.points}"><a href="#/points/table">Точки учёта</a></li>
-                                <li ng-click="pickMenuItem('enterprise')" ng-class="{active: menu.enterprise}"><a href="#/enterprise/table">Данные предприятия</a></li>
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="">Справочные данные
+                                        <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li ng-click="pickMenuItem('models')" ng-class="{active: menu.models}"><a href="#/models/table">Модели счётчиков</a></li>
+                                        <li ng-click="pickMenuItem('meters')" ng-class="{active: menu.meters}"><a href="#/meters/table">Счётчики</a></li>
+                                        <li ng-click="pickMenuItem('addresses')" ng-class="{active: menu.addresses}"><a href="#/addresses/table">Адреса</a></li>
+                                        <li ng-click="pickMenuItem('enterprise')" ng-class="{active: menu.enterprise}"><a href="#/enterprise/table">Данные предприятия</a></li>
+                                    </ul>
+                                </li>
                                 <li ng-click="pickMenuItem('test')" ng-class="{active: menu.test}"><a href="#/test">Test</a></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">

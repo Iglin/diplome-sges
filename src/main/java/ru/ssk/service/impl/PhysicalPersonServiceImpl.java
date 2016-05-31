@@ -2,6 +2,7 @@ package ru.ssk.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ssk.exception.UniqueViolationException;
 import ru.ssk.model.Address;
@@ -146,5 +147,10 @@ public class PhysicalPersonServiceImpl implements PhysicalPersonService {
     @Override
     public List<PhysicalPerson> findAll() {
         return personRepository.findAll();
+    }
+
+    @Override
+    public List<PhysicalPerson> findAll(Specification<PhysicalPerson> specification) {
+        return personRepository.findAll(specification);
     }
 }

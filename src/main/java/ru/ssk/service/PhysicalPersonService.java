@@ -1,5 +1,6 @@
 package ru.ssk.service;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.ssk.model.Address;
 import ru.ssk.model.Passport;
@@ -29,4 +30,5 @@ public interface PhysicalPersonService {
     PhysicalPerson findByPassport(Passport passport);
     PhysicalPerson findByPassportNumber(long passportNumber);
     List<PhysicalPerson> findAll();
+    List<PhysicalPerson> findAll(Specification<PhysicalPerson> specification);
 }

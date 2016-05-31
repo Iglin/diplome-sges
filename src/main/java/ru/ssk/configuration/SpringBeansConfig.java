@@ -66,4 +66,9 @@ public class SpringBeansConfig {
     public EntityStatementService entityStatementService() {
         return new EntityStatementServiceImpl();
     }
+
+    @Bean
+    public PersonStatementService personStatementService() {
+        return new PersonStatementServiceImpl();
+    }
 }

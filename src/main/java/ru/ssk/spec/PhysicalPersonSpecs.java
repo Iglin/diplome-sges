@@ -1,40 +1,60 @@
 package ru.ssk.spec;
 
 import org.springframework.data.jpa.domain.Specification;
-import ru.ssk.model.Address;
-import ru.ssk.model.Address_;
-import ru.ssk.model.LegalEntity;
-import ru.ssk.model.LegalEntity_;
+import ru.ssk.model.*;
 
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
-import java.sql.Date;
 
 /**
  * Created by user on 31.05.2016.
  */
-public class LegalEntitySpecs {
+public class PhysicalPersonSpecs {
 
-    private LegalEntitySpecs() {
+    private PhysicalPersonSpecs() {
         throw new AssertionError("Tried to instantiate Specs class!");
     }
 
-    public static Specification<LegalEntity> hasPersonalAccount(Long personalAccount) {
+    public static Specification<PhysicalPerson> hasPersonalAccount(Long personalAccount) {
         return (root, query, builder) ->
-                builder.equal(root.get(LegalEntity_.personalAccount), personalAccount);
+                builder.equal(root.get(PhysicalPerson_.personalAccount), personalAccount);
     }
 
-    public static Specification<LegalEntity> hasEmail(String email) {
+    public static Specification<PhysicalPerson> hasPassportNumber(Long passportNumber) {
         return (root, query, builder) ->
-                builder.like(root.get(LegalEntity_.email), "%" + email + "%");
+                builder.equal(root.get(PhysicalPerson_.passport).get(Passport_.passportNumber), passportNumber);
     }
 
-    public static Specification<LegalEntity> hasName(String name) {
-        return (root, query, builder) ->
-                builder.like(root.get(LegalEntity_.name), "%" + name + "%");
+    public static Specification<PhysicalPerson> hasName(String lastName, String firstName, String middleName) {
+        return (root, query, builder) -> {
+            Predicate predicate = null;
+            if (firstName != null && !firstName.equals("")) {
+                predicate = builder.like(root.get(PhysicalPerson_.firstName), "%" + firstName + "%");
+            }
+            if (middleName != null && !middleName.equals("")) {
+                if (predicate == null) {
+                    predicate = builder.like(root.get(PhysicalPerson_.middleName), "%" + middleName + "%");
+                } else {
+                    predicate = builder.and(predicate, builder.like(root.get(PhysicalPerson_.middleName), "%" + middleName + "%"));
+                }
+            }
+            if (lastName != null && !lastName.equals("")) {
+                if (predicate == null) {
+                    predicate = builder.like(root.get(PhysicalPerson_.lastName), "%" + lastName + "%");
+                } else {
+                    predicate = builder.and(predicate, builder.like(root.get(PhysicalPerson_.lastName), "%" + lastName + "%"));
+                }
+            }
+            return predicate;
+        };
     }
 
-    public static Specification<LegalEntity> hasPhone(String phone) {
+    public static Specification<PhysicalPerson> hasEmail(String email) {
+        return (root, query, builder) ->
+                builder.like(root.get(PhysicalPerson_.email), "%" + email + "%");
+    }
+
+    public static Specification<PhysicalPerson> hasPhone(String phone) {
         phone = phone.replace(" ", "");
         phone = phone.replace("-", "");
         phone = phone.replace("(", "");
@@ -44,32 +64,12 @@ public class LegalEntitySpecs {
         }
         String finalPhone = phone;
         return (root, query, builder) ->
-                builder.like(root.get(LegalEntity_.phone), "%" + finalPhone + "%");
+                builder.like(root.get(PhysicalPerson_.phone), "%" + finalPhone + "%");
     }
 
-    public static Specification<LegalEntity> hasOgrn(String ogrn) {
-        return (root, query, builder) ->
-                builder.equal(root.get(LegalEntity_.ogrn), ogrn);
-    }
-
-    public static Specification<LegalEntity> hasInn(String inn) {
-        return (root, query, builder) ->
-                builder.equal(root.get(LegalEntity_.inn), inn);
-    }
-
-    public static Specification<LegalEntity> hasKpp(String kpp) {
-        return (root, query, builder) ->
-                builder.equal(root.get(LegalEntity_.kpp), kpp);
-    }
-
-    public static Specification<LegalEntity> registeredOn(Date date) {
-        return (root, query, builder) ->
-                builder.equal(root.get(LegalEntity_.registrationDate), date);
-    }
-
-    public static Specification<LegalEntity> hasAddress(String region, String city, String street, String building, String apartment, String index) {
+    public static Specification<PhysicalPerson> hasAddress(String region, String city, String street, String building, String apartment, String index) {
         return (root, query, builder) -> {
-            Path<Address> path = root.get(LegalEntity_.address);
+            Path<Address> path = root.get(PhysicalPerson_.livingAddress);
             Predicate predicate = null;
             if (region != null) {
                 predicate = builder.like(path.get(Address_.region), "%" + region + "%");

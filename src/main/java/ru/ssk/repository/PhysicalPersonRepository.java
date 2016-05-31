@@ -1,6 +1,7 @@
 package ru.ssk.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 @Repository
 @Transactional
-public interface PhysicalPersonRepository extends JpaRepository<PhysicalPerson, Long> {
+public interface PhysicalPersonRepository extends JpaRepository<PhysicalPerson, Long>, JpaSpecificationExecutor {
     PhysicalPerson findById(Long id);
     PhysicalPerson findByPersonalAccount(Long personalAccount);
     PhysicalPerson findByEmail(String email);

@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <table class="table">
+                <tr>
+                    <td>
+                        <span>Имя пользователя: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" required ng-model="user.login" placeholder="Введите название">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Пароль: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="password" required ng-model="user.password" placeholder="Введите пароль">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Повторите пароль: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="password" required ng-model="password2" placeholder="Повторите пароль">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Роль: </span>
+                    </td>
+                    <td>
+                        <span ng-if="user.role == 'ADMIN'">Администратор</span>
+                        <span ng-if="user.role == 'OPERATOR'">Оператор</span>
+                        <span ng-if="user.role == 'DIRECTOR'">Руководитель</span>
+                    </td>
+                </tr>
+            </table>
+            <br><br>
+            <button class="btn btn-success" id="btn_upt" type="button" ng-click="update()">Сохранить</button>
+            <a href="#/" class="btn btn-default">Отмена</a>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+
+</div>

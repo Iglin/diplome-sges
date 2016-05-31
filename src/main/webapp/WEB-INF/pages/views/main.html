@@ -37,6 +37,7 @@
     <script src="resources/js/controllers/personStatementsController.js"></script>
     <script src="resources/js/controllers/personStatementsEditorController.js"></script>
 
+    <script src="resources/js/controllers/userProfileController.js"></script>
     <script src="resources/js/controllers/testController.js"></script>
 </head>
 <body ng-app="main" ng-controller="mainController">
@@ -70,7 +71,7 @@
                                 <li ng-click="pickMenuItem('test')" ng-class="{active: menu.test}"><a href="#/test">Test</a></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
-                                <li ng-click="pickMenuItem('profile')" ng-class="{active: menu.profile}"><a href="#"><span class="glyphicon glyphicon-user"></span> Профиль</a></li>
+                                <li ng-click="pickMenuItem('userProfile')" ng-class="{active: menu.userProfile}"><a href="#/user"><span class="glyphicon glyphicon-user"></span> Профиль</a></li>
                                 <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Выйти</a></li>
                             </ul>
                         </div>
@@ -93,7 +94,7 @@
                 "enterpriseTable", "enterpriseEditor", "enterpriseInfo", "metersTable", "metersEditor",
                 "pointsTable", "pointsEditor", "pointsInfo", "entityStatementsTable", "entityStatementsEditor",
                 "personStatementsTable", "personStatementsEditor",
-                "test"])
+                "userProfile", "test"])
             .config(function($routeProvider){
                 $routeProvider
                         .when("/owners", {
@@ -224,6 +225,10 @@
                             templateUrl:'/partials/personStatementsTable.html',
                             controller:'personStatementsController'
                         })
+                        .when("/user", {
+                            templateUrl:'/partials/userProfile.html',
+                            controller:'userProfileController'
+                        })
                         .when("/test", {
                             templateUrl:'/partials/test.html',
                             controller:'testController'
@@ -255,13 +260,13 @@
             owners: false,
             addresses: false,
             test: false,
-            profile: false,
             models: false,
             enterprise: false,
             meters: false,
             points: false,
             entityStatements: false,
-            personStatements: false
+            personStatements: false,
+            userProfile: false
         };
     });
 </script>

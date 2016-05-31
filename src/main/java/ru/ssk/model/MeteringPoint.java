@@ -19,7 +19,7 @@ public class MeteringPoint {
     private Date installationDate;
     @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST },
             fetch = FetchType.EAGER)
-    @JoinColumn(name = "address", nullable = false)
+    @JoinColumn(name = "address", unique = true, nullable = false)
     private Address address;
     @ManyToOne(//cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST },
             fetch = FetchType.EAGER)

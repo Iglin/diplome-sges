@@ -74,6 +74,8 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
             $scope.newAddress = false;
             $scope.editAddress = false;
             $scope.ownerType = 'Юр. лицо';
+            $scope.point = {};
+            $scope.point.installationDate = new Date();
         }
     });
 

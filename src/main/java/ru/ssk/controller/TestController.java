@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.ssk.model.Address;
+import ru.ssk.model.LegalEntity;
 import ru.ssk.model.Passport;
 import ru.ssk.model.PhysicalPerson;
 import ru.ssk.repository.AddressRepository;
@@ -97,6 +98,17 @@ public class TestController extends BaseController {
                 new Date(System.currentTimeMillis()),
                 address));
         physicalPerson1.setLivingAddress(address2);
+
+        LegalEntity entity = new LegalEntity();
+        entity.setAddress(address3);
+        entity.setPhone("+79999999922");
+        entity.setName("Coca-Cola");
+        entity.setEmail("cocacola@mail.com");
+        entity.setInn("123456789012");
+        entity.setKpp("443322551");
+        entity.setOgrn("1234567890123");
+        entity.setRegistrationDate(new Date(System.currentTimeMillis()));
+        entity.setPersonalAccount(new Long(123451));
 
         addressService.save(address3);
         personService.save(physicalPerson);

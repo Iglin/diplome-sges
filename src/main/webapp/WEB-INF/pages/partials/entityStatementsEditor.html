@@ -34,44 +34,7 @@
             <h3>
                 Данные точки учёта:
             </h3>
-
-            <button class='btn btn-primary' ng-click='addPointsFilter();'>Добавить фильтр</button><br><br>
-            <div class="row" ng-repeat='singleFilter in pointsFilters track by $index'>
-                <div class="col-xs-5">
-                    <label for="sel{{$index}}"></label>
-                    <select id='sel{{$index}}' class='form-control' ng-model='singleFilter.parameter' required
-                            ng-options='x as x for x in pointsFiltersParams[$index]' ng-change="pointsFiltersChange($index)"></select>
-                </div>
-                <div class="col-xs-6" ng-if="singleFilter.parameter == 'Собственник'">
-                    <input type='number' min="0" class='form-control' ng-model='singleFilter.values["personalAccount"]'
-                           placeholder="Введите номер персонального счёта">
-                </div>
-                <div class="col-xs-6" ng-if="singleFilter.parameter == 'Дата установки'">
-                    С: <input type='date' class='form-control' ng-model='singleFilter.values["dateFrom"]'><br>
-                    По: <input type='date' class='form-control' ng-model='singleFilter.values["dateTo"]'><br>
-                </div>
-                <div class="col-xs-6" ng-if="singleFilter.parameter == 'Счётчик'">
-                    Производитель: <input type='text' class='form-control' ng-model='singleFilter.values["manufacturer"]'><br>
-                    Модель: <input type='text' class='form-control' ng-model='singleFilter.values["model"]'><br>
-                    Серийный номер: <input type='text' class='form-control' ng-model='singleFilter.values["serialNumber"]'><br>
-                </div>
-                <div class="col-xs-6" ng-if="singleFilter.parameter == 'Адрес'">
-                    Регион: <input type='text' class='form-control' ng-model='singleFilter.values["region"]'><br>
-                    Город: <input type='text' class='form-control' ng-model='singleFilter.values["city"]'><br>
-                    Улица: <input type='text' class='form-control' ng-model='singleFilter.values["street"]'><br>
-                    Дом: <input type='text' class='form-control' ng-model='singleFilter.values["building"]'><br>
-                    Квартира: <input type='text' class='form-control' ng-model='singleFilter.values["apartment"]'><br>
-                    Индекс: <input type='number' min="0" max="999999" class='form-control' ng-model='singleFilter.values["index"]'><br>
-                </div>
-                <div class="col-xs-1">
-                    <button class='btn btn-danger' ng-click='removePointsFilter($index);'>-</button>
-                </div>
-                <br>
-            </div>
-            <br>
-            <button class='btn btn-primary' ng-click='filterPoints();'>Применить</button>
-
-
+            <div ng-include="'/partials/pointsFilter.html'"></div>
             <div style="{ height: 200px !important; overflow: scroll; }">
                 <table class="table table-hover">
                     <thead>

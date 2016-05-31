@@ -140,13 +140,6 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
     }
 });
 
-entityStatementsEditor.directive('pointsFiltersDirective', function() {
-    return {
-        template:
-        ""
-    }
-});
-
 function Filter(parameter) {
     this.parameter = parameter;
     switch (parameter) {

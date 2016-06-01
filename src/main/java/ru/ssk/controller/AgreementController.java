@@ -2,6 +2,7 @@ package ru.ssk.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,8 @@ import ru.ssk.service.AgreementService;
 import ru.ssk.service.ExtraServiceService;
 import ru.ssk.service.MeteringPointService;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -72,23 +75,37 @@ public class AgreementController extends BaseController {
 
     @RequestMapping(value = "/editor/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String update(@RequestParam(value = "agreement") String agreementJSON) {
+    public String update(@RequestParam(value = "agreement") String agreementJSON,
+                         @RequestParam(value = "services") String servicesToSend) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         Agreement agreement = gson.fromJson(agreementJSON, Agreement.class);
-        agreement.calculateTotal();
-        Set<ServiceInAgreement> list = agreement.getServices();
-        for (ServiceInAgreement serviceInAgreement : list) {
+        Type projectListType = new TypeToken<List<ServiceInAgreement>>() {}.getType();
+        List<ServiceInAgreement> services = gson.fromJson("[" + servicesToSend + "]", projectListType);
+        Set<ServiceInAgreement> set = new HashSet<>();
+        for (ServiceInAgreement serviceInAgreement : services) {
             serviceInAgreement.setAgreement(agreement);
+            set.add(serviceInAgreement);
         }
-        agreementService.save(agreement);
+        agreement.setServices(set);
+        agreement.calculateTotal();
+
+        agreementService.save(agreement, true);
         return new Gson().toJson("Запись успешно обновлена.");
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public String add(@RequestParam(value = "agreement") String agreementJSON) {
+    public String add(@RequestParam(value = "agreement") String agreementJSON,
+                      @RequestParam(value = "services") String servicesToSend) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         Agreement agreement = gson.fromJson(agreementJSON, Agreement.class);
+        Type projectListType = new TypeToken<List<ServiceInAgreement>>() {}.getType();
+        List<ServiceInAgreement> services = gson.fromJson("[" + servicesToSend + "]", projectListType);
+        Set<ServiceInAgreement> set = new HashSet<>();
+        for (ServiceInAgreement serviceInAgreement : services) {
+            serviceInAgreement.setAgreement(agreement);
+            set.add(serviceInAgreement);
+        }
         if (agreement.getMeteringPoint().getId() == null) {
             Long id = agreement.getMeteringPoint().getAddress().getId();
             if (id != null) {
@@ -97,13 +114,10 @@ public class AgreementController extends BaseController {
             id = meteringPointService.save(agreement.getMeteringPoint()).getId();
             agreement.setMeteringPoint(meteringPointService.findById(id));
         }
+        agreement.setServices(set);
         agreement.calculateTotal();
-        Set<ServiceInAgreement> list = agreement.getServices();
-        for (ServiceInAgreement serviceInAgreement : list) {
-            serviceInAgreement.setAgreement(agreement);
-        }
 
-        agreementService.save(agreement);
+        agreementService.save(agreement, false);
         return new Gson().toJson("Данные о договоре успешно сохранены в базе.");
     }
 }

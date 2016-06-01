@@ -193,24 +193,24 @@ agreementsEditor.controller('agreementsEditorController', function($scope, $http
 
     function prepareToSend() {
         $scope.agreement.services = [];
+        $scope.servicesToSend = [];
         for (var i = 0; i < $scope.services.length; i++) {
-            $scope.agreement.services[i] = {};
-            $scope.agreement.services[i].extraService = $scope.services[i].service;
+            $scope.servicesToSend[i] = {};
+            $scope.servicesToSend[i].extraService = $scope.services[i].service;
 
-            $scope.agreement.services[i].count = $scope.services[i].count;
-            $scope.agreement.services[i].coefficient = $scope.services[i].coefficient;
+            $scope.servicesToSend[i].count = $scope.services[i].count;
+            $scope.servicesToSend[i].coefficient = $scope.services[i].coefficient;
         }
 
     }
 
     $scope.add = function () {
         prepareToSend();
-        alert(JSON.stringify($scope.agreement));
         if ($scope.agreement.meteringPoint == null) {
             alert('Необходимо выбрать точку учёта!');
             stopImmediatePropagation();
         } else {
-            if ($scope.agreement.services == null || $scope.agreement.services.length == 0) {
+            if ($scope.servicesToSend == null || $scope.servicesToSend.length == 0) {
                 alert('Необходимо выбрать хотя бы одну услугу!');
                 stopImmediatePropagation();
             } else {
@@ -218,7 +218,8 @@ agreementsEditor.controller('agreementsEditorController', function($scope, $http
                     url: '/agreements/editor/',
                     method: 'POST',
                     params: {
-                        agreement: $scope.agreement
+                        agreement: $scope.agreement,
+                        services: $scope.servicesToSend
                     }
                 }).then(function (response) {
                     alert(response.data);
@@ -231,12 +232,11 @@ agreementsEditor.controller('agreementsEditorController', function($scope, $http
 
     $scope.update = function () {
         prepareToSend();
-        alert(JSON.stringify($scope.agreement.services));
         if ($scope.agreement.meteringPoint == null) {
             alert('Необходимо выбрать точку учёта!');
             stopImmediatePropagation();
         } else {
-            if ($scope.agreement.services == null || $scope.agreement.services.length == 0) {
+            if ($scope.servicesToSend == null || $scope.servicesToSend.length == 0) {
                 alert('Необходимо выбрать хотя бы одну услугу!');
                 stopImmediatePropagation();
             } else {
@@ -244,7 +244,8 @@ agreementsEditor.controller('agreementsEditorController', function($scope, $http
                     url: '/agreements/editor/',
                     method: 'PUT',
                     params: {
-                        agreement: $scope.agreement
+                        agreement: $scope.agreement,
+                        services: $scope.servicesToSend
                     }
                 }).then(function (response) {
                     alert(response.data);

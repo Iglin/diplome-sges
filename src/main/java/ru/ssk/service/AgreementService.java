@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Service
 public interface AgreementService {
-    Agreement save(Agreement agreement);
+    Agreement save(Agreement agreement, boolean isUpdate);
     void delete(long id);
     void delete(Agreement agreement);
     void deleteWithIds(List<Long> ids);

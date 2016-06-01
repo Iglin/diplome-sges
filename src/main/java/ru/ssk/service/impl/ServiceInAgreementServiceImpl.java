@@ -44,4 +44,10 @@ public class ServiceInAgreementServiceImpl implements ServiceInAgreementService 
     public List<ServiceInAgreement> findAll() {
         return inAgreementRepository.findAll();
     }
+
+    @Override
+    public void deleteOldServices(List<Long> actualServicesIds, Long agreementNumber) {
+        inAgreementRepository.deleteOldServices(actualServicesIds, agreementNumber);
+        inAgreementRepository.flush();
+    }
 }

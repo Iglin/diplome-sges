@@ -38,6 +38,10 @@ public class MeteringPoint {
     @JsonIgnore
     private EntityStatement entityStatement;
 
+    @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "meteringPoint", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Agreement agreement;
+
     public MeteringPoint() {
     }
 
@@ -95,5 +99,13 @@ public class MeteringPoint {
 
     public void setEntityStatement(EntityStatement entityStatement) {
         this.entityStatement = entityStatement;
+    }
+
+    public Agreement getAgreement() {
+        return agreement;
+    }
+
+    public void setAgreement(Agreement agreement) {
+        this.agreement = agreement;
     }
 }

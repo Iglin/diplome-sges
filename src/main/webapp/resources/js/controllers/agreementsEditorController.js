@@ -31,12 +31,26 @@ agreementsEditor.controller('agreementsEditorController', function($scope, $http
                         break;
                     }
                 }
-                
+                $scope.services = [];
                 for (var i = 0; i < $scope.agreement.services.length; i++) {
-                    $scope.services[i] = new Service($scope.agreement.services[i].extraService, 
+                    $scope.extraServices[i] = $scope.servicesModel;
+                    var usedService = {};
+                    for (var j = 0; j < $scope.extraServices[i].length; j++) {
+                        if ($scope.extraServices[i][j].id == $scope.agreement.services[i].extraService.id) {
+                            usedService = $scope.extraServices[i][j];
+                            break;
+                        }
+                    }
+                    $scope.services[i] = {
+                        service: usedService,
+                        count: $scope.agreement.services[i].count,
+                        coefficient: $scope.agreement.services[i].coefficient
+                    };
+                 /*   $scope.services[i] = new Service($scope.agreement.services[i].extraService,
                         $scope.agreement.services[i].count, 
-                        $scope.agreement.services[i].coefficient);
+                        $scope.agreement.services[i].coefficient);*/
                 }
+                refreshServices();
             }, function(response){
                 alert(JSON.stringify(response));
             });
@@ -60,7 +74,6 @@ agreementsEditor.controller('agreementsEditorController', function($scope, $http
         $scope.pointsFiltersParams = [];
         $scope.pointsFiltersModel = ['Дата установки', 'Адрес', 'Собственник', 'Счётчик'];
         refreshPointsFilters();
-
 
     });
 
@@ -179,9 +192,7 @@ agreementsEditor.controller('agreementsEditorController', function($scope, $http
     }
 
     function prepareToSend() {
-        if ($scope.services.length > 0) {
-            $scope.agreement.services = [];
-        }
+        $scope.agreement.services = [];
         for (var i = 0; i < $scope.services.length; i++) {
             $scope.agreement.services[i] = {};
             $scope.agreement.services[i].extraService = $scope.services[i].service;
@@ -220,6 +231,7 @@ agreementsEditor.controller('agreementsEditorController', function($scope, $http
 
     $scope.update = function () {
         prepareToSend();
+        alert(JSON.stringify($scope.agreement.services));
         if ($scope.agreement.meteringPoint == null) {
             alert('Необходимо выбрать точку учёта!');
             stopImmediatePropagation();

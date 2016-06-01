@@ -1,5 +1,7 @@
 package ru.ssk.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -67,6 +69,7 @@ public class ServiceInAgreement {
     @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST },
             fetch = FetchType.LAZY)
     @JoinColumn(name = "agreement_num", unique = false, nullable = false)
+    @JsonIgnore
     private Agreement agreement;
 
     @Column(name = "count", nullable = false)

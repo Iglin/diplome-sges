@@ -44,7 +44,7 @@ public class AgreementController extends BaseController {
         Map<String, Object> params = new HashMap<>(2);
         if (id != null) {
             Agreement agreement = agreementService.findByNumber(Long.parseLong(id));
-            agreement.getServices();
+            agreement.getServices().forEach(ServiceInAgreement::getExtraService);
             params.put("agreement", agreement);
             if (agreement.getMeteringPoint().getOwner() instanceof LegalEntity) {
                 params.put("points", meteringPointService.findAllEntityPoints());
@@ -72,10 +72,14 @@ public class AgreementController extends BaseController {
 
     @RequestMapping(value = "/editor/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String updatePerson(@RequestParam(value = "agreement") String agreementJSON) {
+    public String update(@RequestParam(value = "agreement") String agreementJSON) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         Agreement agreement = gson.fromJson(agreementJSON, Agreement.class);
         agreement.calculateTotal();
+        Set<ServiceInAgreement> list = agreement.getServices();
+        for (ServiceInAgreement serviceInAgreement : list) {
+            serviceInAgreement.setAgreement(agreement);
+        }
         agreementService.save(agreement);
         return new Gson().toJson("Запись успешно обновлена.");
     }

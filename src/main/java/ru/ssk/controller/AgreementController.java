@@ -14,11 +14,7 @@ import ru.ssk.service.AgreementService;
 import ru.ssk.service.ExtraServiceService;
 import ru.ssk.service.MeteringPointService;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by user on 01.06.2016.
@@ -98,12 +94,10 @@ public class AgreementController extends BaseController {
             agreement.setMeteringPoint(meteringPointService.findById(id));
         }
         agreement.calculateTotal();
-        for (ServiceInAgreement serviceInAgreement : agreement.getServices()) {
+        Set<ServiceInAgreement> list = agreement.getServices();
+        for (ServiceInAgreement serviceInAgreement : list) {
             serviceInAgreement.setAgreement(agreement);
         }
-
-        System.out.println(agreement.getNumber());
-        System.out.println(agreement.getServices());
 
         agreementService.save(agreement);
         return new Gson().toJson("Данные о договоре успешно сохранены в базе.");

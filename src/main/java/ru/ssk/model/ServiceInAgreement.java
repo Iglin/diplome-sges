@@ -60,12 +60,12 @@ public class ServiceInAgreement {
 
     @Id
     @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST },
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "extra_service", unique = false, nullable = false)
     private ExtraService extraService;
     @Id
     @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST },
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "agreement_num", unique = false, nullable = false)
     private Agreement agreement;
 

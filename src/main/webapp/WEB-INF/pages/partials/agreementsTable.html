@@ -22,11 +22,11 @@
                 {{ x.date }}
             </td>
             <td>
-                <span ng-if="x.owner.lastName == null">
+                <span ng-if="x.meteringPoint.owner.lastName == null">
                     {{ x.meteringPoint.owner.name }} <span class="label label-info">юр. лицо</span>
                 </span>
-                <span ng-if="x.owner.lastName != null">
-                    {{ x.meteringPoint.owner.lastName + ' ' + x.owner.middleName + ' ' + x.owner.firstName }}
+                <span ng-if="x.meteringPoint.owner.name == null">
+                    {{ x.meteringPoint.owner.lastName + ' ' + x.meteringPoint.owner.firstName + ' ' + x.meteringPoint.owner.middleName }}
                     <span class="label label-info">физ. лицо</span>
                 </span>
             </td>

@@ -131,6 +131,13 @@
             <version>2.7.4</version>
         </dependency>
 
+        <!-- http://mvnrepository.com/artifact/net.sourceforge.dynamicreports/dynamicreports-core -->
+        <dependency>
+            <groupId>net.sourceforge.dynamicreports</groupId>
+            <artifactId>dynamicreports-core</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+
 
 
         <dependency>

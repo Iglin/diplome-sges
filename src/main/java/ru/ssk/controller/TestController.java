@@ -1,6 +1,8 @@
 package ru.ssk.controller;
 
 import com.google.gson.Gson;
+import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
+import net.sf.dynamicreports.report.exception.DRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,7 @@ import ru.ssk.model.Address;
 import ru.ssk.model.LegalEntity;
 import ru.ssk.model.Passport;
 import ru.ssk.model.PhysicalPerson;
+import ru.ssk.reporting.ReportBuilder;
 import ru.ssk.repository.AddressRepository;
 import ru.ssk.repository.PassportRepository;
 import ru.ssk.service.AddressService;
@@ -31,10 +34,13 @@ public class TestController extends BaseController {
     private PhysicalPersonService personService;
     @Autowired
     private AddressService addressService;
+    @Autowired
+    private ReportBuilder reportBuilder;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public Passport test(){
+    public Passport test() throws DRException {
+        reportBuilder.generateAgreementsRegistry(Date.valueOf("2001-11-11"), Date.valueOf("2021-11-11"), false);
         return null;
     }
 

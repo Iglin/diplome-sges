@@ -2,9 +2,7 @@ package ru.ssk.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.ssk.model.LegalEntity;
-import ru.ssk.model.PhysicalPerson;
-import ru.ssk.model.ServiceInAgreement;
+import ru.ssk.reporting.ReportBuilder;
 import ru.ssk.service.*;
 import ru.ssk.service.impl.*;
 
@@ -86,5 +84,10 @@ public class SpringBeansConfig {
     @Bean
     public AgreementService agreementService() {
         return new AgreementServiceImpl();
+    }
+
+    @Bean
+    public ReportBuilder reportBuilder() {
+        return new ReportBuilder();
     }
 }

@@ -66,7 +66,7 @@ public class ServiceInAgreement {
     @JoinColumn(name = "extra_service", unique = false, nullable = false)
     private ExtraService extraService;
     @Id
-    @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST },
+    @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE },
             fetch = FetchType.LAZY)
     @JoinColumn(name = "agreement_num", unique = false, nullable = false)
     @JsonIgnore

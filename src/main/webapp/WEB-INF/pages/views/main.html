@@ -37,6 +37,10 @@
     <script src="resources/js/controllers/entityStatementsEditorController.js"></script>
     <script src="resources/js/controllers/personStatementsController.js"></script>
     <script src="resources/js/controllers/personStatementsEditorController.js"></script>
+    <script src="resources/js/controllers/servicesEditorController.js"></script>
+    <script src="resources/js/controllers/servicesController.js"></script>
+    <script src="resources/js/controllers/agreementsEditorController.js"></script>
+    <script src="resources/js/controllers/agreementsController.js"></script>
 
     <script src="resources/js/controllers/userProfileController.js"></script>
     <script src="resources/js/controllers/testController.js"></script>
@@ -75,6 +79,7 @@
                                         <li ng-click="pickMenuItem('entities')" ng-class="{active: menu.entities}"><a href="#/entities/table">Юридические лица</a></li>
                                     </ul>
                                 </li>
+                                <li ng-click="pickMenuItem('agreements')" ng-class="{active: menu.agreements}"><a href="#/agreements/table">Договоры</a></li>
                                 <li ng-click="pickMenuItem('points')" ng-class="{active: menu.points}"><a href="#/points/table">Точки учёта</a></li>
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="">Справочные данные
@@ -82,6 +87,7 @@
                                     <ul class="dropdown-menu">
                                         <li ng-click="pickMenuItem('models')" ng-class="{active: menu.models}"><a href="#/models/table">Модели счётчиков</a></li>
                                         <li ng-click="pickMenuItem('meters')" ng-class="{active: menu.meters}"><a href="#/meters/table">Счётчики</a></li>
+                                        <li ng-click="pickMenuItem('services')" ng-class="{active: menu.services}"><a href="#/extra_services/table">Услуги</a></li>
                                         <li ng-click="pickMenuItem('addresses')" ng-class="{active: menu.addresses}"><a href="#/addresses/table">Адреса</a></li>
                                         <li ng-click="pickMenuItem('enterprise')" ng-class="{active: menu.enterprise}"><a href="#/enterprise/table">Данные предприятия</a></li>
                                     </ul>
@@ -111,7 +117,8 @@
                 "entitiesTable", "entitiesEditor", "modelsTable", "modelsEditor", "modelsInfo",
                 "enterpriseTable", "enterpriseEditor", "enterpriseInfo", "metersTable", "metersEditor",
                 "pointsTable", "pointsEditor", "pointsInfo", "entityStatementsTable", "entityStatementsEditor",
-                "personStatementsTable", "personStatementsEditor",
+                "personStatementsTable", "personStatementsEditor", "servicesTable", "servicesEditor",
+                "agreementsTable", "agreementsEditor",
                 "userProfile", "test"])
             .config(function($routeProvider){
                 $routeProvider
@@ -243,6 +250,30 @@
                             templateUrl:'/partials/personStatementsTable.html',
                             controller:'personStatementsController'
                         })
+                        .when("/extra_services/editor", {
+                            templateUrl:'/partials/servicesEditor.html',
+                            controller:'servicesEditorController'
+                        })
+                        .when("/extra_services/editor/edit", {
+                            templateUrl:'/partials/servicesEditor.html',
+                            controller:'servicesEditorController'
+                        })
+                        .when("/extra_services/table", {
+                            templateUrl:'/partials/servicesTable.html',
+                            controller:'servicesController'
+                        })
+                        .when("/agreements/editor", {
+                            templateUrl:'/partials/agreementsEditor.html',
+                            controller:'agreementsEditorController'
+                        })
+                        .when("/agreements/editor/edit", {
+                            templateUrl:'/partials/agreementsEditor.html',
+                            controller:'agreementsEditorController'
+                        })
+                        .when("/agreements/table", {
+                            templateUrl:'/partials/agreementsTable.html',
+                            controller:'agreementsController'
+                        })
                         .when("/user", {
                             templateUrl:'/partials/userProfile.html',
                             controller:'userProfileController'
@@ -284,7 +315,9 @@
             points: false,
             entityStatements: false,
             personStatements: false,
-            userProfile: false
+            userProfile: false,
+            services: false,
+            agreements: false
         };
     });
 </script>

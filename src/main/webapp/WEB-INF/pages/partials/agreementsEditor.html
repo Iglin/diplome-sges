@@ -1,0 +1,95 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table">
+                <thead></thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <span>Номер договора: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="number" required ng-model="agreement.number">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Дата: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="date" required ng-model="agreement.date">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <h3>
+                Данные точки учёта:
+            </h3>
+            <div class="row">
+                <div class="col-xs-2">
+                    Юридические лица <input type="radio" name="ownerRadio" ng-model="ownerType" value="entity"/>
+                </div>
+                <div class="col-xs-2">
+                    Физические лица <input type="radio" name="ownerRadio" ng-model="ownerType" value="person"/>
+                </div>
+                <br><br>
+            </div>
+
+            <div ng-include="'/partials/pointsFilter.html'"></div>
+            <div style="{ height: 200px !important; overflow: scroll; }">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th></th><th>Собственник</th><th>Адрес</th><th>Дата установки</th><th>Счётчик</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="x in points" ng-click="pickPoint(x);" style="cursor: pointer;">
+                        <td>
+                            <span ng-if="x == agreement.meteringPoint" class="label label-success">Выбрана</span>
+                        </td>
+                        <td>
+                            <span ng-if="x.owner.name != null">{{ x.owner.name + '; ОГРН: ' + x.owner.ogrn }}</span>
+                            <span ng-if="x.owner.name == null">{{ x.owner.lastName + ' ' + x.owner.firstName + ' ' + x.owner.middleName }}</span>
+                        </td>
+                        <td>{{ x.address.region + ', ' + x.address.city + ', ' +
+                            x.address.street + ', ' + x.address.building + ', ' +
+                            x.address.apartment + '; Индекс: ' + x.address.index }}</td>
+                        <td>{{ x.installationDate }}</td>
+                        <td>
+                            <span ng-if="x.meter != null">
+                                {{ x.meter.model.Manufacturer + ' ' + x.meter.model.name + '; с/н: ' + x.meter.serialNumber }}
+                            </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>
+                Услуги:
+            </h3>
+            <button class='btn btn-primary' ng-click='addService();'>Добавить услугу</button><br><br>
+            <div class="row" ng-repeat='singleService in services track by $index'>
+                <div class="col-xs-5">
+                    <select class='form-control' ng-model='singleService.service' required
+                            ng-options='x as x.name + ", " + x.price + " р." for x in extraServices[$index]' ng-change="servicesChange($index)"></select>
+                </div>
+                <div class="col-xs-6">
+                    Кол-во: <input type='number' min="1" class='form-control' ng-model='singleService.count'
+                           placeholder="Введите кол-во">
+                    Коэффициент: <input type='number' min="0" class='form-control' ng-model='singleService.coefficient'
+                           placeholder="Введите коэффициент">
+                </div>
+                <div class="col-xs-1">
+                    <button class='btn btn-danger' ng-click='removeService($index);'>-</button>
+                </div>
+                <br><br>
+            </div>
+
+            <button class="btn btn-success" id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>
+            <button class="btn btn-success" id="btn_upt" type="button" ng-show="isUpdate" ng-click="update()">Сохранить</button>
+            <a class="btn btn-default" href="#/agreements/table">Отмена</a>
+        </div>
+    </div>
+</div>

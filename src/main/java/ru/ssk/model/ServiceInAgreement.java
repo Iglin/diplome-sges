@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Table(name = "service_in_agreement")
 @IdClass(ServiceInAgreement.ServicePK.class)
 public class ServiceInAgreement {
-    public class ServicePK implements Serializable {
+    public static class ServicePK implements Serializable {
         protected ExtraService extraService;
         protected Agreement agreement;
 

@@ -21,12 +21,13 @@ public class Agreement implements Serializable {
     private BigDecimal total;
     @Column(name = "date", nullable = false)
     private Date date;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "point", nullable = false, unique = true)
     private MeteringPoint meteringPoint;
     @OneToMany(mappedBy = "agreement", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnore
     private Set<ServiceInAgreement> services;
+
+    private static final double VAD = 0.18;
 
     public Agreement() {
     }
@@ -93,5 +94,15 @@ public class Agreement implements Serializable {
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + (meteringPoint != null ? meteringPoint.hashCode() : 0);
         return result;
+    }
+
+    public BigDecimal calculateTotal() {
+        total = new BigDecimal(0);
+        services.forEach(serviceInAgreement -> {
+            total = total.add(BigDecimal.valueOf(serviceInAgreement.getCount() * serviceInAgreement.getCoefficient())
+                            .multiply(serviceInAgreement.getExtraService().getPrice()));
+        });
+        total = total.multiply(BigDecimal.valueOf(1 - VAD));
+        return total;
     }
 }

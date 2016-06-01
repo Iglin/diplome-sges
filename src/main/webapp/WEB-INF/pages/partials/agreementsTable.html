@@ -1,0 +1,45 @@
+<div class="container">
+    <br>
+    <a class="btn-primary btn" href="#/agreements/editor">Зарегистрировать новый договор</a>
+    <button class="btn-danger btn" type="button" ng-click="delete()">Удалить отмеченные записи</button>
+    <br><br>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th></th><th>Номер</th><th>Дата</th><th>Собственник</th><th>Адрес</th>
+            <th>Приложение</th><th>Редактирование</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="x in agreements">
+            <td>
+                <label><input class="checkbox_delete" type="checkbox" id="{{ x.number }}"></label>
+            </td>
+            <td>
+                {{ x.number }}
+            </td>
+            <td>
+                {{ x.date }}
+            </td>
+            <td>
+                <span ng-if="x.owner.lastName == null">
+                    {{ x.meteringPoint.owner.name }} <span class="label label-info">юр. лицо</span>
+                </span>
+                <span ng-if="x.owner.lastName != null">
+                    {{ x.meteringPoint.owner.lastName + ' ' + x.owner.middleName + ' ' + x.owner.firstName }}
+                    <span class="label label-info">физ. лицо</span>
+                </span>
+            </td>
+            <td>{{ x.meteringPoint.address.region + ', ' + x.meteringPoint.address.city + ', ' +
+                x.meteringPoint.address.street + ', ' + x.meteringPoint.address.building + ', ' +
+                x.meteringPoint.address.apartment + '; Индекс: ' + x.meteringPoint.address.index }}</td>
+            <td>
+                <a href="#/agreements/info/?id={{ x.number }}">Посмотреть</a>
+            </td>
+            <td>
+                <a href="#/agreements/editor/edit/?id={{ x.number }}">Изменить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

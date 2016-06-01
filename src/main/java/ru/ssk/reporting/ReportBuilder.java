@@ -2,7 +2,6 @@ package ru.ssk.reporting;
 
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.builder.DynamicReports;
-import net.sf.dynamicreports.report.builder.QueryBuilder;
 import net.sf.dynamicreports.report.builder.column.Columns;
 import net.sf.dynamicreports.report.builder.component.Components;
 import net.sf.dynamicreports.report.builder.datatype.DataTypes;
@@ -14,10 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.ssk.exception.DatabaseConnectionException;
 
 import javax.sql.DataSource;
+import java.awt.*;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 
+import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
+import static net.sf.dynamicreports.report.builder.DynamicReports.col;
 import static net.sf.dynamicreports.report.builder.DynamicReports.stl;
 
 /**
@@ -27,18 +30,35 @@ public class ReportBuilder {
     @Autowired
     private DataSource dataSource;
 
+    private InputStream getTemplatesFromResources() {
+        ClassLoader classLoader = getClass().getClassLoader();
+        return classLoader.getResourceAsStream("templatedesign3.jrxml");
+    }
+
     public void generateAgreementsRegistry(Date dateFrom, Date dateTo, boolean byEntities) throws DRException {
         JasperReportBuilder report = DynamicReports.report();
+        StyleBuilder boldStyle         = stl.style().bold();
+        StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
+        StyleBuilder columnTitleStyle  = stl.style(boldCenteredStyle)
+                .setBorder(stl.pen1Point())
+                .setBackgroundColor(Color.LIGHT_GRAY);
+
 
         try (Connection connection = dataSource.getConnection()) {
-            report.columns(Columns.column("Номер договора", "agreement_num", DataTypes.longType()),
-                            Columns.column("Дата", "date", DataTypes.dateType()),
-                            Columns.column("Заказчик", "name", DataTypes.stringType()),
-                            Columns.column("Адрес", "address", DataTypes.stringType()),
-                            Columns.column("Сумма", "total", DataTypes.bigDecimalType())).setColumnStyle(stl.style().setBorder())
-                    .title(Components.text("Реестр договоров с " + dateFrom.toString() + " по " + dateTo.toString())
-                            .setHorizontalTextAlignment(HorizontalTextAlignment.CENTER).setStyle(stl.style().bold()))   //title
-                                    //.setHorizontalAlignment(HorizontalAlignment.CENTER))
+            report
+                    .setColumnTitleStyle(columnTitleStyle)
+                    .highlightDetailEvenRows()
+                    .columns(col.reportRowNumberColumn("№").setFixedColumns(2).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER),
+                            col.column("Номер договора", "agreement_num", DataTypes.longType()),
+                            col.column("Дата", "date", DataTypes.dateType()),
+                            col.column("Заказчик", "name", DataTypes.stringType()),
+                            col.column("Адрес", "address", DataTypes.stringType()),
+                            col.column("Сумма", "total", DataTypes.bigDecimalType()))//.setColumnStyle(stl.style().setBorder())
+                    .title(cmp.text("Реестр договоров с " + dateFrom.toString() + " по " + dateTo.toString()).setStyle(boldCenteredStyle))//shows report title
+                    .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))
+                   /*         .title(Components.text("Реестр договоров с " + dateFrom.toString() + " по " + dateTo.toString())
+                            .setHorizontalTextAlignment(HorizontalTextAlignment.CENTER).setStyle(stl.style().bold()));  //title
+                                    //.setHorizontalAlignment(HorizontalAlignment.CENTER))*/
                     .pageFooter(Components.pageXofY());//show page number on the page footer);
             if (byEntities) {
                 report.setDataSource("SELECT a.agreement_num, a.\"date\", o.name, " +

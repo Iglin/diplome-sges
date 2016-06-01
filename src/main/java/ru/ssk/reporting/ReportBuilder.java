@@ -2,10 +2,7 @@ package ru.ssk.reporting;
 
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.builder.DynamicReports;
-import net.sf.dynamicreports.report.builder.column.Columns;
-import net.sf.dynamicreports.report.builder.component.Components;
 import net.sf.dynamicreports.report.builder.datatype.DataTypes;
-import net.sf.dynamicreports.report.builder.style.BorderBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
 import net.sf.dynamicreports.report.exception.DRException;
@@ -14,7 +11,6 @@ import ru.ssk.exception.DatabaseConnectionException;
 
 import javax.sql.DataSource;
 import java.awt.*;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -30,11 +26,6 @@ public class ReportBuilder {
     @Autowired
     private DataSource dataSource;
 
-    private InputStream getTemplatesFromResources() {
-        ClassLoader classLoader = getClass().getClassLoader();
-        return classLoader.getResourceAsStream("templatedesign3.jrxml");
-    }
-
     public void generateAgreementsRegistry(Date dateFrom, Date dateTo, boolean byEntities) throws DRException {
         JasperReportBuilder report = DynamicReports.report();
         StyleBuilder boldStyle         = stl.style().bold();
@@ -42,7 +33,6 @@ public class ReportBuilder {
         StyleBuilder columnTitleStyle  = stl.style(boldCenteredStyle)
                 .setBorder(stl.pen1Point())
                 .setBackgroundColor(Color.LIGHT_GRAY);
-
 
         try (Connection connection = dataSource.getConnection()) {
             report
@@ -55,11 +45,7 @@ public class ReportBuilder {
                             col.column("Адрес", "address", DataTypes.stringType()),
                             col.column("Сумма", "total", DataTypes.bigDecimalType()))//.setColumnStyle(stl.style().setBorder())
                     .title(cmp.text("Реестр договоров с " + dateFrom.toString() + " по " + dateTo.toString()).setStyle(boldCenteredStyle))//shows report title
-                    .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))
-                   /*         .title(Components.text("Реестр договоров с " + dateFrom.toString() + " по " + dateTo.toString())
-                            .setHorizontalTextAlignment(HorizontalTextAlignment.CENTER).setStyle(stl.style().bold()));  //title
-                                    //.setHorizontalAlignment(HorizontalAlignment.CENTER))*/
-                    .pageFooter(Components.pageXofY());//show page number on the page footer);
+                    .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle));
             if (byEntities) {
                 report.setDataSource("SELECT a.agreement_num, a.\"date\", o.name, " +
                                 "p.city || ', ' ||  p.street || ', ' ||  p.building || ', ' ||  p.apartment  \"address\", " +

@@ -63,6 +63,7 @@
                                 <a class="navbar-brand" href="#">WebSiteName</a>
                             </div-->
                             <ul class="nav navbar-nav" >
+                                <li ng-click="pickMenuItem('points')" ng-class="{active: menu.points}"><a href="#/points/table">Точки учёта</a></li>
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="">Заявления
                                         <span class="caret"></span></a>
@@ -71,6 +72,7 @@
                                         <li ng-click="pickMenuItem('personStatements')" ng-class="{active: menu.personStatements}"><a href="#/person_statements/table">Заявления физ. лиц</a></li>
                                     </ul>
                                 </li>
+                                <li ng-click="pickMenuItem('agreements')" ng-class="{active: menu.agreements}"><a href="#/agreements/table">Договоры</a></li>
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="">Собственники
                                         <span class="caret"></span></a>
@@ -79,8 +81,6 @@
                                         <li ng-click="pickMenuItem('entities')" ng-class="{active: menu.entities}"><a href="#/entities/table">Юридические лица</a></li>
                                     </ul>
                                 </li>
-                                <li ng-click="pickMenuItem('agreements')" ng-class="{active: menu.agreements}"><a href="#/agreements/table">Договоры</a></li>
-                                <li ng-click="pickMenuItem('points')" ng-class="{active: menu.points}"><a href="#/points/table">Точки учёта</a></li>
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="">Справочные данные
                                         <span class="caret"></span></a>
@@ -92,7 +92,7 @@
                                         <li ng-click="pickMenuItem('enterprise')" ng-class="{active: menu.enterprise}"><a href="#/enterprise/table">Данные предприятия</a></li>
                                     </ul>
                                 </li>
-                                <li ng-click="pickMenuItem('test')" ng-class="{active: menu.test}"><a href="#/test">Test</a></li>
+                                <li ng-if="false" ng-click="pickMenuItem('test')" ng-class="{active: menu.test}"><a href="#/test">Test</a></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 <li ng-click="pickMenuItem('userProfile')" ng-class="{active: menu.userProfile}"><a href="#/user"><span class="glyphicon glyphicon-user"></span> Профиль</a></li>

@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <table class="table">
+                <thead></thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <span>Имя пользователя: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" minlength="3" required ng-model="account.login" placeholder="Введите имя пользователя">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Пароль: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="password" minlength="3" required ng-model="account.password" placeholder="Введите пароль">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Повторите пароль: </span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="password" ng-model="password2" placeholder="Повторите пароль">
+                        <span ng-if="password2 != account.password">
+                            <br>Пароли не совпадают!
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Роль</span>
+                    </td>
+                    <td>
+                        <select class="form-control" ng-model='rolesSelect.opt'
+                                ng-options="x.value as x.name for x in roles">
+                        </select>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <br><br>
+            <button class="btn btn-success" id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>
+            <button class="btn btn-success" id="btn_upt" type="button" ng-show="isUpdate" ng-click="update()">Сохранить</button>
+            <a class="btn btn-default" href="#/accounts/table">Отмена</a>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>

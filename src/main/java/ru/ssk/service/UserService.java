@@ -17,4 +17,5 @@ public interface UserService {
     User findByLogin(String login);
     List<User> findByRole(String role);
     List<User> findAll();
+    void deleteWithIds(List<Long> ids);
 }

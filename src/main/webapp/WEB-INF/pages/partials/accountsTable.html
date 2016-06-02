@@ -1,0 +1,29 @@
+<div class="container">
+    <br>
+    <a class="btn-primary btn" href="#/accounts/editor">Добавить новую учётную запись</a>
+    <button class="btn-danger btn" type="button" ng-click="delete()">Удалить отмеченные записи</button>
+    <br><br>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th></th><th>Имя пользователя</th><th>Роль</th><th>Редактирование</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="x in accounts | orderBy : '-actual'">
+            <td>
+                <label><input class="checkbox_delete" type="checkbox" id="{{ x.id }}"></label>
+            </td>
+            <td>{{ x.login }}</td>
+            <td>
+                <span ng-if="x.role == 'ADMIN'">Администратор</span>
+                <span ng-if="x.role == 'OPERATOR'">Оператор</span>
+                <span ng-if="x.role == 'DIRECTOR'">Руководитель</span>
+            </td>
+            <td>
+                <a href="#/accounts/editor/edit/?id={{ x.id }}">Изменить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

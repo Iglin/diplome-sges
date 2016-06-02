@@ -17,11 +17,11 @@
             </td>
             <td>
                 <span ng-if="x.owner.lastName == null">
-                    {{ x.owner.name }} <span ng-if="x.actual"><span class="label label-info">юр. лицо</span></span>
+                    {{ x.owner.name }} <span class="label label-info">юр. лицо</span>
                 </span>
                 <span ng-if="x.owner.lastName != null">
                     {{ x.owner.lastName + ' ' + x.owner.middleName + ' ' + x.owner.firstName }}
-                    <span ng-if="x.actual"><span class="label label-info">физ. лицо</span></span>
+                    <span class="label label-info">физ. лицо</span>
                 </span>
             </td>
             <td>{{ x.address.region + ', ' + x.address.city + ', ' +

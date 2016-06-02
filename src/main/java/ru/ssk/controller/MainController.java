@@ -19,6 +19,6 @@ public class MainController extends BaseController {
     @ResponseStatus(HttpStatus.OK)
     public String getCurrentUserName(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return new Gson().toJson(authentication.getName());
+        return new Gson().toJson(authentication);
     }
 }

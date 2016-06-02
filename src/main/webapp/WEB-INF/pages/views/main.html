@@ -52,7 +52,7 @@
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
-                    <span>Вы вошли как {{username}}.</span>
+                    Вы вошли как  <span ng-bind="username"></span>.
                 </div>
             </div>
         </div>
@@ -65,8 +65,8 @@
                                 <a class="navbar-brand" href="#">WebSiteName</a>
                             </div-->
                             <ul class="nav navbar-nav" >
-                                <li ng-click="pickMenuItem('points')" ng-class="{active: menu.points}"><a href="#/points/table">Точки учёта</a></li>
-                                <li class="dropdown">
+                                <li ng-if="role == 'ADMIN' || role == 'OPERATOR'" ng-click="pickMenuItem('points')" ng-class="{active: menu.points}"><a href="#/points/table">Точки учёта</a></li>
+                                <li class="dropdown" ng-if="role == 'ADMIN' || role == 'OPERATOR'">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="">Заявления
                                         <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
@@ -74,8 +74,8 @@
                                         <li ng-click="pickMenuItem('personStatements')" ng-class="{active: menu.personStatements}"><a href="#/person_statements/table">Заявления физ. лиц</a></li>
                                     </ul>
                                 </li>
-                                <li ng-click="pickMenuItem('agreements')" ng-class="{active: menu.agreements}"><a href="#/agreements/table">Договоры</a></li>
-                                <li class="dropdown">
+                                <li ng-if="role == 'ADMIN' || role == 'OPERATOR'" ng-click="pickMenuItem('agreements')" ng-class="{active: menu.agreements}"><a href="#/agreements/table">Договоры</a></li>
+                                <li class="dropdown"  ng-if="role == 'ADMIN' || role == 'OPERATOR'">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="">Собственники
                                         <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
@@ -83,7 +83,7 @@
                                         <li ng-click="pickMenuItem('entities')" ng-class="{active: menu.entities}"><a href="#/entities/table">Юридические лица</a></li>
                                     </ul>
                                 </li>
-                                <li class="dropdown">
+                                <li class="dropdown"  ng-if="role == 'ADMIN' || role == 'OPERATOR'">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="">Справочные данные
                                         <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
@@ -94,7 +94,8 @@
                                         <li ng-click="pickMenuItem('enterprise')" ng-class="{active: menu.enterprise}"><a href="#/enterprise/table">Данные предприятия</a></li>
                                     </ul>
                                 </li>
-                                <li ng-click="pickMenuItem('accounts')" ng-class="{active: menu.accounts}"><a href="#/accounts/table">Управление учётными записями</a></li>
+                                <li ng-if="role == 'ADMIN'"
+                                        ng-click="pickMenuItem('accounts')" ng-class="{active: menu.accounts}"><a href="#/accounts/table">Управление учётными записями</a></li>
                                 <!--li ng-click="pickMenuItem('test')" ng-class="{active: menu.test}"><a href="#/test">Test</a></li-->
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
@@ -306,7 +307,10 @@
             url:'/main/current_user',
             method:'GET'
         }).then(function(response){
-            $scope.username = response.data;
+            var auth = response.data;
+            auth = JSON.parse(auth);
+            $scope.role = auth.principal.authorities[0].role;
+            $scope.username = auth.principal.username;
         }, function(response){
             alert(response.data);
         });

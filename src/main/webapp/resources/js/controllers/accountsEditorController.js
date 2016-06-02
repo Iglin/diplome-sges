@@ -6,7 +6,7 @@ accountsEditor.controller('accountsEditorController', function($scope, $http, $r
     $scope.roles = [];
     $scope.roles[0] = { name: 'Администратор', value: 'ADMIN'};
     $scope.roles[1] = { name: 'Оператор', value: 'OPERATOR'};
-    $scope.roles[2] = { name: 'Директор', value: 'DIRECTOR'};
+    $scope.roles[2] = { name: 'Руководитель', value: 'DIRECTOR'};
     if ($routeParams['id'] != null && $routeParams['id'].trim() != '') {
         $http({
             url:'/accounts/editor/',

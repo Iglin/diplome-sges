@@ -40,7 +40,7 @@ public class TestController extends BaseController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Passport test() throws DRException {
-        reportBuilder.generateAgreementsRegistry(Date.valueOf("2001-11-11"), Date.valueOf("2021-11-11"), false);
+        reportBuilder.generateAgreementsRegistry(Date.valueOf("2001-11-11"), Date.valueOf("2021-11-11"), true);
         return null;
     }
 

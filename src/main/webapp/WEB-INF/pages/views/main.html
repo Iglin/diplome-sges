@@ -4,9 +4,6 @@
     <title>ССК</title>
     <!-- BOOTSTRAP-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script-->
     <link rel="stylesheet" href="resources/css/bootstrap.min.css">
     <script src="resources/js/jquery-1.12.4.min.js"></script>
     <script src="resources/js/bootstrap.min.js"></script>
@@ -48,7 +45,7 @@
     <script src="resources/js/controllers/testController.js"></script>
 </head>
 <body ng-app="main" ng-controller="mainController">
-<div><!--class="container"-->
+<div class="container-fluid">
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
@@ -75,6 +72,7 @@
                                     </ul>
                                 </li>
                                 <li ng-if="role == 'ADMIN' || role == 'OPERATOR'" ng-click="pickMenuItem('agreements')" ng-class="{active: menu.agreements}"><a href="#/agreements/table">Договоры</a></li>
+                                <li ng-if="role == 'ADMIN' || role == 'OPERATOR'" ng-click="pickMenuItem('acts')" ng-class="{active: menu.acts}"><a href="#/acts/table">Акты</a></li>
                                 <li class="dropdown"  ng-if="role == 'ADMIN' || role == 'OPERATOR'">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="">Собственники
                                         <span class="caret"></span></a>
@@ -294,6 +292,10 @@
                             templateUrl:'/partials/userProfile.html',
                             controller:'userProfileController'
                         })
+                        .when("/reports", {
+                            templateUrl:'/partials/reports.html',
+                            controller:'reportsController'
+                        })
                         .when("/test", {
                             templateUrl:'/partials/test.html',
                             controller:'testController'
@@ -311,6 +313,9 @@
             auth = JSON.parse(auth);
             $scope.role = auth.principal.authorities[0].role;
             $scope.username = auth.principal.username;
+            if (role == 'DIRECTOR') {
+                window.location.href = "/reports";
+            }
         }, function(response){
             alert(response.data);
         });

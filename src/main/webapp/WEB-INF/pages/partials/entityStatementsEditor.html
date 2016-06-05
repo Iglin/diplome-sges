@@ -60,7 +60,7 @@
                             x.address.apartment + '; Индекс: ' + x.address.index }}</td>
                         <td>{{ x.installationDate }}</td>
                         <td>
-                            {{ x.meter.model.Manufacturer + ' ' + x.meter.model.name + '; с/н: ' + x.meter.serialNumber }}
+                            <span ng-if="x.meter != null">{{ x.meter.model.Manufacturer + ' ' + x.meter.model.name + '; с/н: ' + x.meter.serialNumber }}</span>
                         </td>
                     </tr>
                     </tbody>

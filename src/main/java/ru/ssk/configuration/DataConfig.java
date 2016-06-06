@@ -23,7 +23,6 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-//@ComponentScan("ru.ssk")
 @PropertySource("classpath:app.properties")
 @EnableJpaRepositories("ru.ssk.repository")
 public class DataConfig {
@@ -90,5 +89,4 @@ public class DataConfig {
 
         return properties;
     }
-
 }

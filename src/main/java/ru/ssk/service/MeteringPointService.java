@@ -1,6 +1,7 @@
 package ru.ssk.service;
 
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 import ru.ssk.model.*;
 
 import java.sql.Date;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * Created by user on 25.05.2016.
  */
+@Service
 public interface MeteringPointService {
     MeteringPoint save(MeteringPoint meteringPoint);
     void delete(MeteringPoint meteringPoint);

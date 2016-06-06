@@ -41,6 +41,7 @@
     <script src="resources/js/controllers/accountsEditorController.js"></script>
     <script src="resources/js/controllers/accountsController.js"></script>
 
+    <script src="resources/js/controllers/reportsController.js"></script>
     <script src="resources/js/controllers/userProfileController.js"></script>
     <script src="resources/js/controllers/testController.js"></script>
 </head>
@@ -313,8 +314,8 @@
             auth = JSON.parse(auth);
             $scope.role = auth.principal.authorities[0].role;
             $scope.username = auth.principal.username;
-            if (role == 'DIRECTOR') {
-                window.location.href = "/reports";
+            if ($scope.role == 'DIRECTOR') {
+                window.location.href = "#/reports";
             }
         }, function(response){
             alert(response.data);

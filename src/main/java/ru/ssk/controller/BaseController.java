@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import ru.ssk.exception.DatabaseConnectionException;
 import ru.ssk.exception.DuplicateDataException;
+import ru.ssk.exception.MultipleRepresentationsException;
 import ru.ssk.exception.UniqueViolationException;
 import ru.ssk.model.Address;
 import ru.ssk.service.AddressService;
@@ -16,7 +18,11 @@ import ru.ssk.service.MeteringPointService;
 @Controller
 public abstract class BaseController {
 
-    @ExceptionHandler(value = { UniqueViolationException.class, DuplicateDataException.class })
+    @ExceptionHandler(value = {
+            UniqueViolationException.class,
+            DuplicateDataException.class,
+            MultipleRepresentationsException.class,
+            DatabaseConnectionException.class })
     public String handle(Exception e){
         return new Gson().toJson(e.getMessage());
     }

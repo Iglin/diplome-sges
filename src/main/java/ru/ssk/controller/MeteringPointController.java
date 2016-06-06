@@ -153,7 +153,6 @@ public class MeteringPointController extends BaseController {
                     specification = where(specification).and(installedInPeriod(dateFrom, dateTo));
                 }
             }
-         //   Date dateTo = new Date(formatter.parse(filterValues.get("dateTo")).getTime());
         }
         if (ownerType.equals("entity")) {
             if (specification != null) {

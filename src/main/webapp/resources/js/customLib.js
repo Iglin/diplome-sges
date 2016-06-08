@@ -31,3 +31,59 @@ function showSimpleAlert(success, message) {
 function isInteger(x) {
     return !!(Math.floor(x) == x && $.isNumeric(x));
 }
+
+function isFilled(str){
+    return str.replace(/^\s+/g, '').length;
+}
+
+function isEmpty(str) {
+    return str == null ? true : !str.replace(/^\s+/g, '').length;
+}
+
+function isValidFloat(x, min, max) {
+    if (x == null) return false;
+    if (typeof x === 'string') {
+        if (isEmpty(x)) return false;
+        var num = Number(x);
+        if (num == 'NaN') return false;
+        if (min != null) {
+            if (num < min) return false;
+        }
+        if (max != null) {
+            if (num > max) return false;
+        }
+    } else {
+        if (min != null) {
+            if (x < min) return false;
+        }
+        if (max != null) {
+            if (x > max) return false;
+        }
+    }
+    return true;
+}
+
+function isValidInt(x, min, max) {
+    if (x == null) return false;
+    if (typeof x === 'string') {
+        if (isEmpty(x)) return false;
+        var num = Number(x);
+        if (num == 'NaN') return false;
+        if (!isInteger(num)) return false;
+        if (min != null) {
+            if (num < min) return false;
+        }
+        if (max != null) {
+            if (num > max) return false;
+        }
+    } else {
+        if (!isInteger(x)) return false;
+        if (min != null) {
+            if (x < min) return false;
+        }
+        if (max != null) {
+            if (x > max) return false;
+        }
+    }
+    return true;
+}

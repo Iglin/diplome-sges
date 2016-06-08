@@ -1,6 +1,5 @@
 package ru.ssk.controller;
 
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,19 +34,19 @@ public class AddressController extends BaseController {
 
     @RequestMapping(value = "/table/", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public String delete(@RequestParam(value = "ids") Long[] idsToDelete) {
+    public ResponseMessage delete(@RequestParam(value = "ids") Long[] idsToDelete) {
 
         if (idsToDelete.length > 0) {
             addressService.deleteAddressesWithIds(Arrays.asList(idsToDelete));
-            return new Gson().toJson("Адреса успешно удалены.");
+            return new ResponseMessage(true, "Адреса успешно удалены.");
         } else {
-            return new Gson().toJson("Не выбраны адреса для удаления.");
+            return new ResponseMessage(false, "Не выбраны адреса для удаления.");
         }
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String update(@RequestParam(value = "id") long id,
+    public ResponseMessage update(@RequestParam(value = "id") long id,
                          @RequestParam(value = "region") String region,
                          @RequestParam(value = "city") String city,
                          @RequestParam(value = "street") String street,
@@ -62,12 +61,12 @@ public class AddressController extends BaseController {
         address.setApartment(apartment);
         address.setIndex(index);
         addressService.save(address);
-        return new Gson().toJson("Адрес успешно обновлён.");
+        return new ResponseMessage(true, "Адрес успешно обновлён.");
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public String add(@RequestParam(value = "region") String region,
+    public ResponseMessage add(@RequestParam(value = "region") String region,
                       @RequestParam(value = "city") String city,
                       @RequestParam(value = "street") String street,
                       @RequestParam(value = "building") String building,
@@ -81,6 +80,6 @@ public class AddressController extends BaseController {
         address.setApartment(apartment);
         address.setIndex(index);
         addressService.save(address);
-        return new Gson().toJson("Адрес успешно сохранён в базе.");
+        return new ResponseMessage(true, "Адрес успешно сохранён в базе.");
     }
 }

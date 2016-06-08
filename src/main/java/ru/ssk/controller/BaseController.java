@@ -18,7 +18,7 @@ import ru.ssk.service.MeteringPointService;
 @Controller
 public abstract class BaseController {
 
-    @ExceptionHandler(value = {
+  /*  @ExceptionHandler(value = {
             UniqueViolationException.class,
             DuplicateDataException.class,
             MultipleRepresentationsException.class,
@@ -31,5 +31,19 @@ public abstract class BaseController {
     public String handleAllException(Exception e) {
         e.printStackTrace();
         return new Gson().toJson("Произошла непредвиденная ошибка.");
+    }*/
+  @ExceptionHandler(value = {
+          UniqueViolationException.class,
+          DuplicateDataException.class,
+          MultipleRepresentationsException.class,
+          DatabaseConnectionException.class })
+  public ResponseMessage handle(Exception e) {
+      return new ResponseMessage(false, e.getMessage());
+  }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseMessage handleAllException(Exception e) {
+        e.printStackTrace();
+        return new ResponseMessage(false, "Произошла непредвиденная ошибка.");
     }
 }

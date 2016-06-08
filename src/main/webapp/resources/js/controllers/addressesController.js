@@ -34,7 +34,7 @@ addresses.controller('addressesController', function($scope, $http){
                 params:{ids: idsToDelete}
             }).then(function(response){
                 refreshTable();
-                alert(response.data);
+                showAlert(response);
             }, function(response){
                 alert(JSON.stringify(response));
             });

@@ -35,30 +35,30 @@ public class MeterModelController extends BaseController {
 
     @RequestMapping(value = "/table/", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public String delete(@RequestParam(value = "ids") Long[] idsToDelete) {
+    public ResponseMessage delete(@RequestParam(value = "ids") Long[] idsToDelete) {
 
         if (idsToDelete.length > 0) {
             meterModelService.deleteWithIds(Arrays.asList(idsToDelete));
-            return new Gson().toJson("Выбранные модели успешно удалены.");
+            return new ResponseMessage(true, "Выбранные модели успешно удалены.");
         } else {
-            return new Gson().toJson("Не выбраны модели для удаления.");
+            return new ResponseMessage(false, "Не выбраны модели для удаления.");
         }
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String update(@RequestParam(value = "model") String model){
+    public ResponseMessage update(@RequestParam(value = "model") String model){
         MeterModel meterModel = new Gson().fromJson(model, MeterModel.class);
         meterModelService.save(meterModel);
-        return new Gson().toJson("Информацию о модели успешно обновлена.");
+        return new ResponseMessage(true, "Информацию о модели успешно обновлена.");
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public String add(@RequestParam(value = "model") String model){
+    public ResponseMessage add(@RequestParam(value = "model") String model){
         MeterModel meterModel = new Gson().fromJson(model, MeterModel.class);
         meterModelService.save(meterModel);
-        return new Gson().toJson("Модель счётчика успешно сохранёна в базе.");
+        return new ResponseMessage(true, "Модель счётчика успешно сохранёна в базе.");
     }
 
     @RequestMapping(value = "/info/", method = RequestMethod.GET)

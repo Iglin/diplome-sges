@@ -11,7 +11,7 @@ models.controller('modelsController', function($scope, $http){
         }).then(function(response){
             $scope.models = response.data;
         }, function(response){
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     }
 
@@ -40,9 +40,9 @@ models.controller('modelsController', function($scope, $http){
                 params:{ids: idsToDelete}
             }).then(function(response){
                 refreshTable();
-                alert(response.data);
+                showAlert(response);
             }, function(response){
-                alert(JSON.stringify(response));
+                showAlert(response);
             });
         }
     };

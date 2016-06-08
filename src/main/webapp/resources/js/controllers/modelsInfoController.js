@@ -11,7 +11,7 @@ modelsInfo.controller('modelsInfoController', function($scope, $http, $routePara
         }).then(function(response){
             $scope.model = response.data;
         }, function(response){
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     }
     refreshTable();

@@ -80,6 +80,7 @@ modelsEditor.controller('modelsEditorController', function($scope, $http, $route
                 }
             }).then(function (response) {
                 showAlert(response);
+                $scope.model = {};
             }, function (response) {
                 alert(JSON.stringify(response));
             });

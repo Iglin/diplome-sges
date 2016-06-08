@@ -2,6 +2,8 @@
     <div class="row">
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
+            <div id="alert_div">
+            </div>
             <table class="table">
                 <thead></thead>
                 <tbody>
@@ -26,7 +28,7 @@
                         <span>Цена: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="number" required ng-model="model.price" placeholder="Введите цену">
+                        <input class="form-control" type="number" min="0" required ng-model="model.price" placeholder="Введите цену">
                     </td>
                 </tr>
                 <tr>
@@ -50,7 +52,7 @@
                         <span>Межпроверочный интервал: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="number" required ng-model="model.calibrationPeriod" placeholder="Введите кол-во лет">
+                        <input class="form-control" type="number" min="1" required ng-model="model.calibrationPeriod" placeholder="Введите кол-во лет">
                     </td>
                 </tr>
                 <tr>
@@ -66,7 +68,7 @@
                         <span>Количество тарифов: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="number" required ng-model="model.ratesCount" placeholder="Введите кол-во тарифов">
+                        <input class="form-control" type="number" min="1" required ng-model="model.ratesCount" placeholder="Введите кол-во тарифов">
                     </td>
                 </tr>
                 <tr>
@@ -82,7 +84,7 @@
                         <span>Значность: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="number" required ng-model="model.atomicity" placeholder="Введите значность">
+                        <input class="form-control" type="number" min="1" required ng-model="model.atomicity" placeholder="Введите значность">
                     </td>
                 </tr>
                 <tr>
@@ -98,7 +100,7 @@
                         <span>I номинальная: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="number" required ng-model="model.nominalCurrent" placeholder="Введите номинальную силу тока">
+                        <input class="form-control" type="number" min="0" required ng-model="model.nominalCurrent" placeholder="Введите номинальную силу тока">
                     </td>
                 </tr>
                 <tr>
@@ -106,7 +108,7 @@
                         <span>I максимальная: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="number" required ng-model="model.maximalCurrent" placeholder="Введите максимальную силу тока">
+                        <input class="form-control" type="number" min="0" required ng-model="model.maximalCurrent" placeholder="Введите максимальную силу тока">
                     </td>
                 </tr>
                 <tr>
@@ -114,7 +116,7 @@
                         <span>U номинальное: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="number" required ng-model="model.nominalVoltage" placeholder="Введите номинальное напряжение">
+                        <input class="form-control" type="number" min="0" required ng-model="model.nominalVoltage" placeholder="Введите номинальное напряжение">
                     </td>
                 </tr>
                 </tbody>

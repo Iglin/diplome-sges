@@ -29,9 +29,5 @@ function showSimpleAlert(success, message) {
 }
 
 function isInteger(x) {
-    if (Math.floor(x) == x && $.isNumeric(x)) {
-        return true;
-    } else {
-        return false;
-    }
+    return !!(Math.floor(x) == x && $.isNumeric(x));
 }

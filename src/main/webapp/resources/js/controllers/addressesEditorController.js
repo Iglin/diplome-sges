@@ -43,21 +43,23 @@ addressesEditor.controller('addressesEditorController', function($scope, $http, 
             showSimpleAlert(false,"Необходимо ввести номер дома!");
             return false;
         }
-        if ($scope.index == null || $scope.index.trim() == '') {
+
+        if ($scope.index == null) {
             showSimpleAlert(false,"Необходимо ввести индекс!");
             return false;
-        }
-        if ($scope.index.length < 6 || $scope.index.length > 7 || !isInteger($scope.index)) {
-            showSimpleAlert(false,"Индекс должен состоять из 6 или 7 цифр!");
-            return false;
         } else {
-            var int = parseFloat($scope.index);
-            alert(int);
-            if (int < 100000) {
-                showSimpleAlert(false,"Индекс должен состоять из 6 или 7 цифр!");
+            if ($scope.index.length < 6 || $scope.index.length > 7 || !isInteger($scope.index)) {
+                showSimpleAlert(false, "Индекс должен состоять из 6 или 7 цифр!");
                 return false;
+            } else {
+                var int = parseFloat($scope.index);
+                if (int < 100000) {
+                    showSimpleAlert(false, "Индекс должен состоять из 6 или 7 цифр!");
+                    return false;
+                }
             }
         }
+
         return true;
     }
 
@@ -71,7 +73,14 @@ addressesEditor.controller('addressesEditorController', function($scope, $http, 
                     apartment: $scope.apartment, index: $scope.index
                 }
             }).then(function (response) {
+              //  window.location.href = "#/addresses/table?success=1";
                 showAlert(response);
+                $scope.region = '';
+                $scope.city = '';
+                $scope.street = '';
+                $scope.building = '';
+                $scope.apartment = '';
+                $scope.index = '';
             }, function (response) {
                 alert(JSON.stringify(response));
             });
@@ -89,7 +98,7 @@ addressesEditor.controller('addressesEditorController', function($scope, $http, 
                     apartment: $scope.apartment, index: $scope.index
                 }
             }).then(function (response) {
-                alert(response.data);
+                showAlert(response);
             }, function (response) {
                 alert(JSON.stringify(response));
             });

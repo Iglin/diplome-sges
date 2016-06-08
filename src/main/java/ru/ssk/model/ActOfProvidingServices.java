@@ -4,23 +4,27 @@ import javax.persistence.*;
 import java.sql.Date;
 
 /**
- * Created by user on 06.06.2016.
+ * Created by user on 08.06.2016.
  */
 @Entity
-@Table(name = "receipt")
-public class Receipt {
+@Table(name = "act_services")
+public class ActOfProvidingServices {
     @Id
-    @Column(name = "receipt_num", unique = true)
+    @Column(name = "act_num", unique = true)
     private Long number;
-    @Column(name = "payment_purpose", nullable = false)
-    private String paymentPurpose;
     @Column(name = "date", nullable = false)
     private Date date;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "agreement_num", nullable = false, unique = true)
     private Agreement agreement;
 
-    public Receipt() {
+    public ActOfProvidingServices() {
+    }
+
+    public ActOfProvidingServices(Long number, Date date, Agreement agreement) {
+        this.number = number;
+        this.date = date;
+        this.agreement = agreement;
     }
 
     public Long getNumber() {
@@ -29,14 +33,6 @@ public class Receipt {
 
     public void setNumber(Long number) {
         this.number = number;
-    }
-
-    public String getPaymentPurpose() {
-        return paymentPurpose;
-    }
-
-    public void setPaymentPurpose(String paymentPurpose) {
-        this.paymentPurpose = paymentPurpose;
     }
 
     public Date getDate() {
@@ -60,19 +56,16 @@ public class Receipt {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Receipt receipt = (Receipt) o;
+        ActOfProvidingServices that = (ActOfProvidingServices) o;
 
-        if (number != null ? !number.equals(receipt.number) : receipt.number != null) return false;
-        if (paymentPurpose != null ? !paymentPurpose.equals(receipt.paymentPurpose) : receipt.paymentPurpose != null)
-            return false;
-        return date != null ? date.equals(receipt.date) : receipt.date == null;
+        if (number != null ? !number.equals(that.number) : that.number != null) return false;
+        return date != null ? date.equals(that.date) : that.date == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = number != null ? number.hashCode() : 0;
-        result = 31 * result + (paymentPurpose != null ? paymentPurpose.hashCode() : 0);
         result = 31 * result + (date != null ? date.hashCode() : 0);
         return result;
     }

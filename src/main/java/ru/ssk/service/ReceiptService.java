@@ -15,6 +15,7 @@ public interface ReceiptService {
     void delete(long number);
     void delete(Receipt receipt);
     void deleteWithIds(List<Long> ids);
+    void deleteWithAgreementNumbers(List<Long> numbers);
     Receipt findByNumber(long number);
     Receipt findByAgreement(Agreement agreement);
     Receipt findByAgreementNumber(long number);

@@ -72,21 +72,20 @@ public class ReportBuilder {
 
         StyleBuilder style = stl.style();
         style.setBorder(stl.pen1Point())
-                //.setLeftBorder(stl.pen1Point()).setRightBorder(stl.pen1Point()).setTopBorder(stl.pen1Point()).setBottomBorder(stl.pen1Point())
                 .setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
 
         JasperReportBuilder report = DynamicReports.report();
         try (Connection connection = dataSource.getConnection()) {
             report.setColumnStyle(style)
-                    .columns(//col.reportRowNumberColumn("№").setFixedColumns(2).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER),
+                    .columns(
                             col.column("Содержание заказа", "service", DataTypes.stringType()),
                             col.column("Кол-во", "count", DataTypes.integerType()),
                             col.column("Коэф.", "coefficient", DataTypes.stringType()),
                             col.column("Цена за ед.", "price_per", DataTypes.bigDecimalType()),
                             col.column("Стоимость", "price_sum", DataTypes.bigDecimalType()),
                             col.column("НДС", "price_vad", DataTypes.bigDecimalType()),
-                            col.column("Итого", "total", DataTypes.bigDecimalType()))//.setColumnStyle(stl.style().setBorder())
-                    .title(cmp.text("Квитанция № " + receipt.getNumber()), text1, text2, text3)//shows report title
+                            col.column("Итого", "total", DataTypes.bigDecimalType()))
+                    .title(cmp.text("Квитанция № " + receipt.getNumber()), text1, text2, text3)
                     .addDetailFooter(cmp.text("Назначение платежа: " + receipt.getPaymentPurpose()))
                     .setDataSource("SELECT \"es\".name as \"service\", \n" +
                                     "\"sia\".count as \"count\", \n" +

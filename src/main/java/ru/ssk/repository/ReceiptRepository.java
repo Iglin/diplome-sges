@@ -22,6 +22,10 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
     Receipt findByAgreementNumber(long number);
 
     @Modifying
+    @Query("DELETE FROM Receipt s WHERE s.agreement.number IN ?1")
+    void deleteWithAgreementNumbers(List<Long> numbers);
+
+    @Modifying
     @Query("delete from Receipt a where a.number in ?1")
     void deleteWithIds(List<Long> ids);
 }

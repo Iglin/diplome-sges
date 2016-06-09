@@ -33,6 +33,12 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
+    public void deleteWithAgreementNumbers(List<Long> numbers) {
+        receiptRepository.deleteWithAgreementNumbers(numbers);
+        receiptRepository.flush();
+    }
+
+    @Override
     public void deleteWithIds(List<Long> ids) {
         receiptRepository.deleteWithIds(ids);
         receiptRepository.flush();

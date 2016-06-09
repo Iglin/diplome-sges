@@ -5,6 +5,7 @@ import ru.ssk.model.Agreement;
 import ru.ssk.model.MeteringPoint;
 import ru.ssk.repository.AgreementRepository;
 import ru.ssk.service.AgreementService;
+import ru.ssk.service.ReceiptService;
 import ru.ssk.service.ServiceInAgreementService;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class AgreementServiceImpl implements AgreementService {
     private AgreementRepository agreementRepository;
     @Autowired
     private ServiceInAgreementService serviceInAgreementService;
+    @Autowired
+    private ReceiptService receiptService;
 
     @Override
     public Agreement save(Agreement agreement, boolean isUpdate) {
@@ -45,6 +48,7 @@ public class AgreementServiceImpl implements AgreementService {
     @Override
     public void deleteWithIds(List<Long> ids) {
         serviceInAgreementService.deleteWithAgreementsNumbers(ids);
+        receiptService.deleteWithAgreementNumbers(ids);
         agreementRepository.deleteWithIds(ids);
         agreementRepository.flush();
     }

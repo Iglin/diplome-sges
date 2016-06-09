@@ -86,14 +86,14 @@ public class ReportBuilder {
                             col.column("НДС", "price_vad", DataTypes.bigDecimalType()),
                             col.column("Итого", "total", DataTypes.bigDecimalType()))
                     .title(cmp.text("Квитанция № " + receipt.getNumber()), text1, text2, text3)
-                    .addDetailFooter(cmp.text("Назначение платежа: " + receipt.getPaymentPurpose()))
+                    .addDetailFooter(cmp.text("Итого: " + receipt.getAgreement().getTotal() + "\r\n"),
+                            cmp.text("Назначение платежа: " + receipt.getPaymentPurpose()))
                     .setDataSource("SELECT \"es\".name as \"service\", \n" +
-                                    "\"sia\".count as \"count\", \n" +
-                                    "\"sia\".coefficient as \"coefficient\", \n" +
+                                    "\"sia\".count as \"count\", \"sia\".coefficient as \"coefficient\", \n" +
                                     "\"es\".price as \"price_per\", \n" +
-                                    "\"es\".price * 1.18 as \"price_sum\", \n" +
-                                    "\"es\".price * 0.18 as \"price_vad\", \n" +
-                                    "\"a\".total as \"total\" \n" +
+                                    "\"es\".price * \"sia\".count * \"sia\".coefficient as \"price_sum\", \n" +
+                                    "\"es\".price * \"sia\".count * \"sia\".coefficient * 0.18 as \"price_vad\", \n" +
+                                    "\"es\".price * \"sia\".count * \"sia\".coefficient * 1.18 as \"total\" \n" +
                                     "FROM extra_service \"es\" \n" +
                                     "JOIN service_in_agreement \"sia\" ON \"sia\".extra_service = \"es\".id \n" +
                                     "JOIN agreement \"a\" ON \"a\".agreement_num = \"sia\".agreement_num \n" +

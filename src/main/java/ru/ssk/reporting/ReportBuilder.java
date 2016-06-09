@@ -70,9 +70,14 @@ public class ReportBuilder {
         }
         TextFieldBuilder<String> text3 = cmp.text(temp);
 
+        StyleBuilder style = stl.style();
+        style.setBorder(stl.pen1Point())
+                //.setLeftBorder(stl.pen1Point()).setRightBorder(stl.pen1Point()).setTopBorder(stl.pen1Point()).setBottomBorder(stl.pen1Point())
+                .setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
+
         JasperReportBuilder report = DynamicReports.report();
         try (Connection connection = dataSource.getConnection()) {
-            report
+            report.setColumnStyle(style)
                     .columns(//col.reportRowNumberColumn("№").setFixedColumns(2).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER),
                             col.column("Содержание заказа", "service", DataTypes.stringType()),
                             col.column("Кол-во", "count", DataTypes.integerType()),

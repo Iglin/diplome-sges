@@ -102,7 +102,7 @@ public class Agreement implements Serializable {
             total = total.add(BigDecimal.valueOf(serviceInAgreement.getCount() * serviceInAgreement.getCoefficient())
                             .multiply(serviceInAgreement.getExtraService().getPrice()));
         });
-        total = total.multiply(BigDecimal.valueOf(1 - VAD));
+        total = total.multiply(BigDecimal.valueOf(1 + VAD));
         return total;
     }
 }

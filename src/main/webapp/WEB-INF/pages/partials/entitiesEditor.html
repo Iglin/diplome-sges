@@ -2,6 +2,8 @@
     <div class="row">
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
+            <div id="alert_div">
+            </div>
             <table>
                 <tr>
                     <td>
@@ -16,7 +18,7 @@
                         <span>ОГРН: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" required ng-model="entity.ogrn" placeholder="Введите ОГРН">
+                        <input class="form-control" type="text" minlength="13" maxlength="13" required ng-model="entity.ogrn" placeholder="Введите ОГРН">
                     </td>
                 </tr>
                 <tr>
@@ -24,7 +26,7 @@
                         <span>ИНН: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" ng-model="entity.inn" placeholder="Введите ИНН">
+                        <input class="form-control" type="text" minlength="10" maxlength="12" ng-model="entity.inn" placeholder="Введите ИНН">
                     </td>
                 </tr>
                 <tr>
@@ -32,7 +34,7 @@
                         <span>КПП: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" ng-model="entity.kpp" placeholder="Введите КПП">
+                        <input class="form-control" type="text" minlength="9" maxlength="9" ng-model="entity.kpp" placeholder="Введите КПП">
                     </td>
                 </tr>
                 <tr>
@@ -40,7 +42,7 @@
                         <span>Телефон: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="tel" required ng-model="entity.phone" placeholder="Введите номер телефона">
+                        <input class="form-control" type="text" minlength="11" required ng-model="entity.phone" placeholder="Введите номер телефона">
                     </td>
                 </tr>
                 <tr>
@@ -56,7 +58,7 @@
                         <span>Персональный счёт: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" required ng-model="entity.personalAccount" placeholder="Введите номер счёта">
+                        <input class="form-control" type="text" required minlength="8" maxlength="8" ng-model="entity.personalAccount" placeholder="Введите номер счёта">
                     </td>
                 </tr>
                 <tr>
@@ -120,17 +122,32 @@
                         <span>Индекс: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="number" min="000000" max="999999" required ng-model="entity.address.index" placeholder="Введите индекс">
+                        <input class="form-control" type="text" minlength="6" maxlength="7" required ng-model="entity.address.index" placeholder="Введите индекс">
                     </td>
                 </tr>
             </table>
-            <select class="form-control" ng-model="addressId" ng-hide="newAddress || editAddress">
-                <option ng-repeat="x in addresses track by $index" value="{{ $index }}">
-                    {{ x.region + ', ' + x.city + ', ' +
-                    x.street + ', ' + x.building + ', ' +
-                    x.apartment + '; Индекс: ' + x.index }}
-                </option>
-            </select>
+            <div ng-hide="newAddress || editAddress" style="{ height: 200px !important; overflow: scroll; }">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th></th><th>Регион</th><th>Город</th><th>Улица</th><th>Дом</th><th>Квартира</th><th>Индекс</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="x in addresses" ng-click="pickAddress(x);" style="cursor: pointer;">
+                        <td>
+                            <span ng-if="x == entity.address" class="label label-success">Выбран</span>
+                        </td>
+                        <td> {{ x.region }} </td>
+                        <td> {{ x.city }} </td>
+                        <td> {{ x.street }} </td>
+                        <td> {{ x.building }} </td>
+                        <td> {{ x.apartment }} </td>
+                        <td> {{ x.index }} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
             <br><br>
             <button class="btn btn-success" id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>
             <button class="btn btn-success" id="btn_upt" type="button" ng-show="isUpdate" ng-click="update()">Сохранить</button>

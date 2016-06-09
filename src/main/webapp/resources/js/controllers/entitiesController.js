@@ -12,12 +12,9 @@ entities.controller('entitiesController', function($scope, $http){
         }).then(function(response){
             $scope.entities = response.data;
         }, function(response){
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     }
- //   angular.element(document).ready(function () {
-//        refreshTable();
- //   });
 
     $scope.delete = function(){
         var idsToDelete = [];
@@ -36,9 +33,9 @@ entities.controller('entitiesController', function($scope, $http){
                 params:{ids: idsToDelete}
             }).then(function(response){
                 refreshTable();
-                alert(response.data);
+                showAlert(response);
             }, function(response){
-                alert(JSON.stringify(response));
+                showAlert(response);
             });
         }
     };

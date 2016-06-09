@@ -47,9 +47,7 @@ personsEditor.controller('personsEditorController', function($scope, $http, $rou
                 showAlert(response);
             });
             $scope.person = {};
-        //    $scope.person.livingAddress = {};
             $scope.person.passport = {};
-        //    $scope.person.passport.registrationAddress = {};
             $scope.isUpdate = false;
             $scope.newRegistrationAddress = false;
             $scope.editRegistrationAddress = false;
@@ -185,9 +183,7 @@ personsEditor.controller('personsEditorController', function($scope, $http, $rou
             }).then(function (response) {
                 showAlert(response);
                 $scope.person = {};
-           //     $scope.person.livingAddress = {};
                 $scope.person.passport = {};
-           //     $scope.person.passport.registrationAddress = {};
             }, function (response) {
                 showAlert(response);
             });

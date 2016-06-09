@@ -13,6 +13,7 @@ import ru.ssk.service.LegalEntityService;
 
 import java.sql.Date;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,40 +40,45 @@ public class LegalEntityController extends BaseController {
 
     @RequestMapping(value = "/editor/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public LegalEntity getOne(@RequestParam(value = "id") long id){
-        return legalEntityService.findById(id);
+    public Map<String, Object> openEditor(@RequestParam(value = "id", required = false) Long id) {
+        Map<String, Object> params = new HashMap<>(2);
+        if (id != null) {
+            params.put("entity", legalEntityService.findById(id));
+        }
+        params.put("addresses", addressService.findAll());
+        return params;
     }
 
     @RequestMapping(value = "/table/", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public String delete(@RequestParam(value = "ids") Long[] idsToDelete) {
+    public ResponseMessage delete(@RequestParam(value = "ids") Long[] idsToDelete) {
 
         if (idsToDelete.length > 0) {
             legalEntityService.deleteWithIds(Arrays.asList(idsToDelete));
-            return new Gson().toJson("Записи успешно удалены.");
+            return new ResponseMessage(true, "Записи успешно удалены.");
         } else {
-            return new Gson().toJson("Не выбраны записи для удаления.");
+            return new ResponseMessage(false, "Не выбраны записи для удаления.");
         }
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String updatePerson(//@RequestParam(value = "id") long id,
+    public ResponseMessage updatePerson(//@RequestParam(value = "id") long id,
                                @RequestParam(value = "entity") String person) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         LegalEntity legalEntity = gson.fromJson(person, LegalEntity.class);
         legalEntityService.save(legalEntity);
-        return new Gson().toJson("Запись успешно обновлена.");
+        return new ResponseMessage(true, "Запись успешно обновлена.");
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public String add(@RequestParam(value = "entity") String entity) {
+    public ResponseMessage add(@RequestParam(value = "entity") String entity) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         LegalEntity legalEntity = gson.fromJson(entity, LegalEntity.class);
         synchronizeAddressSession(legalEntity);
         legalEntityService.save(legalEntity);
-        return new Gson().toJson("Данные о юр. лице успешно сохранены в базе.");
+        return new ResponseMessage(true, "Данные о юр. лице успешно сохранены в базе.");
     }
 
     private void synchronizeAddressSession(LegalEntity legalEntity) {

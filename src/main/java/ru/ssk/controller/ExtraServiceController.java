@@ -36,30 +36,30 @@ public class ExtraServiceController extends BaseController {
 
     @RequestMapping(value = "/table/", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public String delete(@RequestParam(value = "ids") Long[] idsToDelete) {
+    public ResponseMessage delete(@RequestParam(value = "ids") Long[] idsToDelete) {
         if (idsToDelete.length > 0) {
             service.deleteWithIds(Arrays.asList(idsToDelete));
-            return new Gson().toJson("Услуги удалены.");
+            return new ResponseMessage(true, "Услуги удалены.");
         } else {
-            return new Gson().toJson("Не выбраны записи для удаления.");
+            return new ResponseMessage(false, "Не выбраны записи для удаления.");
         }
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String update(@RequestParam(value = "service") String serviceJSON) {
+    public ResponseMessage update(@RequestParam(value = "service") String serviceJSON) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         ExtraService extraService = gson.fromJson(serviceJSON, ExtraService.class);
         service.save(extraService);
-        return new Gson().toJson("Запись успешно обновлена.");
+        return new ResponseMessage(true, "Запись успешно обновлена.");
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public String add(@RequestParam(value = "service") String serviceJSON) {
+    public ResponseMessage add(@RequestParam(value = "service") String serviceJSON) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         ExtraService extraService = gson.fromJson(serviceJSON, ExtraService.class);
         service.save(extraService);
-        return new Gson().toJson("Данные об услуге успешно сохранены в базе.");
+        return new ResponseMessage(true, "Данные об услуге успешно сохранены в базе.");
     }
 }

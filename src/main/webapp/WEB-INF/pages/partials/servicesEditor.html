@@ -2,6 +2,8 @@
     <div class="row">
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
+            <div id="alert_div">
+            </div>
             <table class="table">
                 <thead></thead>
                 <tbody>
@@ -18,7 +20,7 @@
                         <span>Цена: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="number" required ng-model="service.price" placeholder="Введите цену">
+                        <input class="form-control" type="number" min="0" required ng-model="service.price" placeholder="Введите цену">
                     </td>
                 </tr>
                 </tbody>

@@ -86,14 +86,21 @@ function isValidInt(x, min, max) {
 
 function isValidCode(str, len) {
     if (str == null) return false;
-    if (str.length != len) return false;
-    return /^\d+$/.test(str);
+    if (typeof str === 'string') {
+        if (str.length != len) return false;
+        return /^\d+$/.test(str);
+    } else {
+        // Код прочитан из базы
+        return true;
+    }
 }
 
 function isValidFlexibleCode(str, minLen, maxLen) {
     if (str == null) return false;
-    if (str.length < minLen || str.length > maxLen) return false;
-    return /^\d+$/.test(str);
+    if (typeof str === 'string') {
+        if (str.length < minLen || str.length > maxLen) return false;
+        return /^\d+$/.test(str);
+    } else return true; // Код прочитан из базы
 }
 
 function isValidAddress(address) {
@@ -132,4 +139,21 @@ function findObjectById(arr, id) {
     }
     alert('No such id!');
     return null;
+}
+
+function isValidPhone(phone) {
+    if (phone == null) return false;
+    if (phone.indexOf("-") == 0 || phone.indexOf("-") == phone.length) return false;
+    var str = phone;
+    str = str.replace(/ /g,"");
+    str = str.replace("(","");
+    str = str.replace(")","");
+    if (str.indexOf("-") == 0 || str.indexOf("-") == str.length) return false;
+    str = str.replace("-","");
+    if (str.indexOf('+') > -1) {
+        if (str.indexOf('+') != 0) return false;
+        str = str.replace("+","");
+        return !!isValidCode(str, 11);
+    } else return !!(str.indexOf('8') == 0 && isValidCode(str, 11));
+
 }

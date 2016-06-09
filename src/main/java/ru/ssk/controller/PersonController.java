@@ -15,6 +15,7 @@ import ru.ssk.service.AddressService;
 import ru.ssk.service.PassportService;
 import ru.ssk.service.PhysicalPersonService;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,28 +38,33 @@ public class PersonController extends BaseController {
 
     @RequestMapping(value = "/table/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List<PhysicalPerson> allAddresses(){
+    public List<PhysicalPerson> all(){
         return personService.findAll();
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public PhysicalPerson getOne(@RequestParam(value = "id") long id){
-        PhysicalPerson result = personService.findById(id);
-        result.getLivingAddress();
-        result.getPassport().getRegistrationAddress();
-        return result;
+    public Map<String, Object> openEditor(@RequestParam(value = "id", required = false) String id) {
+        Map<String, Object> params = new HashMap<>(2);
+        if (id != null) {
+            PhysicalPerson result = personService.findById(Long.parseLong(id));
+            result.getLivingAddress();
+            result.getPassport().getRegistrationAddress();
+            params.put("person", result);
+        }
+        params.put("addresses", addressService.findAll());
+        return params;
     }
 
     @RequestMapping(value = "/table/", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public String delete(@RequestParam(value = "ids") Long[] idsToDelete) {
+    public ResponseMessage delete(@RequestParam(value = "ids") Long[] idsToDelete) {
 
         if (idsToDelete.length > 0) {
             personService.deleteWithIds(Arrays.asList(idsToDelete));
-            return new Gson().toJson("Записи успешно удалены.");
+            return new ResponseMessage(true, "Записи успешно удалены.");
         } else {
-            return new Gson().toJson("Не выбраны записи для удаления.");
+            return new ResponseMessage(false, "Не выбраны записи для удаления.");
         }
     }
 
@@ -70,7 +76,7 @@ public class PersonController extends BaseController {
 
     @RequestMapping(value = "/editor/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String updatePerson(@RequestParam(value = "id") long id,
+    public ResponseMessage updatePerson(@RequestParam(value = "id") long id,
                          @RequestParam(value = "person") String person) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         PhysicalPerson physicalPerson = gson.fromJson(person, PhysicalPerson.class);
@@ -95,17 +101,17 @@ public class PersonController extends BaseController {
             }
         }
         personService.save(physicalPerson);
-        return new Gson().toJson("Запись успешно обновлена.");
+        return new ResponseMessage(true, "Запись успешно обновлена.");
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public String add(@RequestParam(value = "person") String person) {
+    public ResponseMessage add(@RequestParam(value = "person") String person) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         PhysicalPerson physicalPerson = gson.fromJson(person, PhysicalPerson.class);
         synchronizeAddressesSession(physicalPerson);
         personService.save(physicalPerson);
-        return new Gson().toJson("Данные о физ. лице успешно сохранены в базе.");
+        return new ResponseMessage(true, "Данные о физ. лице успешно сохранены в базе.");
     }
 
     private void synchronizeAddressesSession(PhysicalPerson physicalPerson) {

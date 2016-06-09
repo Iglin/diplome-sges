@@ -2,13 +2,15 @@
     <div class="row">
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
+            <div id="alert_div">
+            </div>
             <table>
                 <tr>
                     <td>
                         <span>Фамилия: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" required ng-model="lastName" placeholder="Введите фамилию">
+                        <input class="form-control" type="text" required ng-model="person.lastName" placeholder="Введите фамилию">
                     </td>
                 </tr>
                 <tr>
@@ -16,7 +18,7 @@
                         <span>Имя: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" required ng-model="firstName" placeholder="Введите имя">
+                        <input class="form-control" type="text" required ng-model="person.firstName" placeholder="Введите имя">
                     </td>
                 </tr>
                 <tr>
@@ -24,7 +26,7 @@
                         <span>Отчество: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" ng-model="middleName" placeholder="Введите отчество">
+                        <input class="form-control" type="text" ng-model="person.middleName" placeholder="Введите отчество">
                     </td>
                 </tr>
                 <tr>
@@ -32,7 +34,7 @@
                         <span>Телефон: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="tel" required ng-model="phone" placeholder="Введите номер телефона">
+                        <input class="form-control" type="text" minlength="11" required ng-model="person.phone" placeholder="Введите номер телефона">
                     </td>
                 </tr>
                 <tr>
@@ -40,7 +42,7 @@
                         <span>E-mail: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="email" required ng-model="email" placeholder="Введите e-mail адрес">
+                        <input class="form-control" type="email" required ng-model="person.email" placeholder="Введите e-mail адрес">
                     </td>
                 </tr>
                 <tr>
@@ -48,7 +50,7 @@
                         <span>Персональный счёт: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" required ng-model="personalAccount" placeholder="Введите номер счёта">
+                        <input class="form-control" type="text" minlength="8" maxlength="8" required ng-model="person.personalAccount" placeholder="Введите номер счёта">
                     </td>
                 </tr>
                 <tr>
@@ -56,7 +58,7 @@
                         <span>Номер паспорта: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" required ng-model="passportNumber" placeholder="Введите номер паспорта">
+                        <input class="form-control" type="text" required ng-model="person.passport.passportNumber" placeholder="Введите номер паспорта">
                     </td>
                 </tr>
                 <tr>
@@ -64,7 +66,7 @@
                         <span>Место выдачи паспорта: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" required ng-model="placeOfIssue" placeholder="например, УФМС России...">
+                        <input class="form-control" type="text" required ng-model="person.passport.placeOfIssue" placeholder="например, УФМС России...">
                     </td>
                 </tr>
                 <tr>
@@ -72,7 +74,7 @@
                         <span>Дата выдачи паспорта: </span>
                     </td>
                     <td>
-                        <label><input class="form-control" type="date" required ng-model="dateOfIssue"></label>
+                        <label><input class="form-control" type="date" required ng-model="person.passport.dateOfIssue"></label>
                     </td>
                 </tr>
             </table>
@@ -88,7 +90,7 @@
                         <span>Регион: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" required ng-model="regionReg" placeholder="Введите регион">
+                        <input class="form-control" type="text" required ng-model="person.passport.registrationAddress.region" placeholder="Введите регион">
                     </td>
                 </tr>
                 <tr>
@@ -96,7 +98,7 @@
                         <span>Город: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" required ng-model="cityReg" placeholder="Введите город">
+                        <input class="form-control" type="text" required ng-model="person.passport.registrationAddress.city" placeholder="Введите город">
                     </td>
                 </tr>
                 <tr>
@@ -104,7 +106,7 @@
                         <span>Улица: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" required ng-model="streetReg" placeholder="Введите улицу">
+                        <input class="form-control" type="text" required ng-model="person.passport.registrationAddress.street" placeholder="Введите улицу">
                     </td>
                 </tr>
                 <tr>
@@ -112,7 +114,7 @@
                         <span>Дом: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" required ng-model="buildingReg" placeholder="Введите номер дома">
+                        <input class="form-control" type="text" required ng-model="person.passport.registrationAddress.building" placeholder="Введите номер дома">
                     </td>
                 </tr>
                 <tr>
@@ -120,7 +122,7 @@
                         <span>Квартира: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" required ng-model="apartmentReg" placeholder="Введите номер квартиры">
+                        <input class="form-control" type="text" required ng-model="person.passport.registrationAddress.apartment" placeholder="Введите номер квартиры">
                     </td>
                 </tr>
                 <tr>
@@ -128,17 +130,32 @@
                         <span>Индекс: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="number" min="000000" max="999999" required ng-model="indexReg" placeholder="Введите индекс">
+                        <input class="form-control" type="text" minlength="6" maxlength="7" required ng-model="person.passport.registrationAddress.index" placeholder="Введите индекс">
                     </td>
                 </tr>
             </table>
-            <select class="form-control" ng-model="registrationAddress" ng-hide="newRegistrationAddress || editRegistrationAddress">
-                <option ng-repeat="a in addresses" value="{{ a }}">
-                    {{ a.region + ', ' + a.city + ', ' +
-                    a.street + ', ' + a.building + ', ' +
-                    a.apartment + '; Индекс: ' + a.index }}
-                </option>
-            </select>
+            <div ng-hide="newRegistrationAddress || editRegistrationAddress" style="{ height: 200px !important; overflow: scroll; }">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th></th><th>Регион</th><th>Город</th><th>Улица</th><th>Дом</th><th>Квартира</th><th>Индекс</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="x in addresses" ng-click="pickRegistrationAddress(x);" style="cursor: pointer;">
+                        <td>
+                            <span ng-if="x == person.passport.registrationAddress" class="label label-success">Выбран</span>
+                        </td>
+                        <td> {{ x.region }} </td>
+                        <td> {{ x.city }} </td>
+                        <td> {{ x.street }} </td>
+                        <td> {{ x.building }} </td>
+                        <td> {{ x.apartment }} </td>
+                        <td> {{ x.index }} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <h3>Адрес фактического проживания: </h3>
             <button class="btn btn-primary" type="button" ng-show="newLivingAddress || editLivingAddress" ng-click="pickLivingAddressFromDB()">Выбрать адрес из базы</button>
@@ -151,7 +168,7 @@
                         <span>Регион: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" required ng-model="regionLiv" placeholder="Введите регион">
+                        <input class="form-control" type="text" required ng-model="person.livingAddress.region" placeholder="Введите регион">
                     </td>
                 </tr>
                 <tr>
@@ -159,7 +176,7 @@
                         <span>Город: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" required ng-model="cityLiv" placeholder="Введите город">
+                        <input class="form-control" type="text" required ng-model="person.livingAddress.city" placeholder="Введите город">
                     </td>
                 </tr>
                 <tr>
@@ -167,7 +184,7 @@
                         <span>Улица: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" required ng-model="streetLiv" placeholder="Введите улицу">
+                        <input class="form-control" type="text" required ng-model="person.livingAddress.street" placeholder="Введите улицу">
                     </td>
                 </tr>
                 <tr>
@@ -175,7 +192,7 @@
                         <span>Дом: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" required ng-model="buildingLiv" placeholder="Введите номер дома">
+                        <input class="form-control" type="text" required ng-model="person.livingAddress.building" placeholder="Введите номер дома">
                     </td>
                 </tr>
                 <tr>
@@ -183,7 +200,7 @@
                         <span>Квартира: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="text" required ng-model="apartmentLiv" placeholder="Введите номер квартиры">
+                        <input class="form-control" type="text" required ng-model="person.livingAddress.apartment" placeholder="Введите номер квартиры">
                     </td>
                 </tr>
                 <tr>
@@ -191,17 +208,32 @@
                         <span>Индекс: </span>
                     </td>
                     <td>
-                        <input class="form-control" type="number" min="000000" max="999999" required ng-model="indexLiv" placeholder="Введите индекс">
+                        <input class="form-control" type="text" minlength="6" maxlength="7" required ng-model="person.livingAddress.index" placeholder="Введите индекс">
                     </td>
                 </tr>
             </table>
-            <select class="form-control" ng-model="livingAddress" ng-hide="newLivingAddress || editLivingAddress">
-                <option ng-repeat="x in addresses" value="{{ x }}">
-                    {{ x.region + ', ' + x.city + ', ' +
-                    x.street + ', ' + x.building + ', ' +
-                    x.apartment + '; Индекс: ' + x.index }}
-                </option>
-            </select>
+            <div ng-hide="newLivingAddress || editLivingAddress" style="{ height: 200px !important; overflow: scroll; }">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th></th><th>Регион</th><th>Город</th><th>Улица</th><th>Дом</th><th>Квартира</th><th>Индекс</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="x in addresses" ng-click="pickLivingAddress(x);" style="cursor: pointer;">
+                        <td>
+                            <span ng-if="x == person.livingAddress" class="label label-success">Выбран</span>
+                        </td>
+                        <td> {{ x.region }} </td>
+                        <td> {{ x.city }} </td>
+                        <td> {{ x.street }} </td>
+                        <td> {{ x.building }} </td>
+                        <td> {{ x.apartment }} </td>
+                        <td> {{ x.index }} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
             <br><br>
             <button class="btn btn-success" id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>
             <button class="btn btn-success" id="btn_upt" type="button" ng-show="isUpdate" ng-click="update()">Сохранить</button>

@@ -11,7 +11,7 @@ personsPassport.controller('personsPassportController', function($scope, $http, 
         }).then(function(response){
             $scope.passport = response.data;
         }, function(response){
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     }
     angular.element(document).ready(function () {

@@ -44,6 +44,7 @@ public class AgreementServiceImpl implements AgreementService {
 
     @Override
     public void deleteWithIds(List<Long> ids) {
+        serviceInAgreementService.deleteWithAgreementsNumbers(ids);
         agreementRepository.deleteWithIds(ids);
         agreementRepository.flush();
     }

@@ -2,12 +2,15 @@ package ru.ssk.reporting;
 
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.builder.DynamicReports;
+import net.sf.dynamicreports.report.builder.component.TextFieldBuilder;
 import net.sf.dynamicreports.report.builder.datatype.DataTypes;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
 import net.sf.dynamicreports.report.exception.DRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.ssk.exception.DatabaseConnectionException;
+import ru.ssk.model.*;
+import ru.ssk.service.ReceiptService;
 
 import javax.sql.DataSource;
 import java.awt.*;
@@ -25,6 +28,80 @@ import static net.sf.dynamicreports.report.builder.DynamicReports.stl;
 public class ReportBuilder {
     @Autowired
     private DataSource dataSource;
+    @Autowired
+    private ReceiptService receiptService;
+
+    public void generateReceipt(long agreementNumber) {
+        Receipt receipt = receiptService.findByAgreementNumber(agreementNumber);
+
+        Enterprise enterprise = receipt.getAgreement().getMeteringPoint().getEnterpriseEntry();
+        String temp = "Получатель: " + enterprise.getName() +
+                " р/с: " + enterprise.getCheckingAccount() +
+                " к/с: " + enterprise.getCorrespondentAccount() + "\r\n" +
+                "Банк: " + enterprise.getBank() +
+                " БИК " + enterprise.getBankBik() +
+                " ИНН " + enterprise.getBankInn() +
+                " КПП " + enterprise.getBankKpp() + "\r\n" +
+                enterprise.getBankAddress().getIndex() +
+                ", г. " + enterprise.getBankAddress().getCity() +
+                ", ул. " + enterprise.getBankAddress().getStreet() +
+                ", " + enterprise.getBankAddress().getBuilding();
+        TextFieldBuilder<String> text1 = cmp.text(temp);
+
+        Owner owner = receipt.getAgreement().getMeteringPoint().getOwner();
+        StringBuilder sender = new StringBuilder("Плательщик: ");
+        if (owner instanceof LegalEntity) {
+            sender.append(((LegalEntity) owner).getName()).append("; Счёт ").append(owner.getPersonalAccount());
+        } else {
+            PhysicalPerson person = (PhysicalPerson) owner;
+            sender.append(person.getLastName()).append(" ").append(person.getFirstName()).append(" ");
+            if (person.getMiddleName() != null) {
+                sender.append(person.getMiddleName());
+            }
+            sender.append("; Счёт ").append(owner.getPersonalAccount());
+        }
+        TextFieldBuilder<String> text2 = cmp.text(sender.toString());
+
+        Address address = receipt.getAgreement().getMeteringPoint().getAddress();
+        temp = "Адрес объекта: " + address.getCity() + ", " + address.getStreet() + ", "
+                + address.getBuilding();
+        if (address.getApartment() != null) {
+            temp += ", " + address.getApartment();
+        }
+        TextFieldBuilder<String> text3 = cmp.text(temp);
+
+        JasperReportBuilder report = DynamicReports.report();
+        try (Connection connection = dataSource.getConnection()) {
+            report
+                    .columns(//col.reportRowNumberColumn("№").setFixedColumns(2).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER),
+                            col.column("Содержание заказа", "service", DataTypes.stringType()),
+                            col.column("Кол-во", "count", DataTypes.integerType()),
+                            col.column("Коэф.", "coefficient", DataTypes.stringType()),
+                            col.column("Цена за ед.", "price_per", DataTypes.bigDecimalType()),
+                            col.column("Стоимость", "price_sum", DataTypes.bigDecimalType()),
+                            col.column("НДС", "price_vad", DataTypes.bigDecimalType()),
+                            col.column("Итого", "total", DataTypes.bigDecimalType()))//.setColumnStyle(stl.style().setBorder())
+                    .title(cmp.text("Квитанция № " + receipt.getNumber()), text1, text2, text3)//shows report title
+                    .addDetailFooter(cmp.text("Назначение платежа: " + receipt.getPaymentPurpose()))
+                    .setDataSource("SELECT \"es\".name as \"service\", \n" +
+                                    "\"sia\".count as \"count\", \n" +
+                                    "\"sia\".coefficient as \"coefficient\", \n" +
+                                    "\"es\".price as \"price_per\", \n" +
+                                    "\"es\".price * 1.18 as \"price_sum\", \n" +
+                                    "\"es\".price * 0.18 as \"price_vad\", \n" +
+                                    "\"a\".total as \"total\" \n" +
+                                    "FROM extra_service \"es\" \n" +
+                                    "JOIN service_in_agreement \"sia\" ON \"sia\".extra_service = \"es\".id \n" +
+                                    "JOIN agreement \"a\" ON \"a\".agreement_num = \"sia\".agreement_num \n" +
+                                    "WHERE \"a\".agreement_num = " + receipt.getAgreement().getNumber() + ";",
+                        connection);
+            report.show(false);
+        } catch (SQLException e) {
+            throw new DatabaseConnectionException("Не удалось подключиться к базе данных.");
+        } catch (DRException e) {
+            throw new DatabaseConnectionException("Не удалось сгенерировать отчёт.");
+        }
+    }
 
     public void generateAgreementsRegistry(Date dateFrom, Date dateTo, boolean byEntities) throws DRException {
         JasperReportBuilder report = DynamicReports.report();

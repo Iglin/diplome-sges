@@ -12,9 +12,21 @@ agreements.controller('agreementsController', function($scope, $http){
         }).then(function(response){
             $scope.agreements = response.data;
         }, function(response){
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     }
+    
+    $scope.generateReceipt = function (x) {
+        $http({
+            url:'/agreements/receipt/',
+            method:'GET', 
+            params: {'agreementNumber': x}
+        }).then(function(response){
+            
+        }, function(response){
+            showAlert(response);
+        });
+    };
 
     $scope.delete = function(){
         var idsToDelete = [];
@@ -33,9 +45,9 @@ agreements.controller('agreementsController', function($scope, $http){
                 params:{ids: idsToDelete}
             }).then(function(response){
                 refreshTable();
-                alert(response.data);
+                showAlert(response);
             }, function(response){
-                alert(JSON.stringify(response));
+                showAlert(response);
             });
         }
     };

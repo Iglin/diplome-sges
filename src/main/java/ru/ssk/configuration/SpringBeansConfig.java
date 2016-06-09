@@ -87,6 +87,11 @@ public class SpringBeansConfig {
     }
 
     @Bean
+    public ReceiptService receiptService() {
+        return new ReceiptServiceImpl();
+    }
+
+    @Bean
     public ReportBuilder reportBuilder() {
         return new ReportBuilder();
     }

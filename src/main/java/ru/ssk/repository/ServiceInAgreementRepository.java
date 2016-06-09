@@ -22,6 +22,10 @@ public interface ServiceInAgreementRepository extends JpaRepository<ServiceInAgr
     ServiceInAgreement findByExtraServiceAndAgreement(ExtraService extraService, Agreement agreement);
 
     @Modifying
+    @Query("DELETE FROM ServiceInAgreement s WHERE s.agreement.number IN ?1")
+    void deleteWithAgreementsNumbers(List<Long> numbers);
+
+    @Modifying
     @Query("DELETE FROM ServiceInAgreement s WHERE NOT s.extraService.id IN ?1 AND s.agreement.number = ?2")
     void deleteOldServices(List<Long> serviceIds, Long agreementNumber);
 }

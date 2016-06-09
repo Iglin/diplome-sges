@@ -65,7 +65,7 @@ agreementsEditor.controller('agreementsEditorController', function($scope, $http
                 $scope.servicesModel = paramsMap['services'];
                 refreshServices();
             }, function(response){
-                alert(JSON.stringify(response));
+                showAlert(response);
             });
             $scope.isUpdate = false;
         }
@@ -111,7 +111,7 @@ agreementsEditor.controller('agreementsEditorController', function($scope, $http
         }).then(function (response) {
             $scope.points = response.data;
         }, function (response) {
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     };
 
@@ -222,9 +222,9 @@ agreementsEditor.controller('agreementsEditorController', function($scope, $http
                         services: $scope.servicesToSend
                     }
                 }).then(function (response) {
-                    alert(response.data);
+                    showAlert(response);
                 }, function (response) {
-                    alert(JSON.stringify(response));
+                    showAlert(response);
                 });
             }
         }
@@ -248,9 +248,9 @@ agreementsEditor.controller('agreementsEditorController', function($scope, $http
                         services: $scope.servicesToSend
                     }
                 }).then(function (response) {
-                    alert(response.data);
+                    showAlert(response);
                 }, function (response) {
-                    alert(JSON.stringify(response));
+                    showAlert(response);
                 });
             }
         }

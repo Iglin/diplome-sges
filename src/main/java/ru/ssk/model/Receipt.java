@@ -10,7 +10,9 @@ import java.sql.Date;
 @Table(name = "receipt")
 public class Receipt {
     @Id
-    @Column(name = "receipt_num", unique = true)
+    @SequenceGenerator(name = "receipt_seq", sequenceName = "receipt_num_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "receipt_seq")
+    @Column(name = "receipt_num")
     private Long number;
     @Column(name = "payment_purpose", nullable = false)
     private String paymentPurpose;

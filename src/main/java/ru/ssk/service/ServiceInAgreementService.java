@@ -19,5 +19,6 @@ public interface ServiceInAgreementService {
     ServiceInAgreement findByExtraServiceAndAgreement(ExtraService extraService, Agreement agreement);
     List< ServiceInAgreement> findAll();
 
+    void deleteWithAgreementsNumbers(List<Long> agreementNumbers);
     void deleteOldServices(List<Long> actualServicesIds, Long agreementNumber);
 }

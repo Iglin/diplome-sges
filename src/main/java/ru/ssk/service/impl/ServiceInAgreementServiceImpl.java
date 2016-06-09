@@ -46,6 +46,12 @@ public class ServiceInAgreementServiceImpl implements ServiceInAgreementService 
     }
 
     @Override
+    public void deleteWithAgreementsNumbers(List<Long> agreementNumbers) {
+        inAgreementRepository.deleteWithAgreementsNumbers(agreementNumbers);
+        inAgreementRepository.flush();
+    }
+
+    @Override
     public void deleteOldServices(List<Long> actualServicesIds, Long agreementNumber) {
         inAgreementRepository.deleteOldServices(actualServicesIds, agreementNumber);
         inAgreementRepository.flush();

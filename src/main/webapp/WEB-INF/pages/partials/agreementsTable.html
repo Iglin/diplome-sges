@@ -1,5 +1,7 @@
 <div class="container">
     <br>
+    <div id="alert_div">
+    </div>
     <a class="btn-primary btn" href="#/agreements/editor">Зарегистрировать новый договор</a>
     <button class="btn-danger btn" type="button" ng-click="delete()">Удалить отмеченные записи</button>
     <br><br>
@@ -34,7 +36,8 @@
                 x.meteringPoint.address.street + ', ' + x.meteringPoint.address.building + ', ' +
                 x.meteringPoint.address.apartment + '; Индекс: ' + x.meteringPoint.address.index }}</td>
             <td>
-                <a href="#/agreements/info/?id={{ x.number }}">Посмотреть</a>
+                <button class="btn btn-link" ng-click="generateReceipt(x.number)">Квитанция</button>
+                <!--a href="#/agreements/info/?id={{ x.number }}">Посмотреть</a-->
             </td>
             <td>
                 <a href="#/agreements/editor/edit/?id={{ x.number }}">Изменить</a>

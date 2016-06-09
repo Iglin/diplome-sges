@@ -35,29 +35,29 @@ public class AccountsController extends BaseController {
 
     @RequestMapping(value = "/table/", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public String delete(@RequestParam(value = "ids") Long[] idsToDelete) {
+    public ResponseMessage delete(@RequestParam(value = "ids") Long[] idsToDelete) {
 
         if (idsToDelete.length > 0) {
             userService.deleteWithIds(Arrays.asList(idsToDelete));
-            return new Gson().toJson("Записи успешно удалены.");
+            return new ResponseMessage(true, "Записи успешно удалены.");
         } else {
-            return new Gson().toJson("Не выбраны записи для удаления.");
+            return new ResponseMessage(false, "Не выбраны записи для удаления.");
         }
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String update(@RequestParam(value = "account") String account) {
+    public ResponseMessage update(@RequestParam(value = "account") String account) {
         User user = new Gson().fromJson(account, User.class);
         userService.save(user);
-        return new Gson().toJson("Запись успешно обновлена.");
+        return new ResponseMessage(true, "Запись успешно обновлена.");
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public String add(@RequestParam(value = "account") String account) {
+    public ResponseMessage add(@RequestParam(value = "account") String account) {
         User user = new Gson().fromJson(account, User.class);
         userService.save(user);
-        return new Gson().toJson("Учётная запись зарегистрирована.");
+        return new ResponseMessage(true, "Учётная запись зарегистрирована.");
     }
 }

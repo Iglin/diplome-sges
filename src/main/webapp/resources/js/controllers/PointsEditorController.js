@@ -45,7 +45,7 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
                     $scope.metersSelect = { opt: $scope.point.meter.id };
                 }
             }, function(response){
-                alert(JSON.stringify(response));
+                showAlert(response);
             });
             $scope.isUpdate = true;
             $scope.newAddress = false;
@@ -68,7 +68,7 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
                 $scope.personsSelect = { opt: $scope.persons[0].id };
                 $scope.addressesSelect = { opt: $scope.addresses[0].id };
             }, function(response){
-                alert(JSON.stringify(response));
+                showAlert(response);
             });
             $scope.isUpdate = false;
             $scope.newAddress = false;
@@ -127,9 +127,11 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
                 point: $scope.point
             }
         }).then(function (response) {
-            alert(response.data);
+            showAlert(response);
+            $scope.point = {};
+            $scope.point.installationDate = new Date();
         }, function (response) {
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     };
 
@@ -142,9 +144,9 @@ pointsEditor.controller('pointsEditorController', function($scope, $http, $route
                 point: $scope.point
             }
         }).then(function (response) {
-            alert(response.data);
+            showAlert(response);
         }, function (response) {
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     };
 });

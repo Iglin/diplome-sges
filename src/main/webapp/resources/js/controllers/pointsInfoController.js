@@ -15,6 +15,6 @@ pointsInfo.controller('pointsInfoController', function($scope, $http, $routePara
             $scope.isPerson = true;
         }
     }, function(response){
-        alert(JSON.stringify(response));
+        showAlert(response);
     });
 });

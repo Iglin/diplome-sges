@@ -63,33 +63,33 @@ public class MeteringPointController extends BaseController {
 
     @RequestMapping(value = "/table/", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public String delete(@RequestParam(value = "ids") Long[] idsToDelete) {
+    public ResponseMessage delete(@RequestParam(value = "ids") Long[] idsToDelete) {
 
         if (idsToDelete.length > 0) {
             meteringPointService.deleteWithIds(Arrays.asList(idsToDelete));
-            return new Gson().toJson("Записи успешно удалены.");
+            return new ResponseMessage(true, "Записи успешно удалены.");
         } else {
-            return new Gson().toJson("Не выбраны записи для удаления.");
+            return new ResponseMessage(false, "Не выбраны записи для удаления.");
         }
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String updatePerson(@RequestParam(value = "point") String point) {
+    public ResponseMessage updatePerson(@RequestParam(value = "point") String point) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         MeteringPoint meteringPoint = gson.fromJson(point, MeteringPoint.class);
         meteringPointService.save(meteringPoint);
-        return new Gson().toJson("Запись успешно обновлена.");
+        return new ResponseMessage(true, "Запись успешно обновлена.");
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public String add(@RequestParam(value = "point") String point) {
+    public ResponseMessage add(@RequestParam(value = "point") String point) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         MeteringPoint meteringPoint = gson.fromJson(point, MeteringPoint.class);
         synchronizeAddressSession(meteringPoint);
         meteringPointService.save(meteringPoint);
-        return new Gson().toJson("Данные о точке учёта успешно сохранены в базе.");
+        return new ResponseMessage(true, "Данные о точке учёта успешно сохранены в базе.");
     }
 
     @RequestMapping(value = "/info/", method = RequestMethod.GET)

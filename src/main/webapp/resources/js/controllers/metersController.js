@@ -11,7 +11,7 @@ meters.controller('metersController', function($scope, $http){
         }).then(function(response){
             $scope.meters = response.data;
         }, function(response){
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     }
 
@@ -32,9 +32,9 @@ meters.controller('metersController', function($scope, $http){
                 params:{ids: idsToDelete}
             }).then(function(response){
                 refreshTable();
-                alert(response.data);
+                showAlert(response);
             }, function(response){
-                alert(JSON.stringify(response));
+                showAlert(response);
             });
         }
     };

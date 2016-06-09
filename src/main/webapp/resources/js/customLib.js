@@ -32,10 +32,6 @@ function isInteger(x) {
     return !!(Math.floor(x) == x && $.isNumeric(x));
 }
 
-function isFilled(str){
-    return str.replace(/^\s+/g, '').length;
-}
-
 function isEmpty(str) {
     return str == null ? true : !str.replace(/^\s+/g, '').length;
 }

@@ -17,7 +17,7 @@ metersEditor.controller('metersEditorController', function($scope, $http, $route
             $scope.meter.lastCalibrationDate = new Date(arr[0], --arr[1], arr[2]);
             $scope.modelsSelect = { opt: $scope.meter.model.id };
         }, function(response){
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     } else {
         $http({
@@ -30,42 +30,68 @@ metersEditor.controller('metersEditorController', function($scope, $http, $route
             $scope.isUpdate = false;
             $scope.modelsSelect = { opt: $scope.models[0].id };
         }, function(response){
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     }
 
     function prepareToSend() {
+        if ($scope.meter == null) {
+            showSimpleAlert(false, "Необходимо ввести данные о счётчике.");
+            return false;
+        }
         $scope.meter.model = findObjectById($scope.models, $scope.modelsSelect.opt);
+
+        if (isEmpty($scope.meter.serialNumber)) {
+            showSimpleAlert(false, "Необходимо ввести серийный номер.");
+            return false;
+        }
+        if (!isValidInt($scope.meter.productionYear, 1900, 2100)) {
+            showSimpleAlert(false, "Некорректно указан год производства.");
+            return false;
+        }
+        if ($scope.meter.lastCalibrationDate == null) {
+            showSimpleAlert(false, "Необходимо ввести дату последней поверки.");
+            return false;
+        }
+        if (!isValidFloat($scope.meter.startingReadout, 0, null)) {
+            showSimpleAlert(false, "Некорректно указаны начальные показания.");
+            return false;
+        }
+
+        return true;
     }
 
     $scope.add = function () {
-        prepareToSend();
-        $http({
-            url: '/meters/editor/',
-            method: 'POST',
-            params: {
-                meter: $scope.meter
-            }
-        }).then(function (response) {
-            alert(response.data);
-        }, function (response) {
-            alert(JSON.stringify(response));
-        });
+        if (prepareToSend()) {
+            $http({
+                url: '/meters/editor/',
+                method: 'POST',
+                params: {
+                    meter: $scope.meter
+                }
+            }).then(function (response) {
+                showAlert(response);
+                $scope.meter = {};
+            }, function (response) {
+                showAlert(response);
+            });
+        }
     };
 
     $scope.update = function () {
-        prepareToSend();
-        $http({
-            url: '/meters/editor/',
-            method: 'PUT',
-            params: {
-                meter: $scope.meter
-            }
-        }).then(function (response) {
-            alert(response.data);
-        }, function (response) {
-            alert(JSON.stringify(response));
-        });
+        if (prepareToSend()) {
+            $http({
+                url: '/meters/editor/',
+                method: 'PUT',
+                params: {
+                    meter: $scope.meter
+                }
+            }).then(function (response) {
+                showAlert(response);
+            }, function (response) {
+                showAlert(response);
+            });
+        }
     };
 });
 

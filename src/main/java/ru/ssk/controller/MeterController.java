@@ -33,12 +33,6 @@ public class MeterController extends BaseController {
         return meterService.findAll();
     }
 
-   /* @RequestMapping(value = "/editor/", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public Meter getOne(@RequestParam(value = "id") long id){
-        return meterService.findById(id);
-    }
-*/
     @RequestMapping(value = "/editor/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> openEditor(@RequestParam(value = "id", required = false) String id) {
@@ -52,33 +46,33 @@ public class MeterController extends BaseController {
 
     @RequestMapping(value = "/table/", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public String delete(@RequestParam(value = "ids") Long[] idsToDelete) {
+    public ResponseMessage delete(@RequestParam(value = "ids") Long[] idsToDelete) {
 
         if (idsToDelete.length > 0) {
             meterService.deleteWithIds(Arrays.asList(idsToDelete));
-            return new Gson().toJson("Записи успешно удалены.");
+            return new ResponseMessage(true, "Записи успешно удалены.");
         } else {
-            return new Gson().toJson("Не выбраны записи для удаления.");
+            return new ResponseMessage(false, "Не выбраны записи для удаления.");
         }
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String updatePerson(@RequestParam(value = "meter") String meterJSON) {
+    public ResponseMessage updatePerson(@RequestParam(value = "meter") String meterJSON) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         Meter meter = gson.fromJson(meterJSON, Meter.class);
         meterService.save(meter);
-        return new Gson().toJson("Запись успешно обновлена.");
+        return new ResponseMessage(true, "Запись успешно обновлена.");
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public String add(@RequestParam(value = "meter") String meterJSON) {
+    public ResponseMessage add(@RequestParam(value = "meter") String meterJSON) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         Meter meter = gson.fromJson(meterJSON, Meter.class);
         synchronizeAddressSession(meter);
         meterService.save(meter);
-        return new Gson().toJson("Данные о счётчике успешно сохранены в базе.");
+        return new ResponseMessage(true, "Данные о счётчике успешно сохранены в базе.");
     }
 
     private void synchronizeAddressSession(Meter meter) {

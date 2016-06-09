@@ -28,6 +28,18 @@ agreements.controller('agreementsController', function($scope, $http){
         });
     };
 
+    $scope.generateAct = function (x) {
+        $http({
+            url:'/agreements/act/',
+            method:'GET',
+            params: {'agreementNumber': x}
+        }).then(function(response){
+
+        }, function(response){
+            showAlert(response);
+        });
+    };
+
     $scope.delete = function(){
         var idsToDelete = [];
         var j = 0;

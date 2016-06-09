@@ -36,7 +36,8 @@
                 x.meteringPoint.address.street + ', ' + x.meteringPoint.address.building + ', ' +
                 x.meteringPoint.address.apartment + '; Индекс: ' + x.meteringPoint.address.index }}</td>
             <td>
-                <button class="btn btn-link" ng-click="generateReceipt(x.number)">Квитанция</button>
+                <button class="btn btn-link" ng-click="generateReceipt(x.number)">Квитанция</button><br>
+                <button class="btn btn-link" ng-click="generateAct(x.number)">Акт об оказании услуг</button>
                 <!--a href="#/agreements/info/?id={{ x.number }}">Посмотреть</a-->
             </td>
             <td>

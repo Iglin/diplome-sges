@@ -150,6 +150,12 @@ public class Address implements Serializable {
         return region + ", " + city + ", " + street + ", " + building + ", " + apartment + "; Индекс: " + index;
     }
 
+    public String toSimpleAddress() {
+        String result = city + ", " + street + ", " + building;
+        if (apartment != null) return result += ", " + apartment;
+        else return result;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

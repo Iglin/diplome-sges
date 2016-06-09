@@ -2,6 +2,9 @@ package ru.ssk.reporting;
 
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.builder.DynamicReports;
+import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
+import net.sf.dynamicreports.report.builder.component.DimensionComponentBuilder;
+import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
 import net.sf.dynamicreports.report.builder.component.TextFieldBuilder;
 import net.sf.dynamicreports.report.builder.datatype.DataTypes;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
@@ -18,9 +21,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 
-import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
-import static net.sf.dynamicreports.report.builder.DynamicReports.col;
-import static net.sf.dynamicreports.report.builder.DynamicReports.stl;
+import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 
 /**
  * Created by user on 01.06.2016.
@@ -30,6 +31,77 @@ public class ReportBuilder {
     private DataSource dataSource;
     @Autowired
     private ReceiptService receiptService;
+
+    private String getOwnerName(Owner owner) {
+        StringBuilder result = new StringBuilder();
+        if (owner instanceof LegalEntity) {
+            result.append(((LegalEntity) owner).getName());
+        } else {
+            PhysicalPerson person = (PhysicalPerson) owner;
+            result.append(person.getLastName()).append(" ").append(person.getFirstName());
+            if (person.getMiddleName() != null) {
+                result.append(" ").append(person.getMiddleName());
+            }
+        }
+        return result.toString();
+    }
+
+    public void generateActBlank(long agreementNumber) {
+        Receipt receipt = receiptService.findByAgreementNumber(agreementNumber);
+
+        Enterprise enterprise = receipt.getAgreement().getMeteringPoint().getEnterpriseEntry();
+        Owner owner = receipt.getAgreement().getMeteringPoint().getOwner();
+        StringBuilder temp = new StringBuilder(enterprise.getName() + ", представителем которого является начальник службы учёта электроэнергии "
+                + enterprise.getRegistryChief() + ", действующий на основании доверенности №45 от 24.04.2015, " +
+                "именуемое в дальнейшем \"Исполнитель\", и ");
+        temp.append(getOwnerName(owner));
+        temp.append(", именуемый в дальнейшем \"Заказчик\", составили настоящий Акт о том, что: \r\n"
+                + "     1. Услуги были оказаны Исполнителем качественно и в срок, предусмотренный договором в полном объёме по адресу ")
+                .append(receipt.getAgreement().getMeteringPoint().getAddress().toSimpleAddress());
+
+        StyleBuilder style = stl.style();
+        style.setBorder(stl.pen1Point())
+                .setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
+
+        JasperReportBuilder report = DynamicReports.report();
+        try (Connection connection = dataSource.getConnection()) {
+            report.setColumnStyle(style)
+                    .columns(
+                            col.column("Содержание заказа", "service", DataTypes.stringType()),
+                            col.column("Кол-во", "count", DataTypes.integerType()),
+                            col.column("Коэф.", "coefficient", DataTypes.stringType()),
+                            col.column("Цена за ед.", "price_per", DataTypes.bigDecimalType()),
+                            col.column("Стоимость", "price_sum", DataTypes.bigDecimalType()),
+                            col.column("НДС", "price_vad", DataTypes.bigDecimalType()),
+                            col.column("Итого", "total", DataTypes.bigDecimalType()))
+                    .title(//barcode4j(receipt.getNumber()),
+                            cmp.text("Акт об оказании услуг"))
+                    .setTitleStyle(stl.style().setBold(true).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER))
+                    .addDetailHeader(cmp.text("г. " + receipt.getAgreement().getMeteringPoint().getAddress().getCity() +
+                            "                                                           \"___\"______________20___г. \r\n" +
+                            temp))
+                    .addDetailFooter(cmp.text("Всего: " + receipt.getAgreement().getTotal() + "\r\n"),
+                            cmp.text("     2. Заказчик претензий к качеству и срокам оказанных услуг не имеет.\r\n"),
+                            cmp.text("Исполнитель: " + enterprise.getName() + "_____________________/" + enterprise.getRegistryChief() + "\r\n"),
+                            cmp.text("Заказчик: " + getOwnerName(owner) + "_____________________/________________________\r\n"))
+                    .setDataSource("SELECT \"es\".name as \"service\", \n" +
+                                    "\"sia\".count as \"count\", \"sia\".coefficient as \"coefficient\", \n" +
+                                    "\"es\".price as \"price_per\", \n" +
+                                    "\"es\".price * \"sia\".count * \"sia\".coefficient as \"price_sum\", \n" +
+                                    "\"es\".price * \"sia\".count * \"sia\".coefficient * 0.18 as \"price_vad\", \n" +
+                                    "\"es\".price * \"sia\".count * \"sia\".coefficient * 1.18 as \"total\" \n" +
+                                    "FROM extra_service \"es\" \n" +
+                                    "JOIN service_in_agreement \"sia\" ON \"sia\".extra_service = \"es\".id \n" +
+                                    "JOIN agreement \"a\" ON \"a\".agreement_num = \"sia\".agreement_num \n" +
+                                    "WHERE \"a\".agreement_num = " + receipt.getAgreement().getNumber() + ";",
+                            connection);
+            report.show(false);
+        } catch (SQLException e) {
+            throw new DatabaseConnectionException("Не удалось подключиться к базе данных.");
+        } catch (DRException e) {
+            throw new DatabaseConnectionException("Не удалось сгенерировать отчёт.");
+        }
+    }
 
     public void generateReceipt(long agreementNumber) {
         Receipt receipt = receiptService.findByAgreementNumber(agreementNumber);
@@ -85,7 +157,8 @@ public class ReportBuilder {
                             col.column("Стоимость", "price_sum", DataTypes.bigDecimalType()),
                             col.column("НДС", "price_vad", DataTypes.bigDecimalType()),
                             col.column("Итого", "total", DataTypes.bigDecimalType()))
-                    .title(cmp.text("Квитанция № " + receipt.getNumber()), text1, text2, text3)
+                    .title(//barcode4j(receipt.getNumber()),
+                            cmp.text("Квитанция № " + receipt.getNumber()), text1, text2, text3)
                     .addDetailFooter(cmp.text("Итого: " + receipt.getAgreement().getTotal() + "\r\n"),
                             cmp.text("Назначение платежа: " + receipt.getPaymentPurpose()))
                     .setDataSource("SELECT \"es\".name as \"service\", \n" +
@@ -152,4 +225,16 @@ public class ReportBuilder {
             throw new DatabaseConnectionException("Не удалось подключиться к базе данных.");
         }
     }
+
+    private ComponentBuilder<?, ?> barcode(String label, DimensionComponentBuilder<?, ?> barcode) {
+        return cmp.verticalList(cmp.text(label), barcode);
+    }
+
+    private ComponentBuilder<?, ?> barcode4j(long code) {
+        HorizontalListBuilder list = cmp.horizontalFlowList();
+        list.setGap(10);
+        list.add(barcode(String.valueOf(code), bcode.codabar(String.valueOf(code))));
+        return list;
+    }
+
 }

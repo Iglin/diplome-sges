@@ -80,6 +80,13 @@ public class AgreementController extends BaseController {
         return new ResponseMessage(true, "Квитанция успешно сформирована.");
     }
 
+    @RequestMapping(value = "/act/", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseMessage showActBlank(@RequestParam(value = "agreementNumber") long number) {
+        reportBuilder.generateActBlank(number);
+        return new ResponseMessage(true, "Бланк акта успешно сформирован.");
+    }
+
     @RequestMapping(value = "/editor/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public ResponseMessage update(@RequestParam(value = "agreement") String agreementJSON,

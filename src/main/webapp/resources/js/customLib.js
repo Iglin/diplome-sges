@@ -83,3 +83,53 @@ function isValidInt(x, min, max) {
     }
     return true;
 }
+
+function isValidCode(str, len) {
+    if (str == null) return false;
+    if (str.length != len) return false;
+    return /^\d+$/.test(str);
+}
+
+function isValidFlexibleCode(str, minLen, maxLen) {
+    if (str == null) return false;
+    if (str.length < minLen || str.length > maxLen) return false;
+    return /^\d+$/.test(str);
+}
+
+function isValidAddress(address) {
+    if (address == null) {
+        showSimpleAlert(false, "Необходимо ввести данные об адресе.");
+        return false;
+    }
+    if (isEmpty(address.region)) {
+        showSimpleAlert(false,"Необходимо ввести регион.");
+        return false;
+    }
+    if (isEmpty(address.city)) {
+        showSimpleAlert(false,"Необходимо ввести город.");
+        return false;
+    }
+    if (isEmpty(address.street)) {
+        showSimpleAlert(false,"Необходимо ввести улицу.");
+        return false;
+    }
+    if (isEmpty(address.building)) {
+        showSimpleAlert(false,"Необходимо ввести номер дома.");
+        return false;
+    }
+    if (!isValidFlexibleCode(address.index, 6, 7)) {
+        showSimpleAlert(false,"Некорректно указан индекс.");
+        return false;
+    }
+    return true;
+}
+
+function findObjectById(arr, id) {
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i].id == id) {
+            return arr[i];
+        }
+    }
+    alert('No such id!');
+    return null;
+}

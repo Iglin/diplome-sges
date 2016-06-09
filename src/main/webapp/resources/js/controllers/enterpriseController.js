@@ -12,7 +12,7 @@ enterprise.controller('enterpriseController', function($scope, $http){
         }).then(function(response){
             $scope.enterpriseEntries = response.data;
         }, function(response){
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     }
     
@@ -24,7 +24,7 @@ enterprise.controller('enterpriseController', function($scope, $http){
         }).then(function(response){
             $scope.enterpriseEntries = response.data;
         }, function(response){
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     };
 
@@ -45,9 +45,9 @@ enterprise.controller('enterpriseController', function($scope, $http){
                 params:{ids: idsToDelete}
             }).then(function(response){
                 refreshTable();
-                alert(response.data);
+                showAlert(response);
             }, function(response){
-                alert(JSON.stringify(response));
+                showAlert(response);
             });
         }
     };

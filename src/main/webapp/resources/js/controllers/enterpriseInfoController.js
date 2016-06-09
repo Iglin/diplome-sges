@@ -11,7 +11,7 @@ enterpriseInfo.controller('enterpriseInfoController', function($scope, $http, $r
         }).then(function(response){
             $scope.enterprise = response.data;
         }, function(response){
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     }
     refreshTable();

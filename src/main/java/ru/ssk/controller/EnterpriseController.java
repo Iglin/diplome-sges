@@ -45,31 +45,31 @@ public class EnterpriseController extends BaseController {
 
     @RequestMapping(value = "/table/", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public String delete(@RequestParam(value = "ids") Long[] idsToDelete) {
+    public ResponseMessage delete(@RequestParam(value = "ids") Long[] idsToDelete) {
 
         if (idsToDelete.length > 0) {
             enterpriseService.deleteWithIds(Arrays.asList(idsToDelete));
-            return new Gson().toJson("Записи успешно удалены.");
+            return new ResponseMessage(true, "Записи успешно удалены.");
         } else {
-            return new Gson().toJson("Не выбраны записи для удаления.");
+            return new ResponseMessage(false, "Не выбраны записи для удаления.");
         }
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String updatePerson(@RequestParam(value = "enterprise") String person) {
+    public ResponseMessage updatePerson(@RequestParam(value = "enterprise") String person) {
         Enterprise enterprise = new Gson().fromJson(person, Enterprise.class);
         enterpriseService.save(enterprise);
-        return new Gson().toJson("Запись успешно обновлена.");
+        return new ResponseMessage(true, "Запись успешно обновлена.");
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public String add(@RequestParam(value = "enterprise") String entity) {
+    public ResponseMessage add(@RequestParam(value = "enterprise") String entity) {
         Enterprise enterprise = new Gson().fromJson(entity, Enterprise.class);
         synchronizeAddressSession(enterprise);
         enterpriseService.save(enterprise);
-        return new Gson().toJson("Данные о предприятии успешно сохранены в базе.");
+        return new ResponseMessage(true, "Данные о предприятии успешно сохранены в базе.");
     }
 
     @RequestMapping(value = "/info/", method = RequestMethod.GET)

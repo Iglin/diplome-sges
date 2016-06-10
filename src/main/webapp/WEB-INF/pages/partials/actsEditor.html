@@ -1,0 +1,59 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div id="alert_div">
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <span>Номер: </span>
+                </div>
+                <div class="col-sm-5">
+                    <input ng-if="isUpdate" class="form-control" type="number" readonly required ng-model="act.number" placeholder="Введите номер акта">
+                    <input ng-if="!isUpdate" class="form-control" type="number" min="1" required ng-model="act.number" placeholder="Введите номер акта">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <span>Дата: </span>
+                </div>
+                <div class="col-sm-5">
+                    <input class="form-control" type="date" required ng-model="act.date">
+                </div>
+            </div>
+
+            <h2>Договор: </h2>
+            <div style="{ height: 200px !important; overflow: scroll; }">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th></th><th>Номер</th><th>Дата</th><th>Собственник</th><th>Адрес</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="x in agreements" ng-click="pickAgreement(x);" style="cursor: pointer;">
+                        <td>
+                            <span ng-if="x == act.agreement" class="label label-success">Выбран</span>
+                        </td>
+                        <td> {{ x.number }} </td>
+                        <td> {{ x.date }} </td>
+                        <td>
+                            <span ng-if="x.meteringPoint.owner.name != null"> {{ x.meteringPoint.owner.name }} </span>
+                            <span ng-if="x.meteringPoint.owner.name == null"> {{ x.meteringPoint.owner.lastName + ' '
+                                + x.meteringPoint.owner.firstName+ ' ' + x.meteringPoint.owner.middleName</span>
+                        </td>
+                        <td> {{ x.meteringPoint.address.city + ', ' + x.meteringPoint.address.street + ', ' +
+                            x.meteringPoint.address.building + ', ' + x.meteringPoint.address.apartment}} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br><br>
+            <button class="btn btn-success" id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>
+            <button class="btn btn-success" id="btn_upt" type="button" ng-show="isUpdate" ng-click="update()">Сохранить</button>
+            <a class="btn btn-default" href="#/acts/table">Отмена</a>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+
+</div>

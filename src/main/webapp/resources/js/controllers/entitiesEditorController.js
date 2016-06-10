@@ -29,8 +29,7 @@ entitiesEditor.controller('entitiesEditorController', function($scope, $http, $r
     } else {
         $http({
             url:'/entities/editor/',
-            method:'GET',
-            params: { id: $routeParams['id'] }
+            method:'GET'
         }).then(function(response){
             var paramsMap = response.data;
             $scope.addresses = paramsMap['addresses'];

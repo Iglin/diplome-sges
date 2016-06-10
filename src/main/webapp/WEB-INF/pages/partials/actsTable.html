@@ -1,0 +1,34 @@
+<div class="container">
+    <br>
+    <div id="alert_div">
+    </div>
+    <a class="btn-primary btn" href="#/acts/editor">Добавить новый акт</a>
+    <button class="btn-danger btn" type="button" ng-click="delete()">Удалить отмеченные записи</button>
+    <br><br>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th></th><th>Номер</th><th>Дата</th><th>Договор</th><th>Редактирование</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="x in acts">
+            <td>
+                <label><input class="checkbox_delete" type="checkbox" id="{{ x.number }}"></label>
+            </td>
+            <td>
+                {{ x.number }}
+            </td>
+            <td>
+                {{ x.date }}
+            </td>
+            <td>
+                {{ x.agreement.number }}
+            </td>
+            <td>
+                <a href="#/acts/editor/edit/?id={{ x.number }}">Изменить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

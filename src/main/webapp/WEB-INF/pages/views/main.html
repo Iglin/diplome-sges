@@ -38,6 +38,8 @@
     <script src="resources/js/controllers/servicesController.js"></script>
     <script src="resources/js/controllers/agreementsEditorController.js"></script>
     <script src="resources/js/controllers/agreementsController.js"></script>
+    <script src="resources/js/controllers/actsEditorController.js"></script>
+    <script src="resources/js/controllers/actsController.js"></script>
     <script src="resources/js/controllers/accountsEditorController.js"></script>
     <script src="resources/js/controllers/accountsController.js"></script>
 
@@ -122,7 +124,7 @@
                 "enterpriseTable", "enterpriseEditor", "enterpriseInfo", "metersTable", "metersEditor",
                 "pointsTable", "pointsEditor", "pointsInfo", "entityStatementsTable", "entityStatementsEditor",
                 "personStatementsTable", "personStatementsEditor", "servicesTable", "servicesEditor",
-                "agreementsTable", "agreementsEditor", "accountsTable", "accountsEditor",
+                "agreementsTable", "agreementsEditor", "accountsTable", "accountsEditor", "actsTable", "actsEditor",
                 "userProfile", "test"])
             .config(function($routeProvider){
                 $routeProvider
@@ -290,6 +292,18 @@
                             templateUrl:'/partials/accountsTable.html',
                             controller:'accountsController'
                         })
+                        .when("/acts/editor", {
+                            templateUrl:'/partials/actsEditor.html',
+                            controller:'actsEditorController'
+                        })
+                        .when("/acts/editor/edit", {
+                            templateUrl:'/partials/actsEditor.html',
+                            controller:'actsEditorController'
+                        })
+                        .when("/acts/table", {
+                            templateUrl:'/partials/actsTable.html',
+                            controller:'actsController'
+                        })
                         .when("/user", {
                             templateUrl:'/partials/userProfile.html',
                             controller:'userProfileController'
@@ -344,7 +358,8 @@
             userProfile: false,
             services: false,
             agreements: false,
-            accounts: false
+            accounts: false,
+            acts: false
         };
     });
 </script>

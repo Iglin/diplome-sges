@@ -14,7 +14,7 @@ public class ActOfProvidingServices {
     private Long number;
     @Column(name = "date", nullable = false)
     private Date date;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "agreement_num", nullable = false, unique = true)
     private Agreement agreement;
 

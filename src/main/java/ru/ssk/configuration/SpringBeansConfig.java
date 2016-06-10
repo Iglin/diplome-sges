@@ -92,6 +92,9 @@ public class SpringBeansConfig {
     }
 
     @Bean
+    public ActService actService() { return new ActServiceImpl(); }
+
+    @Bean
     public ReportBuilder reportBuilder() {
         return new ReportBuilder();
     }

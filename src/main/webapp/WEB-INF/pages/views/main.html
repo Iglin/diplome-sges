@@ -46,7 +46,7 @@
     <script src="resources/js/controllers/reportsController.js"></script>
     <script src="resources/js/controllers/userProfileController.js"></script>
     <script src="resources/js/customLib.js"></script>
-    <script src="resources/js/controllers/testController.js"></script>
+    <!--script src="resources/js/controllers/testController.js"></script-->
 </head>
 <body ng-app="main" ng-controller="mainController">
 <div class="container-fluid">
@@ -125,7 +125,7 @@
                 "pointsTable", "pointsEditor", "pointsInfo", "entityStatementsTable", "entityStatementsEditor",
                 "personStatementsTable", "personStatementsEditor", "servicesTable", "servicesEditor",
                 "agreementsTable", "agreementsEditor", "accountsTable", "accountsEditor", "actsTable", "actsEditor",
-                "userProfile", "test"])
+                "userProfile", "reports"])
             .config(function($routeProvider){
                 $routeProvider
                         .when("/owners", {

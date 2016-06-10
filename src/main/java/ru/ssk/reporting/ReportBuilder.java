@@ -180,7 +180,7 @@ public class ReportBuilder {
         }
     }
 
-    public void generateAgreementsRegistry(Date dateFrom, Date dateTo, boolean byEntities) throws DRException {
+    public void generateAgreementsRegistry(Date dateFrom, Date dateTo, boolean byEntities) {
         JasperReportBuilder report = DynamicReports.report();
         StyleBuilder boldStyle         = stl.style().bold();
         StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
@@ -223,8 +223,62 @@ public class ReportBuilder {
             report.show(false);
         } catch (SQLException e) {
             throw new DatabaseConnectionException("Не удалось подключиться к базе данных.");
+        } catch (DRException e) {
+            throw new DatabaseConnectionException("Не удалось подключиться к базе данных.");
         }
     }
+
+    public void generateActsRegistry(Date dateFrom, Date dateTo, boolean byEntities) {
+        JasperReportBuilder report = DynamicReports.report();
+        StyleBuilder boldStyle         = stl.style().bold();
+        StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
+        StyleBuilder columnTitleStyle  = stl.style(boldCenteredStyle)
+                .setBorder(stl.pen1Point())
+                .setBackgroundColor(Color.LIGHT_GRAY);
+
+        try (Connection connection = dataSource.getConnection()) {
+            report
+                    .setColumnTitleStyle(columnTitleStyle)
+                    .highlightDetailEvenRows()
+                    .columns(col.reportRowNumberColumn("№").setFixedColumns(2).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER),
+                            col.column("Номер договора", "agreement_num", DataTypes.longType()),
+                            col.column("Дата", "date", DataTypes.dateType()),
+                            col.column("Заказчик", "name", DataTypes.stringType()),
+                            col.column("Адрес", "address", DataTypes.stringType()),
+                            col.column("Дата исполнения", "act_date", DataTypes.dateType()),
+                            col.column("Сумма", "total", DataTypes.bigDecimalType()))//.setColumnStyle(stl.style().setBorder())
+                    .title(cmp.text("Реестр договоров с " + dateFrom.toString() + " по " + dateTo.toString()).setStyle(boldCenteredStyle))//shows report title
+                    .pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle));
+            if (byEntities) {
+                report.setDataSource("SELECT a.agreement_num, a.\"date\", o.name, " +
+                                "p.city || ', ' ||  p.street || ', ' ||  p.building || ', ' ||  p.apartment  \"address\", " +
+                                "act.\"date\" as \"act_date\", a.total \n" +
+                                "FROM agreement a JOIN metering_point mp ON a.point = mp.id " +
+                                "JOIN address p ON mp.address = p.id " +
+                                "JOIN legal_entity o ON o.id = mp.owner " +
+                                "JOIN act_services act ON act.agreement_num = a.agreement_num " +
+                                "WHERE a.\"date\" between '" + dateFrom.toString() + "' AND '" + dateTo.toString() + "';",
+                        connection);
+            } else {
+                report.setDataSource("SELECT a.agreement_num, a.\"date\", \n" +
+                                "o.lastname || ' ' || o.firstname || ' ' || o.middlename \"name\", \n" +
+                                "p.city || ', ' ||  p.street || ', ' ||  p.building || ', ' ||  p.apartment  \"address\", \n" +
+                                "act.\"date\" as \"act_date\", a.total \n" +
+                                "FROM agreement a JOIN metering_point mp ON a.point = mp.id \n" +
+                                "JOIN address p ON mp.address = p.id\n" +
+                                "JOIN person o ON o.id = mp.owner \n" +
+                                "JOIN act_services act ON act.agreement_num = a.agreement_num " +
+                                "WHERE a.\"date\" between '" + dateFrom.toString() + "' AND '" + dateTo.toString() + "';",
+                        connection);
+            }
+            report.show(false);
+        } catch (SQLException e) {
+            throw new DatabaseConnectionException("Не удалось подключиться к базе данных.");
+        } catch (DRException e) {
+            throw new DatabaseConnectionException("Не удалось подключиться к базе данных.");
+        }
+    }
+
 
     private ComponentBuilder<?, ?> barcode(String label, DimensionComponentBuilder<?, ?> barcode) {
         return cmp.verticalList(cmp.text(label), barcode);

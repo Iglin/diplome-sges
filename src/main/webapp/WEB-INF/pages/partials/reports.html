@@ -1,20 +1,24 @@
 <div class="container" style="width: 80%">
     <div class="row">
         <div class="col-xs-6">
-            <button class="btn btn-primary btn-block" id="btn_test" type="button" ng-click="test()">Реестр договоров с юр. лицами</button>
+            <button class="btn btn-primary btn-block" id="btn_test" type="button" ng-click="agreements(true)">Реестр договоров с юр. лицами</button>
             <br><br>
-            <button class="btn btn-primary btn-block" type="button" ng-click="test()">Реестр договоров с физ. лицами</button>
+            <button class="btn btn-primary btn-block" type="button" ng-click="agreements(false)">Реестр договоров с физ. лицами</button>
             <br><br>
-            <button class="btn btn-primary btn-block" type="button" ng-click="test()">Реестр актов выполненных работ</button>
+            <button class="btn btn-primary btn-block" type="button" ng-click="acts(true)">Реестр актов выполненных работ по юр. лицам</button>
+            <br><br>
+            <button class="btn btn-primary btn-block" type="button" ng-click="acts(false)">Реестр актов выполненных работ по физ. лицам</button>
             <br><br>
             <button class="btn btn-primary btn-block" type="button" ng-click="test()">Отчёт о коммерческой деятельности</button>
             <br><br>
             <button class="btn btn-primary btn-block" type="button" ng-click="test()">Отчёт о деятельности СУ</button>
         </div>
         <div class="col-xs-6">
+            <div id="alert_div">
+            </div>
             <h3>Период: </h3>
-            С <input class="form-control" type="date"><br>
-            По <input class="form-control" type="date">
+            С <input class="form-control" type="date" ng-model="dateFrom"><br>
+            По <input class="form-control" type="date" ng-model="dateTo">
         </div>
         <div class="col-xs-6">
 

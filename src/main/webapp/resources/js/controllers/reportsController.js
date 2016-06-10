@@ -43,7 +43,7 @@ reports.controller('reportsController', function($scope, $http){
                 method: 'GET',
                 params: { dateFrom: $scope.dateFrom, dateTo: $scope.dateTo, isEntity: isEntity }
             }).then(function (response) {
-                showAlert(response);
+                //showAlert(response);
             }, function (response) {
                 showAlert(response);
             });
@@ -57,7 +57,7 @@ reports.controller('reportsController', function($scope, $http){
                 method: 'PUT',
                 params: { dateFrom: $scope.dateFrom, dateTo: $scope.dateTo, isEntity: isEntity }
             }).then(function (response) {
-                showAlert(response);
+                //showAlert(response);
             }, function (response) {
                 showAlert(response);
             });

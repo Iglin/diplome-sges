@@ -26,6 +26,8 @@ public interface MeteringPointService {
     List<MeteringPoint> findByEnterpriseEntry(Enterprise enterprise);
     List<MeteringPoint> findAllEntityPoints();
     List<MeteringPoint> findAllPersonPoints();
+    List<MeteringPoint> findEntityPointsWithStatements();
+    List<MeteringPoint> findPersonPointsWithStatements();
     List<MeteringPoint> findAll();
     List<MeteringPoint> findAll(Specification<MeteringPoint> specification);
 }

@@ -50,12 +50,12 @@ public class AgreementController extends BaseController {
             agreement.getServices().forEach(ServiceInAgreement::getExtraService);
             params.put("agreement", agreement);
             if (agreement.getMeteringPoint().getOwner() instanceof LegalEntity) {
-                params.put("points", meteringPointService.findAllEntityPoints());
+                params.put("points", meteringPointService.findEntityPointsWithStatements());
             } else {
-                params.put("points", meteringPointService.findAllPersonPoints());
+                params.put("points", meteringPointService.findPersonPointsWithStatements());
             }
         } else {
-            params.put("points", meteringPointService.findAllEntityPoints());
+            params.put("points", meteringPointService.findEntityPointsWithStatements());
         }
         params.put("services", extraServiceService.findAll());
         return params;

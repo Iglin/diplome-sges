@@ -221,9 +221,7 @@ public class ReportBuilder {
                         connection);
             }
             report.show(false);
-        } catch (SQLException e) {
-            throw new DatabaseConnectionException("Не удалось подключиться к базе данных.");
-        } catch (DRException e) {
+        } catch (SQLException | DRException e) {
             throw new DatabaseConnectionException("Не удалось подключиться к базе данных.");
         }
     }
@@ -272,9 +270,50 @@ public class ReportBuilder {
                         connection);
             }
             report.show(false);
-        } catch (SQLException e) {
+        } catch (SQLException | DRException e) {
             throw new DatabaseConnectionException("Не удалось подключиться к базе данных.");
-        } catch (DRException e) {
+        }
+    }
+
+    public void generateCommercialReport(Date dateFrom, Date dateTo) {
+        JasperReportBuilder report = DynamicReports.report();
+        StyleBuilder style = stl.style();
+        style.setBorder(stl.pen1Point())
+                .setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
+              //  .setBackgroundColor(Color.LIGHT_GRAY);
+
+        try (Connection connection = dataSource.getConnection()) {
+            report
+                    //.highlightDetailEvenRows()
+                    .columns(col.column(" ", "title", DataTypes.stringType()),
+                            col.column("За период", "per_count", DataTypes.bigDecimalType()),
+                            col.column("Всего", "all_count", DataTypes.bigDecimalType())
+                    ).setColumnStyle(style).setColumnTitleStyle(style)
+                    .title(cmp.text("Отчёт о коммерческой деятельности в период с " + dateFrom.toString() + " по " + dateTo.toString()))
+                            //.setStyle(style))//shows report title
+                    .setDataSource("SELECT 'Заявок получено' title, \n" +
+                                    "\t(SELECT COUNT(*) FROM entity_statement WHERE entity_statement.date \n" +
+                                    "\t\tBETWEEN '" + dateFrom.toString() + "' AND '" + dateTo.toString() + "') + \n" +
+                                    "\t\t(SELECT COUNT(*) FROM person_statement WHERE person_statement.date \n" +
+                                    "\t\tBETWEEN '" + dateFrom.toString() + "' AND '" + dateTo.toString() + "') per_count, \n" +
+                                    "\t(SELECT COUNT(*) FROM entity_statement) + \n" +
+                                    "\t(SELECT COUNT(*) FROM person_statement) all_count\n" +
+                                    "UNION\n" +
+                                    "SELECT 'Проведено работ' title, \n" +
+                                    "\t(SELECT COUNT(*) FROM act_services WHERE act_services.date \n" +
+                                    "\t\tBETWEEN '" + dateFrom.toString() + "' AND '" + dateTo.toString() + "') per_count,\n" +
+                                    "\t(SELECT COUNT(*) FROM act_services) all_count\n" +
+                                    "UNION\n" +
+                                    "SELECT 'Сумма' title, \n" +
+                                    "\t(SELECT sum(total) FROM agreement \n" +
+                                    "\t\tWHERE agreement_num IN (SELECT agreement_num FROM act_services) \n" +
+                                    "\t\tAND \"date\" BETWEEN '" + dateFrom.toString() + "' AND '" + dateTo.toString() + "') per_count,\n" +
+                                    "\t(SELECT sum(total) FROM agreement \n" +
+                                    "\t\tWHERE agreement_num IN (SELECT agreement_num FROM act_services)) all_count;",
+                    connection);
+
+            report.show(false);
+        } catch (SQLException | DRException e) {
             throw new DatabaseConnectionException("Не удалось подключиться к базе данных.");
         }
     }

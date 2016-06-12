@@ -1,7 +1,5 @@
 package ru.ssk.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,5 +40,15 @@ public class ReportController extends BaseController {
         Date date1 = new Date(new SimpleDateFormat("yyyy-MM-dd").parse(dateFrom).getTime());
         Date date2 = new Date(new SimpleDateFormat("yyyy-MM-dd").parse(dateTo).getTime());
         reportBuilder.generateActsRegistry(date1, date2, isEntity);
+    }
+
+    @RequestMapping(value = "/make/", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public void commercial(@RequestParam(value = "dateFrom") String dateFrom,
+                     @RequestParam(value = "dateTo") String dateTo) throws ParseException {
+        // Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+        Date date1 = new Date(new SimpleDateFormat("yyyy-MM-dd").parse(dateFrom).getTime());
+        Date date2 = new Date(new SimpleDateFormat("yyyy-MM-dd").parse(dateTo).getTime());
+        reportBuilder.generateCommercialReport(date1, date2);
     }
 }

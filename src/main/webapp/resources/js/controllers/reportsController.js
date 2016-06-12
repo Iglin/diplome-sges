@@ -3,27 +3,6 @@
  */
 var reports = angular.module("reports", []);
 reports.controller('reportsController', function($scope, $http){
-   /* $scope.test = function(){
-        $http({
-            url:'/reports/',
-            method:'GET'
-        }).then(function(response){
-            $scope.result = response.data;
-        }, function(response){
-            alert(JSON.stringify(response));
-        });
-    };
-
-    $scope.fillDataBase = function(){
-        $http({
-            url:'/reports/',
-            method:'PUT'
-        }).then(function(response){
-            alert(response.data);
-        }, function(response){
-            alert(JSON.stringify(response));
-        });
-    };*/
     function validatePeriod() {
         if ($scope.dateFrom == null || $scope.dateTo == null) {
             showSimpleAlert(false, 'Необходимо указать период.');
@@ -43,7 +22,6 @@ reports.controller('reportsController', function($scope, $http){
                 method: 'GET',
                 params: { dateFrom: $scope.dateFrom, dateTo: $scope.dateTo, isEntity: isEntity }
             }).then(function (response) {
-                //showAlert(response);
             }, function (response) {
                 showAlert(response);
             });
@@ -57,7 +35,19 @@ reports.controller('reportsController', function($scope, $http){
                 method: 'PUT',
                 params: { dateFrom: $scope.dateFrom, dateTo: $scope.dateTo, isEntity: isEntity }
             }).then(function (response) {
-                //showAlert(response);
+            }, function (response) {
+                showAlert(response);
+            });
+        }
+    };
+
+    $scope.commercial = function() {
+        if (validatePeriod()) {
+            $http({
+                url: '/reports/make/',
+                method: 'POST',
+                params: { dateFrom: $scope.dateFrom, dateTo: $scope.dateTo }
+            }).then(function (response) {
             }, function (response) {
                 showAlert(response);
             });

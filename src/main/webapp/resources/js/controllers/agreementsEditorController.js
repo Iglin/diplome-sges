@@ -192,6 +192,14 @@ agreementsEditor.controller('agreementsEditorController', function($scope, $http
     }
 
     function prepareToSend() {
+        if (!isValidCode($scope.agreement.number, 8)) {
+            showSimpleAlert(false, "Некорректно указан номер договора.");
+            return false;
+        }
+        if ($scope.agreement.date == null) {
+            showSimpleAlert(false, "Необходимо ввести дату.");
+            return false;
+        }
         $scope.agreement.services = [];
         $scope.servicesToSend = [];
         for (var i = 0; i < $scope.services.length; i++) {
@@ -201,57 +209,59 @@ agreementsEditor.controller('agreementsEditorController', function($scope, $http
             $scope.servicesToSend[i].count = $scope.services[i].count;
             $scope.servicesToSend[i].coefficient = $scope.services[i].coefficient;
         }
-
+        return true;
     }
 
     $scope.add = function () {
-        prepareToSend();
-        if ($scope.agreement.meteringPoint == null) {
-            alert('Необходимо выбрать точку учёта!');
-            stopImmediatePropagation();
-        } else {
-            if ($scope.servicesToSend == null || $scope.servicesToSend.length == 0) {
-                alert('Необходимо выбрать хотя бы одну услугу!');
+        if (prepareToSend()) {
+            if ($scope.agreement.meteringPoint == null) {
+                showSimpleAlert(false, 'Необходимо выбрать точку учёта!');
                 stopImmediatePropagation();
             } else {
-                $http({
-                    url: '/agreements/editor/',
-                    method: 'POST',
-                    params: {
-                        agreement: $scope.agreement,
-                        services: $scope.servicesToSend
-                    }
-                }).then(function (response) {
-                    showAlert(response);
-                }, function (response) {
-                    showAlert(response);
-                });
+                if ($scope.servicesToSend == null || $scope.servicesToSend.length == 0) {
+                    showSimpleAlert(false, 'Необходимо выбрать хотя бы одну услугу!');
+                    stopImmediatePropagation();
+                } else {
+                    $http({
+                        url: '/agreements/editor/',
+                        method: 'POST',
+                        params: {
+                            agreement: $scope.agreement,
+                            services: $scope.servicesToSend
+                        }
+                    }).then(function (response) {
+                        showAlert(response);
+                    }, function (response) {
+                        showAlert(response);
+                    });
+                }
             }
         }
     };
 
     $scope.update = function () {
-        prepareToSend();
-        if ($scope.agreement.meteringPoint == null) {
-            alert('Необходимо выбрать точку учёта!');
-            stopImmediatePropagation();
-        } else {
-            if ($scope.servicesToSend == null || $scope.servicesToSend.length == 0) {
-                alert('Необходимо выбрать хотя бы одну услугу!');
+        if (prepareToSend()) {
+            if ($scope.agreement.meteringPoint == null) {
+                showSimpleAlert(false, 'Необходимо выбрать точку учёта!');
                 stopImmediatePropagation();
             } else {
-                $http({
-                    url: '/agreements/editor/',
-                    method: 'PUT',
-                    params: {
-                        agreement: $scope.agreement,
-                        services: $scope.servicesToSend
-                    }
-                }).then(function (response) {
-                    showAlert(response);
-                }, function (response) {
-                    showAlert(response);
-                });
+                if ($scope.servicesToSend == null || $scope.servicesToSend.length == 0) {
+                    showSimpleAlert(false, 'Необходимо выбрать хотя бы одну услугу!');
+                    stopImmediatePropagation();
+                } else {
+                    $http({
+                        url: '/agreements/editor/',
+                        method: 'PUT',
+                        params: {
+                            agreement: $scope.agreement,
+                            services: $scope.servicesToSend
+                        }
+                    }).then(function (response) {
+                        showAlert(response);
+                    }, function (response) {
+                        showAlert(response);
+                    });
+                }
             }
         }
     };

@@ -3,7 +3,28 @@
         <div class="col-sm-12">
             <div id="alert_div">
             </div>
-            <table class="table">
+            <div class="row">
+                <div class="col-xs-4"> </div>
+                <div class="col-xs-2">
+                   <p><h4>Номер договора: </h4></p>
+                </div>
+                <div class="col-xs-3">
+                    <p> <input class="form-control" type="text" minlength="8" maxlength="8" required ng-model="agreement.number"> </p>
+                </div>
+                <div class="col-xs-3"> </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4"> </div>
+                <div class="col-xs-2">
+                   <p><h4>Дата: </h4></p>
+                </div>
+                <div class="col-xs-3">
+                    <p> <input class="form-control" type="date" required ng-model="agreement.date"></p>
+                </div>
+                <div class="col-xs-3"> </div>
+            </div>
+
+            <!--table class="table">
                 <thead></thead>
                 <tbody>
                 <tr>
@@ -23,7 +44,7 @@
                     </td>
                 </tr>
                 </tbody>
-            </table>
+            </table-->
             <h3>
                 Данные точки учёта:
             </h3>
@@ -92,6 +113,7 @@
             <button class="btn btn-success" id="btn_add" type="button" ng-hide="isUpdate" ng-click="add()">Сохранить</button>
             <button class="btn btn-success" id="btn_upt" type="button" ng-show="isUpdate" ng-click="update()">Сохранить</button>
             <a class="btn btn-default" href="#/agreements/table">Отмена</a>
+            <br><br>
         </div>
     </div>
 </div>

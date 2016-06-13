@@ -7,7 +7,9 @@ import net.sf.dynamicreports.report.builder.component.DimensionComponentBuilder;
 import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
 import net.sf.dynamicreports.report.builder.component.TextFieldBuilder;
 import net.sf.dynamicreports.report.builder.datatype.DataTypes;
+import net.sf.dynamicreports.report.builder.group.CustomGroupBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
+import net.sf.dynamicreports.report.constant.GroupHeaderLayout;
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
 import net.sf.dynamicreports.report.exception.DRException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,12 +77,13 @@ public class ReportBuilder {
                             col.column("НДС", "price_vad", DataTypes.bigDecimalType()),
                             col.column("Итого", "total", DataTypes.bigDecimalType()))
                     .title(//barcode4j(receipt.getNumber()),
-                            cmp.text("Акт об оказании услуг"))
+                            cmp.text("Акт об оказании услуг\r\n\r\n"),
+                            cmp.text("г. " + receipt.getAgreement().getMeteringPoint().getAddress().getCity() +
+                                    "                                                                                                                      " +
+                                    "            \"___\"______________20___г. \r\n" +
+                                    temp))
                     .setTitleStyle(stl.style().setBold(true).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER))
-                    .addDetailHeader(cmp.text("г. " + receipt.getAgreement().getMeteringPoint().getAddress().getCity() +
-                            "                                                           \"___\"______________20___г. \r\n" +
-                            temp))
-                    .addDetailFooter(cmp.text("Всего: " + receipt.getAgreement().getTotal() + "\r\n"),
+                    .floatColumnFooter().addSummary(cmp.text("Всего: " + receipt.getAgreement().getTotal() + "\r\n"),
                             cmp.text("     2. Заказчик претензий к качеству и срокам оказанных услуг не имеет.\r\n"),
                             cmp.text("Исполнитель: " + enterprise.getName() + "_____________________/" + enterprise.getRegistryChief() + "\r\n"),
                             cmp.text("Заказчик: " + getOwnerName(owner) + "_____________________/________________________\r\n"))
@@ -146,6 +149,12 @@ public class ReportBuilder {
         style.setBorder(stl.pen1Point())
                 .setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
 
+
+        CustomGroupBuilder serviceGroup = grp.group("service", String.class)
+                .groupByDataType()
+                .setHeaderLayout(GroupHeaderLayout.EMPTY)
+                .setPadding(0);
+
         JasperReportBuilder report = DynamicReports.report();
         try (Connection connection = dataSource.getConnection()) {
             report.setColumnStyle(style)
@@ -159,7 +168,7 @@ public class ReportBuilder {
                             col.column("Итого", "total", DataTypes.bigDecimalType()))
                     .title(//barcode4j(receipt.getNumber()),
                             cmp.text("Квитанция № " + receipt.getNumber()), text1, text2, text3)
-                    .addDetailFooter(cmp.text("Итого: " + receipt.getAgreement().getTotal() + "\r\n"),
+                    .floatColumnFooter().addSummary(cmp.text("Итого: " + receipt.getAgreement().getTotal() + "\r\n"),
                             cmp.text("Назначение платежа: " + receipt.getPaymentPurpose()))
                     .setDataSource("SELECT \"es\".name as \"service\", \n" +
                                     "\"sia\".count as \"count\", \"sia\".coefficient as \"coefficient\", \n" +

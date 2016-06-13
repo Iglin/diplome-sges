@@ -20,9 +20,9 @@ acts.controller('actsController', function($scope, $http){
         var idsToDelete = [];
         var j = 0;
         for (var i = 0; i < $scope.acts.length; i++) {
-            var cb = document.getElementById($scope.acts[i].id);
+            var cb = document.getElementById($scope.acts[i].number);
             if (cb.checked) {
-                idsToDelete[j] = $scope.acts[i].id;
+                idsToDelete[j] = $scope.acts[i].number;
                 j++;
             }
         }

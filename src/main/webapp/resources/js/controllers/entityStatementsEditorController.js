@@ -25,7 +25,7 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
                     }
                 }
             }, function(response){
-                alert(JSON.stringify(response));
+                showAlert(response);
             });
             $scope.isUpdate = true;
         } else {
@@ -36,7 +36,7 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
                 var paramsMap = response.data;
                 $scope.points = paramsMap['points'];
             }, function(response){
-                alert(JSON.stringify(response));
+                showAlert(response);
             });
             $scope.isUpdate = false;
         }
@@ -86,7 +86,7 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
         }).then(function (response) {
             $scope.points = response.data;
         }, function (response) {
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     };
 
@@ -143,7 +143,7 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
             $scope.entitiesSelect = { opt: $scope.entities[0].id };
             $scope.addressesSelect = { opt: $scope.addresses[0].id };
         }, function(response){
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
         $scope.newAddress = false;
         $scope.editAddress = false;
@@ -171,7 +171,7 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
     function prepareToSend() {
         if ($scope.newPoint) {
             if ($scope.point.owner == null) {
-                alert('Необходимо выбрать собственника!');
+                showSimpleAlert(false, 'Необходимо выбрать собственника!');
                 stopImmediatePropagation();
             }
             if ($scope.noInstallationDate) {
@@ -230,7 +230,7 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
         }).then(function (response) {
             $scope.entities = response.data;
         }, function (response) {
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     };
 
@@ -268,9 +268,10 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
                 statement: $scope.statement
             }
         }).then(function (response) {
-            alert(response.data);
+            showAlert(response);
+            $scope.statement = {};
         }, function (response) {
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     };
 
@@ -283,9 +284,9 @@ entityStatementsEditor.controller('entityStatementsEditorController', function($
                 statement: $scope.statement
             }
         }).then(function (response) {
-            alert(response.data);
+            showAlert(response);
         }, function (response) {
-            alert(JSON.stringify(response));
+            showAlert(response);
         });
     };
 });

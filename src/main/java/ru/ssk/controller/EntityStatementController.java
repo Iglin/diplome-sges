@@ -51,30 +51,30 @@ public class EntityStatementController extends BaseController {
 
     @RequestMapping(value = "/table/", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public String delete(@RequestParam(value = "ids") Long[] idsToDelete) {
+    public ResponseMessage delete(@RequestParam(value = "ids") Long[] idsToDelete) {
 
         if (idsToDelete.length > 0) {
             entityStatementService.deleteWithIds(Arrays.asList(idsToDelete));
-            return new Gson().toJson("Записи успешно удалены.");
+            return new ResponseMessage(true, "Записи успешно удалены.");
         } else {
-            return new Gson().toJson("Не выбраны записи для удаления.");
+            return new ResponseMessage(false, "Не выбраны записи для удаления.");
         }
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String updatePerson(@RequestParam(value = "statement") String point) {
+    public ResponseMessage updatePerson(@RequestParam(value = "statement") String point) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         EntityStatement entityStatement = gson.fromJson(point, EntityStatement.class);
         System.out.println(point);
         System.out.println(entityStatement.getMeteringPoint());
         entityStatementService.save(entityStatement);
-        return new Gson().toJson("Запись успешно обновлена.");
+        return new ResponseMessage(true, "Запись успешно обновлена.");
     }
 
     @RequestMapping(value = "/editor/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public String add(@RequestParam(value = "statement") String statement) {
+    public ResponseMessage add(@RequestParam(value = "statement") String statement) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         EntityStatement entityStatement = gson.fromJson(statement, EntityStatement.class);
         if (entityStatement.getMeteringPoint().getId() == null) {
@@ -86,6 +86,6 @@ public class EntityStatementController extends BaseController {
             entityStatement.setMeteringPoint(meteringPointService.findById(id));
         }
         entityStatementService.save(entityStatement);
-        return new Gson().toJson("Данные о заявлении успешно сохранены в базе.");
+        return new ResponseMessage(true, "Данные о заявлении успешно сохранены в базе.");
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.ssk.model.LegalEntity;
+import ru.ssk.model.Meter;
 import ru.ssk.model.MeteringPoint;
 import ru.ssk.model.PhysicalPerson;
 import ru.ssk.service.*;
@@ -110,6 +111,56 @@ public class MeteringPointController extends BaseController {
                                                   @RequestParam(value = "ownerType") String ownerType) {
         Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         FiltersMap filtersMap = gson.fromJson(filters, FiltersMap.class);
+        Specification<MeteringPoint> specification = buildSpecification(filtersMap);
+        if (ownerType.equals("entity")) {
+            if (specification != null) {
+                List<MeteringPoint> list = meteringPointService.findAll(specification);
+                List<MeteringPoint> result = new ArrayList<>(list.size());
+                list.forEach(meteringPoint -> {
+                    if (meteringPoint.getOwner() instanceof LegalEntity) result.add(meteringPoint);
+                });
+                return result;
+            } else {
+                return meteringPointService.findAllEntityPoints();
+            }
+        } else {
+            if (specification != null) {
+                List<MeteringPoint> list = meteringPointService.findAll(specification);
+                List<MeteringPoint> result = new ArrayList<>(list.size());
+                list.forEach(meteringPoint -> {
+                    if (meteringPoint.getOwner() instanceof PhysicalPerson) result.add(meteringPoint);
+                });
+                return result;
+            } else {
+                return meteringPointService.findAllPersonPoints();
+            }
+        }
+    }
+
+    @RequestMapping(value = "/filter/", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public List<MeteringPoint> filterForAgreements(@RequestParam(value = "filters") String filters,
+                                                  @RequestParam(value = "ownerType") String ownerType) {
+        Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+        FiltersMap filtersMap = gson.fromJson(filters, FiltersMap.class);
+        Specification<MeteringPoint> specification = buildSpecification(filtersMap);
+        if (ownerType.equals("entity")) {
+            if (specification != null) {
+                specification = where(specification).and(hasNoAgreement()).and(hasEntityStatement());
+            } else {
+                specification = where(hasNoAgreement()).and(hasEntityStatement());
+            }
+        } else {
+            if (specification != null) {
+                specification = where(specification).and(hasNoAgreement()).and(hasPersonStatement());
+            } else {
+                specification = where(hasNoAgreement()).and(hasPersonStatement());
+            }
+        }
+        return meteringPointService.findAll(specification);
+    }
+
+    private Specification<MeteringPoint> buildSpecification(FiltersMap filtersMap) {
         Map<String, String> filterValues = filtersMap.getFilterValues("Собственник");
         Specification<MeteringPoint> specification = null;
         if (filterValues != null) {
@@ -154,30 +205,9 @@ public class MeteringPointController extends BaseController {
                 }
             }
         }
-        if (ownerType.equals("entity")) {
-            if (specification != null) {
-                List<MeteringPoint> list = meteringPointService.findAll(specification);
-                List<MeteringPoint> result = new ArrayList<>(list.size());
-                list.forEach(meteringPoint -> {
-                    if (meteringPoint.getOwner() instanceof LegalEntity) result.add(meteringPoint);
-                });
-                return result;
-            } else {
-                return meteringPointService.findAllEntityPoints();
-            }
-        } else {
-            if (specification != null) {
-                List<MeteringPoint> list = meteringPointService.findAll(specification);
-                List<MeteringPoint> result = new ArrayList<>(list.size());
-                list.forEach(meteringPoint -> {
-                    if (meteringPoint.getOwner() instanceof PhysicalPerson) result.add(meteringPoint);
-                });
-                return result;
-            } else {
-                return meteringPointService.findAllPersonPoints();
-            }
-        }
+        return specification;
     }
+
 
     private void synchronizeAddressSession(MeteringPoint meteringPoint) {
         Long addressId = meteringPoint.getAddress().getId();

@@ -280,17 +280,14 @@ public class ReportBuilder {
         StyleBuilder style = stl.style();
         style.setBorder(stl.pen1Point())
                 .setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
-              //  .setBackgroundColor(Color.LIGHT_GRAY);
 
         try (Connection connection = dataSource.getConnection()) {
             report
-                    //.highlightDetailEvenRows()
                     .columns(col.column(" ", "title", DataTypes.stringType()),
                             col.column("За период", "per_count", DataTypes.bigDecimalType()),
                             col.column("Всего", "all_count", DataTypes.bigDecimalType())
                     ).setColumnStyle(style).setColumnTitleStyle(style)
                     .title(cmp.text("Отчёт о коммерческой деятельности в период с " + dateFrom.toString() + " по " + dateTo.toString()))
-                            //.setStyle(style))//shows report title
                     .setDataSource("SELECT 'Заявок получено' title, \n" +
                                     "\t(SELECT COUNT(*) FROM entity_statement WHERE entity_statement.date \n" +
                                     "\t\tBETWEEN '" + dateFrom.toString() + "' AND '" + dateTo.toString() + "') + \n" +

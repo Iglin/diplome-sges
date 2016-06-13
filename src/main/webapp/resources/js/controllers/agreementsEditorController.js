@@ -103,7 +103,7 @@ agreementsEditor.controller('agreementsEditorController', function($scope, $http
         }
         $http({
             url: '/points/filter/',
-            method: 'POST',
+            method: 'PUT',
             params: {
                 filters: filtersMap,
                 ownerType: $scope.ownerType

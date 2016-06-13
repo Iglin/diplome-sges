@@ -27,13 +27,17 @@ public interface MeteringPointRepository extends JpaRepository<MeteringPoint, Lo
     @Query("SELECT e FROM MeteringPoint e WHERE e.owner.id IN (SELECT o.id FROM LegalEntity o)")
     List<MeteringPoint> findAllEntityPoints();
 
-    @Query("SELECT e FROM MeteringPoint e WHERE e.owner.id IN (SELECT o.id FROM LegalEntity o) AND e IN (SELECT a.meteringPoint FROM Agreement a)")
+    @Query("SELECT e FROM MeteringPoint e WHERE e.owner.id IN (SELECT o.id FROM LegalEntity o) " +
+            "AND e IN (SELECT es.meteringPoint FROM EntityStatement es) " +
+            "AND e NOT IN (SELECT a.meteringPoint FROM Agreement a)")
     List<MeteringPoint> findEntityPointsWithStatements();
 
     @Query("SELECT e FROM MeteringPoint e WHERE e.owner.id IN (SELECT o.id FROM PhysicalPerson o)")
     List<MeteringPoint> findAllPersonPoints();
 
-    @Query("SELECT e FROM MeteringPoint e WHERE e.owner.id IN (SELECT o.id FROM PhysicalPerson o) AND e IN (SELECT a.meteringPoint FROM Agreement a)")
+    @Query("SELECT e FROM MeteringPoint e WHERE e.owner.id IN (SELECT o.id FROM PhysicalPerson o) " +
+            "AND e IN (SELECT ps.meteringPoint FROM PersonStatement ps) " +
+            "AND e NOT IN (SELECT a.meteringPoint FROM Agreement a)")
     List<MeteringPoint> findPersonPointsWithStatements();
 
     @Modifying

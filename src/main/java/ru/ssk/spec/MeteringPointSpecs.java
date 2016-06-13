@@ -20,6 +20,36 @@ public class MeteringPointSpecs {
                 builder.equal(root.get(MeteringPoint_.owner).<Long> get(Owner_.personalAccount), personalAccount);
     }
 
+    public static Specification<MeteringPoint> hasNoAgreement() {
+        return (root, query, builder) -> {
+            Subquery<MeteringPoint> sq = query.subquery(MeteringPoint.class);
+            Root<Agreement> project = sq.from(Agreement.class);
+            Join<Agreement, MeteringPoint> sqPoint = project.join("meteringPoint");
+            sq.select(sqPoint);
+            return builder.not(builder.in(root).value(sq));
+        };
+    }
+
+    public static Specification<MeteringPoint> hasEntityStatement() {
+        return (root, query, builder) -> {
+            Subquery<MeteringPoint> sq = query.subquery(MeteringPoint.class);
+            Root<EntityStatement> project = sq.from(EntityStatement.class);
+            Join<EntityStatement, MeteringPoint> sqPoint = project.join("meteringPoint");
+            sq.select(sqPoint);
+            return builder.in(root).value(sq);
+        };
+    }
+
+
+    public static Specification<MeteringPoint> hasPersonStatement() {
+        return (root, query, builder) -> {
+            Subquery<MeteringPoint> sq = query.subquery(MeteringPoint.class);
+            Root<PersonStatement> project = sq.from(PersonStatement.class);
+            Join<PersonStatement, MeteringPoint> sqPoint = project.join("meteringPoint");
+            sq.select(sqPoint);
+            return builder.in(root).value(sq);
+        };
+    }
     public static Specification<MeteringPoint> locatedIn(String region, String city, String street, String building, String apartment, String index) {
         return (root, query, builder) -> {
             Path<Address> path = root.get(MeteringPoint_.address);

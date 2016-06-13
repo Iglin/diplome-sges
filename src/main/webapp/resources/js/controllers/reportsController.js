@@ -52,5 +52,18 @@ reports.controller('reportsController', function($scope, $http){
                 showAlert(response);
             });
         }
+    };
+
+    $scope.activity = function() {
+        if (validatePeriod()) {
+            $http({
+                url: '/reports/make/',
+                method: 'DELETE',
+                params: { dateFrom: $scope.dateFrom, dateTo: $scope.dateTo }
+            }).then(function (response) {
+            }, function (response) {
+                showAlert(response);
+            });
+        }
     }
 });

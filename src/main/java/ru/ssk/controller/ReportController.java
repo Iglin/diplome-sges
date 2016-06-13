@@ -51,4 +51,14 @@ public class ReportController extends BaseController {
         Date date2 = new Date(new SimpleDateFormat("yyyy-MM-dd").parse(dateTo).getTime());
         reportBuilder.generateCommercialReport(date1, date2);
     }
+
+    @RequestMapping(value = "/make/", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public void activity(@RequestParam(value = "dateFrom") String dateFrom,
+                           @RequestParam(value = "dateTo") String dateTo) throws ParseException {
+        // Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+        Date date1 = new Date(new SimpleDateFormat("yyyy-MM-dd").parse(dateFrom).getTime());
+        Date date2 = new Date(new SimpleDateFormat("yyyy-MM-dd").parse(dateTo).getTime());
+        reportBuilder.generateActivitiesReport(date1, date2);
+    }
 }

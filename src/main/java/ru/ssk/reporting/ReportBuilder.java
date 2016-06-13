@@ -324,6 +324,48 @@ public class ReportBuilder {
         }
     }
 
+    public void generateActivitiesReport(Date dateFrom, Date dateTo) {
+        JasperReportBuilder report = DynamicReports.report();
+        StyleBuilder style = stl.style();
+        style.setBorder(stl.pen1Point())
+                .setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
+
+        try (Connection connection = dataSource.getConnection()) {
+            report
+                    .columns(col.column(" ", "title", DataTypes.stringType()),
+                            col.column("Однофазных счётчиков", "one", DataTypes.integerType()),
+                            col.column("Трёхфазных счётчиков", "three", DataTypes.integerType())
+                    ).setColumnStyle(style).setColumnTitleStyle(style)
+                    .title(cmp.text("Отчёт о деятельности СУ в период с " + dateFrom.toString() + " по " + dateTo.toString())
+                            .setHorizontalTextAlignment(HorizontalTextAlignment.CENTER),
+                            cmp.text("Зарегистрировано"))
+                    .setDataSource("SELECT 'Бытовые потребители' title, \n" +
+                                    "(SELECT COUNT(*) FROM meter_model mm JOIN meter m ON mm.id = m.model \n" +
+                                    "\tWHERE NOT three_phase AND m.id IN \n" +
+                                    "\t(SELECT mp.meter FROM metering_point mp JOIN \"owner\" o ON o.id = mp.owner \n" +
+                                    "\t\tWHERE o.id IN (SELECT id FROM person))) one, \n" +
+                                    "(SELECT COUNT(*) FROM meter_model mm JOIN meter m ON mm.id = m.model \n" +
+                                    "\tWHERE three_phase AND m.id IN \n" +
+                                    "\t(SELECT mp.meter FROM metering_point mp JOIN \"owner\" o ON o.id = mp.owner \n" +
+                                    "\t\tWHERE o.id IN (SELECT id FROM person))) three\n" +
+                                    "UNION \n" +
+                                    "SELECT 'Прочие потребители' title, \n" +
+                                    "(SELECT COUNT(*) FROM meter_model mm JOIN meter m ON mm.id = m.model \n" +
+                                    "\tWHERE NOT three_phase AND m.id IN \n" +
+                                    "\t(SELECT mp.meter FROM metering_point mp JOIN \"owner\" o ON o.id = mp.owner \n" +
+                                    "\t\tWHERE o.id IN (SELECT id FROM legal_entity))) one, \n" +
+                                    "(SELECT COUNT(*) FROM meter_model mm JOIN meter m ON mm.id = m.model \n" +
+                                    "\tWHERE three_phase AND m.id IN \n" +
+                                    "\t(SELECT mp.meter FROM metering_point mp JOIN \"owner\" o ON o.id = mp.owner \n" +
+                                    "\t\tWHERE o.id IN (SELECT id FROM legal_entity))) three;",
+                            connection);
+
+            report.show(false);
+        } catch (SQLException | DRException e) {
+            throw new DatabaseConnectionException("Не удалось подключиться к базе данных.");
+        }
+    }
+
 
     private ComponentBuilder<?, ?> barcode(String label, DimensionComponentBuilder<?, ?> barcode) {
         return cmp.verticalList(cmp.text(label), barcode);

@@ -9,7 +9,10 @@
                    <p><h4>Номер договора: </h4></p>
                 </div>
                 <div class="col-xs-3">
-                    <p> <input class="form-control" type="text" minlength="8" maxlength="8" required ng-model="agreement.number"> </p>
+                    <p>
+                        <input ng-if="!isUpdate" class="form-control" type="text" minlength="8" maxlength="8" required ng-model="agreement.number">
+                        <input ng-if="isUpdate" readonly class="form-control" type="text" minlength="8" maxlength="8" required ng-model="agreement.number">
+                    </p>
                 </div>
                 <div class="col-xs-3"> </div>
             </div>

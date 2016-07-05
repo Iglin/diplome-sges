@@ -10,6 +10,6 @@ mvn clean install
 ```
 mvn jetty:run
 ```
-Diploma project, written in Java, using Spring Framework, Hibernate, PostgreSQL.
+Diploma project, written in Java, using Angular JS, Spring Framework, Hibernate, PostgreSQL.
 
 
